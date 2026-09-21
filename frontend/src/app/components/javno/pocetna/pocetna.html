@@ -1,0 +1,47 @@
+<section class="hero">
+  <div class="hero-sadrzaj">
+    <h1>Printing House</h1>
+    <p>Platforma koja povezuje štamparije i klijente koji naručuju štampane proizvode.</p>
+
+    @if (korisnik()) {
+      <a class="ph-dugme ph-dugme-link" [routerLink]="mojaRuta()">Idi na moj nalog</a>
+    } @else {
+      <a class="ph-dugme ph-dugme-link" routerLink="/login">Prijavi se</a>
+    }
+  </div>
+
+  <div class="brojac">
+    <span class="broj">{{ brojStamparija() ?? '–' }}</span>
+    <span class="oznaka">
+      {{ brojStamparija() === 1 ? 'registrovana štamparija' : 'registrovanih štamparija' }}
+    </span>
+  </div>
+</section>
+
+<div class="ph-omot">
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+
+  <h2>Top 5 najbolje ocenjenih proizvoda</h2>
+  <p class="ph-napomena">Rangirano po broju lajkova koje su ostavili klijenti.</p>
+
+  @if (topProizvodi().length) {
+    <ol class="lista-proizvoda">
+      @for (p of topProizvodi(); track p.id) {
+        <li class="kartica-proizvoda">
+          <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+          <div class="opis">
+            <h3>{{ p.naziv }}</h3>
+            <p class="stamparija">
+              {{ p.nazivStamparije }}@if (p.grad) { <span>, {{ p.grad }}</span> }
+            </p>
+            <p class="lajkovi">&#128077; {{ p.brojLajkova }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  } @else if (!greska()) {
+    <p class="ph-napomena">Trenutno nema proizvoda za prikaz.</p>
+  }
+</div>
