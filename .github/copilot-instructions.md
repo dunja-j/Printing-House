@@ -26,6 +26,47 @@ neće biti dostupni.
 - Ukratko: `FEATURES.md` i `DECISIONS.md` su **radni dnevnik koji ti održavaš**,
   ne fajlovi koje samo čitaš.
 
+## Git tok rada — jedan feature po grani (VAŽNO, prati uvek kad se radi na kodu)
+
+Radimo isključivo **jedan feature odjednom**, sledećim ciklusom. Ne preskači
+korake i ne radi više feature-a paralelno na istoj grani.
+
+1. Proveri da je radno stablo čisto (nema nekomitovanih izmena) i da si na
+   `main` grani. Ako nije čisto, pitaj korisnicu šta da se radi sa tim
+   izmenama pre nego što nastaviš.
+2. Izaberi **sledeći** feature iz `FEATURES.md`, po redosledu: prvo sve
+   🔴 OBAVEZNO odozgo nadole (status `todo`), zatim 🟡 BONUS bez ⚠️, na kraju
+   ⚠️ stavke — osim ako je korisnica eksplicitno tražila konkretan feature.
+3. Napravi novu granu od `main`: `git checkout -b feature/<kratak-opisni-naziv>`
+   (npr. `feature/registracija-klijenta`, `feature/e-korpa`, na engleskom ili
+   srpskom bez šumnika, kebab-case).
+4. Implementiraj feature (backend + frontend + DB izmene po potrebi), prateći
+   `.github/instructions/backend.instructions.md` i `frontend.instructions.md`.
+5. Ako feature menja šemu baze, ažuriraj `database/printing_house_db.sql` da i
+   dalje bude **kompletna skripta koja pravi bazu od nule** (nove
+   tabele/kolone/seed podaci) — ne dump postojeće baze, i ne posebna
+   "migraciona" skripta pored nje (specifikacija traži jednu skriptu).
+6. Ažuriraj status feature-a u `FEATURES.md` i upiši eventualne nove odluke u
+   `DECISIONS.md` (kao što je već opisano gore).
+7. **Stani** (ne commit-uj na main, ne kreni na sledeći feature) i javi
+   korisnici jasnu poruku sa:
+   - kratkim rezimeom šta je urađeno i na kojoj grani,
+   - napomenom da ponovo pokrene `database/printing_house_db.sql` pre testiranja
+     (ako je menjana),
+   - **tačnim koracima kako da testira baš taj feature**: koje rute/ekrane da
+     otvori, koji test-nalog/kredencijale iz seed podataka u SQL skripti da
+     koristi, šta konkretno da unese/pritisne, i šta treba da vidi kao rezultat
+     ako sve radi ispravno,
+   - eventualnim poznatim ograničenjima/pojednostavljenjima tog feature-a.
+8. **Čekaj eksplicitnu potvrdu korisnice** da feature radi, pre nego što
+   uradiš bilo šta dalje. Ako prijavi problem: ispravi na **istoj** grani i
+   ponovo zatraži testiranje (ne pravi novu granu za popravku).
+9. Kad korisnica potvrdi da radi: `git checkout main`,
+   `git merge --no-ff feature/<naziv>`, obriši granu
+   (`git branch -d feature/<naziv>`), pa se vrati na korak 1 za sledeći
+   feature — automatski, bez čekanja da te korisnica ponovo pokrene ceo opis
+   procesa (dovoljno je da kaže npr. "kreni na sledeći").
+
 ## O sistemu
 
 Web sistem **"Printing House"** — platforma koja povezuje **štamparije** (printer
