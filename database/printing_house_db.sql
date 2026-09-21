@@ -213,16 +213,19 @@ CREATE TABLE IF NOT EXISTS `komentar_proizvoda` (
 
 -- ---------------------------------------------------------------------
 -- Test podaci (dovoljno za pregled svih trenutno modelovanih funkcionalnosti)
--- Lozinke ovde NISU stvarni hash-evi — zameniti pravim BCrypt hash-em čim
--- registracija/login proradi (npr. hash za "Test123!" generisan iz aplikacije).
+-- Lozinka za SVE naloge ispod je: Test123!
+-- (u bazi je upisan pravi BCrypt hash te lozinke — videti DECISIONS.md)
 -- ---------------------------------------------------------------------
 INSERT INTO `korisnik`
   (`kor_ime`, `lozinka_hash`, `ime`, `prezime`, `telefon`, `mejl`, `tip`, `naziv_institucije`, `adresa_sedista`, `grad`, `maticni_broj`, `pib`, `status_registracije`)
 VALUES
-  ('admin', '$2a$10$replaceWithRealBCryptHash', 'Admin', 'Administratorski', NULL, 'admin@printinghouse.rs', 'administrator', NULL, NULL, NULL, NULL, NULL, 'odobren'),
-  ('cstudio', '$2a$10$replaceWithRealBCryptHash', 'Marko', 'Markovic', '0641234567', 'kontakt@copystudio.rs', 'stampar', 'Copy Studio Kumanovska', 'Kumanovska 5', 'Beograd', '12345678', '123456789', 'odobren'),
-  ('ana.k', '$2a$10$replaceWithRealBCryptHash', 'Ana', 'Kostic', '0651112233', 'ana.k@gmail.com', 'klijent_fizicko', NULL, NULL, 'Novi Sad', NULL, NULL, 'odobren'),
-  ('firma.doo', '$2a$10$replaceWithRealBCryptHash', 'Petar', 'Petrovic', '0661112233', 'nabavka@firma.rs', 'klijent_pravno', 'Firma DOO', 'Bulevar 10', 'Beograd', '87654321', '198765432', 'odobren');
+  ('admin', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Admin', 'Administratorski', NULL, 'admin@printinghouse.rs', 'administrator', NULL, NULL, NULL, NULL, NULL, 'odobren'),
+  ('cstudio', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Marko', 'Markovic', '0641234567', 'kontakt@copystudio.rs', 'stampar', 'Copy Studio Kumanovska', 'Kumanovska 5', 'Beograd', '12345678', '123456789', 'odobren'),
+  ('ana.k', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Ana', 'Kostic', '0651112233', 'ana.k@gmail.com', 'klijent_fizicko', NULL, NULL, 'Novi Sad', NULL, NULL, 'odobren'),
+  ('firma.doo', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Petar', 'Petrovic', '0661112233', 'nabavka@firma.rs', 'klijent_pravno', 'Firma DOO', 'Bulevar 10', 'Beograd', '87654321', '198765432', 'odobren'),
+  -- nalozi za proveru da neodobreni korisnik ne moze da se prijavi:
+  ('jovan.n', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Jovan', 'Nikolic', '0631112233', 'jovan.n@gmail.com', 'klijent_fizicko', NULL, NULL, 'Nis', NULL, NULL, 'na_cekanju'),
+  ('brzastampa', '$2a$10$QcATPXv9/lDkhc3eUiPqG.I9rJccyKjOsjGZjrdgqviVVUo0aVqHm', 'Jelena', 'Jovanovic', '0621112233', 'info@brzastampa.rs', 'stampar', 'Brza Stampa DOO', 'Nemanjina 22', 'Beograd', '11223344', '112233445', 'odbijen');
 
 INSERT INTO `proizvod` (`sifra`, `stampar_kor_ime`, `naziv`, `opis`, `kategorija_id`, `potkategorija_id`, `jedinicna_cena`, `kolicina_na_lageru`, `slika_url`)
 VALUES

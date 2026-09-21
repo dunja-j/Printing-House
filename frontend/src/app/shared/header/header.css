@@ -1,0 +1,80 @@
+.zaglavlje {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--ph-tamna);
+  color: #fff;
+  box-shadow: var(--ph-senka);
+}
+
+.logo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.logo span {
+  color: var(--ph-primarna);
+}
+
+.meni {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.meni a {
+  color: #d7dce3;
+  text-decoration: none;
+  font-weight: 500;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.meni a:hover {
+  color: #fff;
+  border-bottom-color: var(--ph-primarna);
+}
+
+.korisnik {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pozdrav {
+  font-size: 0.9rem;
+  color: #d7dce3;
+}
+
+.dugme-odjava {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #7a828d;
+  border-radius: var(--ph-radius);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.dugme-odjava:hover {
+  background: var(--ph-primarna);
+  border-color: var(--ph-primarna);
+}
+
+@media (max-width: 640px) {
+  .zaglavlje {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meni {
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+}

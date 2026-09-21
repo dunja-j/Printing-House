@@ -17,6 +17,14 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-19 | Model korisnika | Predlog: jedan `Korisnik` entitet/tabela sa `tip` diskriminatorom (klijent-fizičko/klijent-pravno/štampar/administrator) + nullable polja za pravna lica/štamparije (naziv institucije, adresa, matični broj, PIB) | Slično kao stara `korisnici` tabela (kolona `tip`) iz primer-a, samo prošireno poljima za institucije. **Nije konačno** — ako se ispostavi nezgodno (npr. previše nullable kolona), razdvojiti u zasebne tabele/entitete i ažurirati ovaj red. |
 | 2026-09-19 | Backend URL na frontu | `environment.ts` / `environment.development.ts` sa `apiUrl`, umesto hardkodovanog `http://localhost:8080` po svakom servisu | Mala izmena u odnosu na stare projekte — lakše za promenu porta/domena kasnije. |
 | 2026-09-19 | GitHub Copilot model | Videti napomenu na dnu ovog fajla | — |
+| 2026-09-21 | Autentifikacija | **`HttpSession` na backendu + kopija korisnika u `localStorage` na frontu.** Angular servisi šalju `withCredentials: true`; zaštićeni endpointi čitaju korisnika iz sesije. | Front ostaje isti kao na vežbama (`localStorage.setItem/getItem`), ali backend stvarno zna ko je prijavljen — čista `localStorage` varijanta se može zaobići ručnim pozivom API-ja, a specifikacija traži serversku validaciju. JWT je bio alternativa: više koda (filter, secret, istek tokena, interceptor) bez stvarne koristi za ovaj obim. |
+| 2026-09-21 | Spring Security | **Ne koristi se `spring-boot-starter-security`**, samo biblioteka `spring-security-crypto` zbog `BCryptPasswordEncoder`. | Starter podrazumevano zaključava sve rute, dodaje svoju login stranu i CSRF — trebalo bi pisati `SecurityFilterChain` samo da bi se to isključilo, dok proveru ionako radimo sami kroz sesiju. |
+| 2026-09-21 | Ruta za admin prijavu | Angular: **`/admin-login`**; backend: `POST /api/auth/login-admin`. Ne linkuje se ni sa jedne javne strane. | Admin *stranice* idu pod prefiks `/admin/...` iza guard-a — da je login bio `/admin/login`, trebao bi izuzetak u guard-u za samu login stranu. |
+| 2026-09-21 | Prefiks REST ruta | Svi endpointi pod **`/api/...`** (npr. `/api/auth/login`) | Jasno odvaja API od eventualnog statičkog sadržaja i pojednostavljuje CORS/proxy podešavanje. |
+| 2026-09-21 | Konekcija ka bazi | Obrisan ručni `DataSource` bean (`db/DB.java`); konekcija se konfiguriše u `application.properties`, sa `${DB_USER:root}` / `${DB_PASS:}` placeholder-ima. | Ručni `DriverManagerDataSource` bean se sudara sa JPA auto-konfiguracijom i hardkoduje kredencijale u kod. Lokalno radi bez ikakvog podešavanja, a na drugoj mašini je dovoljno postaviti env promenljive. |
+| 2026-09-21 | Test lozinka u seed podacima | Svi seed nalozi u `database/printing_house_db.sql` imaju lozinku **`Test123!`** (upisan pravi BCrypt hash). | Lozinka zadovoljava traženi regex (počinje slovom, 8–12 karaktera, veliko slovo, broj, specijalni karakter) — ista za sve naloge radi lakšeg testiranja. |
+| 2026-09-21 | Prijava neodobrenih naloga | Korisnik sa `status_registracije` = `na_cekanju` / `odbijen` **ne može** da se prijavi — dobija jasnu poruku umesto pristupa. | Specifikacija kaže da registracija čeka odobrenje administratora; bez ove provere odobrenje ne bi imalo efekta. |
+| 2026-09-21 | Admin prijava | Administrator se **ne može** prijaviti kroz javnu formu `/login`, niti se bilo koji drugi tip korisnika može prijaviti kroz `/admin-login`. | Specifikacija traži da admin prijava bude odvojena i javno nevidljiva. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 
@@ -28,10 +36,11 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
       te bonus stavke.
 - [ ] Koja biblioteka/servis za slanje mejlova (reset lozinke, obaveštenje o
       javnoj nabavci, fakture) — Spring Mail + koji SMTP za test.
-- [ ] Format rute za admin prijavu (npr. `/admin-login`) — finalizovati naziv.
+- [x] Format rute za admin prijavu — **`/admin-login`** (vidi tabelu, 2026-09-21).
 - [ ] Tačna Java verzija za Spring Boot 3.5.x u laboratorijskom/ispitnom
-      okruženju (stari primer koristi `java.version=25` — proveriti da li je to
-      dostupno i na fakultetskim računarima za odbranu).
+      okruženju (`java.version=25` radi na razvojnoj mašini — OpenJDK 25.0.4.1 —
+      ali proveriti da li je isto dostupno na fakultetskim računarima za odbranu;
+      ako nije, spustiti na 21 u `pom.xml`).
 
 ## Napomena o GitHub Copilot modelu
 
