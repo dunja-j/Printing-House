@@ -22,7 +22,7 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 4 | Ukupan broj štamparija + TOP 5 najbolje ocenjenih proizvoda | 🔴 OBAVEZNO | todo | |
+| 4 | Ukupan broj štamparija + TOP 5 najbolje ocenjenih proizvoda | 🔴 OBAVEZNO | gotovo | `GET /api/javno/pocetna`. Broje se samo odobrene štamparije; TOP 5 po lajkovima, tie-break abecedno. |
 | 5 | Pretraga po više parametara (naziv/kategorija) + rezultati sa sortiranjem | 🔴 OBAVEZNO | todo | abecedno sortiranje klikom na zaglavlje kolone |
 | 6 | Detalji proizvoda (sa jednom slikom) | 🔴 OBAVEZNO | todo | |
 | 7 | Galerija sa dodatnim slikama u detaljima (max 3 thumbnail-a) | 🟡 BONUS | todo | pamćenje izabrane slike u kolačiću |
@@ -73,7 +73,7 @@ nema vremena.
 | 32 | Uniforman CSS izgled, header/footer/meni na svakoj strani | 🔴 OBAVEZNO | u radu | Urađeni `shared/header` i `shared/footer` + CSS varijable i `.ph-*` klase u `styles.css`. Meni se dopunjava kako se dodaju ekrani. |
 | 33 | Responsive design (manji/veći ekrani) | 🔴 OBAVEZNO | u radu | Media queries u `styles.css` i `header.css`; proveravati uz svaki novi ekran. |
 | 34 | Testirano u bar 3 browsera | 🔴 OBAVEZNO | todo | Chrome, Firefox, Edge npr. |
-| 35 | Baza popunjena sa dovoljno podataka za odbranu | 🔴 OBAVEZNO | u radu | Seed nalozi (sva 4 tipa + jedan `na_cekanju` i jedan `odbijen`) i 3 proizvoda sa uslugama štampe. Dopunjavati pred odbranu — u suprotnom -5 poena. |
+| 35 | Baza popunjena sa dovoljno podataka za odbranu | 🔴 OBAVEZNO | u radu | 3 štamparije + 5 klijenata + admin, 10 proizvoda kroz sve 3 kategorije, 12 usluga štampe, 8 narudžbina u raznim statusima, 20 ocena i 8 komentara. Dopunjavati pred odbranu — u suprotnom -5 poena. |
 
 ## Predlog redosleda rada
 

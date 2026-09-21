@@ -1,6 +1,12 @@
-# Uploadovane slike se ne cuvaju u repou — jedini izuzetak je podrazumevana profilna slika.
+# Uploadovane slike se ne cuvaju u repou — izuzetak su podrazumevane slike
+# i placeholder slike proizvoda iz seed podataka (bez njih bi SQL skripta
+# pokazivala polomljene slike na novoj masini).
 *
 !.gitignore
 !profilne/
 profilne/*
 !profilne/default_profile_image.jpg
+!proizvodi/
+proizvodi/*
+!proizvodi/default_product_image.jpg
+!proizvodi/seed_*.jpg

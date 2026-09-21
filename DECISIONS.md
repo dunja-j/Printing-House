@@ -33,6 +33,9 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-21 | Regex za lozinku | `^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z]\S{7,11}$` — identičan na frontu i backu. | Pokriva sve uslove iz specifikacije (8–12 karaktera, veliko slovo, cifra, specijalan karakter, počinje slovom) i dodatno zabranjuje razmak. |
 | 2026-09-21 | Ostali regex-i pri registraciji | Korisničko ime `^[A-Za-z0-9._-]{3,45}$`, matični broj `^\d{8}$`, PIB `^[1-9]\d{8}$`, telefon `^[0-9+\s\-/()]{6,30}$`. | PIB regex direktno pokriva zahtev "9 cifara, ne sme počinjati nulom". Ostali su razumna ograničenja da bi unos bio čist. |
 | 2026-09-21 | Validacija profilne slike | Dozvoljeni JPG/PNG/GIF, dimenzije između 100×100 i 250×250 px, max 2 MB; provera se radi **na serveru** čitanjem same slike (`ImageIO`), ne samo po ekstenziji. | Ekstenzija i `Content-Type` se lako lažiraju; čitanjem slike se istovremeno dobijaju i stvarne dimenzije koje specifikacija ograničava. |
+| 2026-09-21 | Broj štamparija na početnoj | Broje se **samo odobrene** štamparije (`status_registracije = 'odobren'`). | Štamparija na čekanju/odbijena još nije deo platforme i nema proizvode u ponudi. |
+| 2026-09-21 | TOP 5 proizvoda | Rangiranje po broju **lajkova** opadajuće, pri izjednačenom broju abecedno po nazivu. Ulaze samo proizvodi sa `aktivan = 1`, bez obzira na količinu na lageru. | Specifikacija kaže "po broju lajkova" — dislajkovi se ne oduzimaju. Abecedni tie-break daje stabilan (uvek isti) redosled, umesto nasumičnog. Lager se menja iz sata u sat, pa bi lista stalno "treperila". |
+| 2026-09-21 | Slike proizvoda u seed podacima | U repo su commitovane placeholder slike `backend/uploads/proizvodi/seed_*.jpg` + `default_product_image.jpg`; ostale uploadovane slike su u `.gitignore`. | Bez njih bi SQL skripta na novoj mašini pokazivala polomljene slike. Zamenljive pravim fotografijama pred odbranu. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 

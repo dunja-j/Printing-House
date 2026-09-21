@@ -1,0 +1,135 @@
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+  background: linear-gradient(135deg, #22303f 0%, #35485c 100%);
+  color: #fff;
+}
+
+.hero-sadrzaj {
+  max-width: 560px;
+  margin-left: auto;
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.2rem;
+}
+
+.hero p {
+  margin: 0 0 1.5rem;
+  color: #cdd5de;
+}
+
+.brojac {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: auto;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--ph-radius);
+}
+
+.brojac .broj {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ph-primarna);
+}
+
+.brojac .oznaka {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #cdd5de;
+  text-align: center;
+}
+
+h2 {
+  margin: 0 0 0.25rem;
+}
+
+.lista-proizvoda {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  counter-reset: mesto;
+}
+
+.kartica-proizvoda {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  box-shadow: var(--ph-senka);
+  overflow: hidden;
+  counter-increment: mesto;
+}
+
+.kartica-proizvoda::before {
+  content: counter(mesto);
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ph-primarna);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.kartica-proizvoda img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.kartica-proizvoda .opis {
+  padding: 0.9rem 1rem 1.1rem;
+}
+
+.kartica-proizvoda h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+}
+
+.stamparija {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+}
+
+.lajkovi {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding: 2rem 1.25rem;
+    justify-content: flex-start;
+  }
+
+  .hero-sadrzaj,
+  .brojac {
+    margin: 0;
+  }
+
+  .brojac {
+    width: 100%;
+  }
+}
