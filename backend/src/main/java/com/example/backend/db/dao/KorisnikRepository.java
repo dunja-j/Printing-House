@@ -9,4 +9,12 @@ import com.example.backend.models.Korisnik;
 public interface KorisnikRepository extends JpaRepository<Korisnik, String> {
 
     Optional<Korisnik> findByKorIme(String korIme);
+
+    boolean existsByKorIme(String korIme);
+
+    boolean existsByMejlIgnoreCase(String mejl);
+
+    boolean existsByMaticniBroj(String maticniBroj);
+
+    boolean existsByPib(String pib);
 }

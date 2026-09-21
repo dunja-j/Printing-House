@@ -3,6 +3,10 @@
     <h1>Prijava</h1>
     <p class="podnaslov">Prijavite se kao klijent ili štamparija.</p>
 
+    @if (obavestenje(); as poruka) {
+      <p class="ph-info" role="status">{{ poruka }}</p>
+    }
+
     @if (greska(); as poruka) {
       <p class="ph-greska" role="alert">{{ poruka }}</p>
     }
@@ -37,6 +41,6 @@
       </button>
     </form>
 
-    <p class="ispod">Nemate nalog? Registracija stiže uskoro.</p>
+    <p class="ispod">Nemate nalog? <a routerLink="/registracija">Registrujte se</a></p>
   </section>
 </div>

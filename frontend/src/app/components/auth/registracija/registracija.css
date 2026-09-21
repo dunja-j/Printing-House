@@ -1,0 +1,100 @@
+.forma-registracije {
+  max-width: 720px;
+  margin: 2rem auto;
+}
+
+.forma-registracije h1 {
+  margin: 0 0 1.25rem;
+}
+
+.koraci {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+}
+
+.koraci .aktivan {
+  color: var(--ph-primarna);
+  font-weight: 600;
+}
+
+.dve-kolone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.grupa {
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  padding: 1rem 1rem 0.25rem;
+  margin: 0 0 1rem;
+}
+
+.grupa legend {
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pomoc {
+  margin: -0.5rem 0 1rem;
+  font-size: 0.8rem;
+  color: var(--ph-siva);
+}
+
+.ispod {
+  margin: 1.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+  text-align: center;
+}
+
+.ispod a {
+  color: var(--ph-primarna);
+}
+
+.slika-korak {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pregled {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+}
+
+.dugmici {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.sporedno {
+  background: #fff;
+  color: var(--ph-tamna);
+  border: 1px solid var(--ph-ivica);
+}
+
+.sporedno:hover:not(:disabled) {
+  background: var(--ph-pozadina);
+}
+
+@media (max-width: 640px) {
+  .dve-kolone {
+    grid-template-columns: 1fr;
+  }
+
+  .dugmici {
+    flex-direction: column;
+  }
+}

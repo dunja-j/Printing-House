@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -18,6 +18,11 @@ export class Login {
   lozinka = '';
   greska = signal<string | null>(null);
   ucitavanje = signal(false);
+
+  /** Poruka koju postavlja registracija posle uspešnog kreiranja naloga. */
+  obavestenje = signal<string | null>(
+    inject(ActivatedRoute).snapshot.queryParamMap.get('poruka')
+  );
 
   posalji(): void {
     this.greska.set(null);

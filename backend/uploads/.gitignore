@@ -1,0 +1,6 @@
+# Uploadovane slike se ne cuvaju u repou — jedini izuzetak je podrazumevana profilna slika.
+*
+!.gitignore
+!profilne/
+profilne/*
+!profilne/default_profile_image.jpg

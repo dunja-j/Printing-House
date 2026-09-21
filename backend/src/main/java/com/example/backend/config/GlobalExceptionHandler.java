@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.example.backend.dto.PoslovnaGreska;
 
@@ -36,6 +37,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> neispravanJson(HttpMessageNotReadableException e) {
         return ResponseEntity.badRequest().body(Map.of("poruka", "Neispravan format zahteva."));
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> prevelikFajl(MaxUploadSizeExceededException e) {
+        return ResponseEntity.badRequest().body(Map.of("poruka", "Slika sme biti najviše 2 MB."));
     }
 
     @ExceptionHandler(Exception.class)

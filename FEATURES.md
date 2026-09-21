@@ -15,7 +15,7 @@ nema vremena.
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
 | 1 | Prijava korisnika (klijent/štampar javna forma + posebna admin ruta) | 🔴 OBAVEZNO | gotovo | `/login` za klijente i štampare, skrivena `/admin-login` za admina. Sesija: `HttpSession` na backendu + `localStorage` na frontu, guard-ovi po tipu korisnika. Neodobren/odbijen nalog ne može da se prijavi. |
-| 2 | Registracija svih tipova korisnika (fiz./prav. lice, štampar) | 🔴 OBAVEZNO | todo | ide u status "na čekanju" do odobrenja admina |
+| 2 | Registracija svih tipova korisnika (fiz./prav. lice, štampar) | 🔴 OBAVEZNO | gotovo | Dva koraka: podaci → profilna slika (slika se može preskočiti, tada ostaje `default_profile_image.jpg`). Validacija lozinke/MB/PIB-a i na frontu i na backu; provera jedinstvenosti korisničkog imena, mejla, MB i PIB-a. Nalog ide u status "na čekanju". |
 | 3 | Zaboravljena lozinka (reset link, važi 5 min) | 🟡 BONUS | todo | |
 
 ## Javno vidljive web strane (nejavljen korisnik)
