@@ -1,1 +1,134 @@
-/* You can add global styles to this file, and also import other style files */
+/* Zajednicki izgled celog sajta — boje, tipografija i osnovni elementi forme.
+   Komponente koriste ove .ph-* klase da bi izgled bio uniforman. */
+
+:root {
+  --ph-primarna: #ff7a18;
+  --ph-primarna-tamna: #e06407;
+  --ph-tamna: #1f2937;
+  --ph-siva: #6b7280;
+  --ph-pozadina: #f4f5f7;
+  --ph-ivica: #d8dce3;
+  --ph-greska: #c0392b;
+  --ph-radius: 6px;
+  --ph-senka: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--ph-pozadina);
+  color: var(--ph-tamna);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+.ph-omot {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.ph-kartica {
+  background: #fff;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  box-shadow: var(--ph-senka);
+  padding: 1.75rem;
+}
+
+.ph-polje {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.ph-polje > span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ph-polje input,
+.ph-polje select,
+.ph-polje textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  font: inherit;
+  background: #fff;
+}
+
+.ph-polje input:focus,
+.ph-polje select:focus,
+.ph-polje textarea:focus {
+  outline: none;
+  border-color: var(--ph-primarna);
+  box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.18);
+}
+
+.ph-dugme {
+  display: inline-block;
+  width: 100%;
+  padding: 0.7rem 1.1rem;
+  background: var(--ph-primarna);
+  color: #fff;
+  border: none;
+  border-radius: var(--ph-radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ph-dugme:hover:not(:disabled) {
+  background: var(--ph-primarna-tamna);
+}
+
+.ph-dugme:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ph-dugme-link {
+  width: auto;
+  text-decoration: none;
+}
+
+.ph-greska {
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  background: #fdeceb;
+  border-left: 4px solid var(--ph-greska);
+  border-radius: var(--ph-radius);
+  color: var(--ph-greska);
+  font-size: 0.9rem;
+}
+
+.ph-napomena {
+  color: var(--ph-siva);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .ph-omot {
+    padding: 1.25rem 1rem;
+  }
+
+  .ph-kartica {
+    padding: 1.25rem;
+  }
+}

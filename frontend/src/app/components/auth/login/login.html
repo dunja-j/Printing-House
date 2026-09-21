@@ -1,0 +1,42 @@
+<div class="ph-omot">
+  <section class="ph-kartica forma-prijave">
+    <h1>Prijava</h1>
+    <p class="podnaslov">Prijavite se kao klijent ili štamparija.</p>
+
+    @if (greska(); as poruka) {
+      <p class="ph-greska" role="alert">{{ poruka }}</p>
+    }
+
+    <form (ngSubmit)="posalji()" #f="ngForm" novalidate>
+      <label class="ph-polje">
+        <span>Korisničko ime</span>
+        <input
+          type="text"
+          name="korIme"
+          [(ngModel)]="korIme"
+          autocomplete="username"
+          required
+          maxlength="45"
+        />
+      </label>
+
+      <label class="ph-polje">
+        <span>Lozinka</span>
+        <input
+          type="password"
+          name="lozinka"
+          [(ngModel)]="lozinka"
+          autocomplete="current-password"
+          required
+          maxlength="12"
+        />
+      </label>
+
+      <button type="submit" class="ph-dugme" [disabled]="ucitavanje()">
+        {{ ucitavanje() ? 'Prijavljivanje...' : 'Prijavi se' }}
+      </button>
+    </form>
+
+    <p class="ispod">Nemate nalog? Registracija stiže uskoro.</p>
+  </section>
+</div>

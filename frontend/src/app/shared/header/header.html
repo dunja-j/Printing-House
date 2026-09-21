@@ -1,0 +1,30 @@
+<header class="zaglavlje">
+  <a class="logo" routerLink="/">Printing<span>House</span></a>
+
+  <nav class="meni">
+    <a routerLink="/">Početna</a>
+
+    @if (korisnik(); as k) {
+      @switch (k.tip) {
+        @case ('stampar') {
+          <a routerLink="/stampar">Moja štamparija</a>
+        }
+        @case ('administrator') {
+          <a routerLink="/admin">Administracija</a>
+        }
+        @default {
+          <a routerLink="/klijent">Moj nalog</a>
+        }
+      }
+    } @else {
+      <a routerLink="/login">Prijava</a>
+    }
+  </nav>
+
+  @if (korisnik(); as k) {
+    <div class="korisnik">
+      <span class="pozdrav">{{ k.ime }} {{ k.prezime }}</span>
+      <button type="button" class="dugme-odjava" (click)="odjaviSe()">Odjava</button>
+    </div>
+  }
+</header>

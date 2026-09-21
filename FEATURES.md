@@ -14,7 +14,7 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 1 | Prijava korisnika (klijent/štampar javna forma + posebna admin ruta) | 🔴 OBAVEZNO | todo | |
+| 1 | Prijava korisnika (klijent/štampar javna forma + posebna admin ruta) | 🔴 OBAVEZNO | gotovo | `/login` za klijente i štampare, skrivena `/admin-login` za admina. Sesija: `HttpSession` na backendu + `localStorage` na frontu, guard-ovi po tipu korisnika. Neodobren/odbijen nalog ne može da se prijavi. |
 | 2 | Registracija svih tipova korisnika (fiz./prav. lice, štampar) | 🔴 OBAVEZNO | todo | ide u status "na čekanju" do odobrenja admina |
 | 3 | Zaboravljena lozinka (reset link, važi 5 min) | 🟡 BONUS | todo | |
 
@@ -69,11 +69,11 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 31 | Otpornost na nekorektan unos + serverska validacija svuda | 🔴 OBAVEZNO | todo | |
-| 32 | Uniforman CSS izgled, header/footer/meni na svakoj strani | 🔴 OBAVEZNO | todo | |
-| 33 | Responsive design (manji/veći ekrani) | 🔴 OBAVEZNO | todo | |
+| 31 | Otpornost na nekorektan unos + serverska validacija svuda | 🔴 OBAVEZNO | u radu | Postavljen okvir: Bean Validation na DTO-ovima + `GlobalExceptionHandler` koji sve greške vraća kao `{"poruka": "..."}`. Dopunjavati uz svaki novi endpoint. |
+| 32 | Uniforman CSS izgled, header/footer/meni na svakoj strani | 🔴 OBAVEZNO | u radu | Urađeni `shared/header` i `shared/footer` + CSS varijable i `.ph-*` klase u `styles.css`. Meni se dopunjava kako se dodaju ekrani. |
+| 33 | Responsive design (manji/veći ekrani) | 🔴 OBAVEZNO | u radu | Media queries u `styles.css` i `header.css`; proveravati uz svaki novi ekran. |
 | 34 | Testirano u bar 3 browsera | 🔴 OBAVEZNO | todo | Chrome, Firefox, Edge npr. |
-| 35 | Baza popunjena sa dovoljno podataka za odbranu | 🔴 OBAVEZNO | todo | u suprotnom -5 poena po specifikaciji! |
+| 35 | Baza popunjena sa dovoljno podataka za odbranu | 🔴 OBAVEZNO | u radu | Seed nalozi (sva 4 tipa + jedan `na_cekanju` i jedan `odbijen`) i 3 proizvoda sa uslugama štampe. Dopunjavati pred odbranu — u suprotnom -5 poena. |
 
 ## Predlog redosleda rada
 
