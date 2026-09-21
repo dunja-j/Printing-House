@@ -12,7 +12,7 @@ public class DB {
     public static DataSource source(){
         DriverManagerDataSource dmds = new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/baza");
+        dmds.setUrl("jdbc:mysql://localhost:3306/printing_house");
         dmds.setUsername("root");
         dmds.setPassword("");
 
