@@ -1,0 +1,174 @@
+<div class="ph-omot">
+  <section class="ph-kartica forma-registracije">
+    <ol class="koraci">
+      <li [class.aktivan]="korak() === 1">1. Podaci o nalogu</li>
+      <li [class.aktivan]="korak() === 2">2. Profilna slika</li>
+    </ol>
+
+    @if (greska(); as poruka) {
+      <p class="ph-greska" role="alert">{{ poruka }}</p>
+    }
+
+    @if (korak() === 1) {
+      <h1>Registracija</h1>
+
+      <form (ngSubmit)="posalji()" novalidate>
+        <label class="ph-polje">
+          <span>Tip naloga</span>
+          <select name="tip" [ngModel]="tip()" (ngModelChange)="promeniTip($event)">
+            <option value="klijent_fizicko">Klijent – fizičko lice</option>
+            <option value="klijent_pravno">Klijent – pravno lice (institucija)</option>
+            <option value="stampar">Štamparija</option>
+          </select>
+        </label>
+
+        <div class="dve-kolone">
+          <label class="ph-polje">
+            <span>Korisničko ime *</span>
+            <input type="text" name="korIme" [(ngModel)]="korIme" maxlength="45" autocomplete="username" />
+          </label>
+
+          <label class="ph-polje">
+            <span>Mejl *</span>
+            <input type="email" name="mejl" [(ngModel)]="mejl" maxlength="100" autocomplete="email" />
+          </label>
+
+          <label class="ph-polje">
+            <span>Lozinka *</span>
+            <input
+              type="password"
+              name="lozinka"
+              [(ngModel)]="lozinka"
+              maxlength="12"
+              autocomplete="new-password"
+            />
+          </label>
+
+          <label class="ph-polje">
+            <span>Potvrda lozinke *</span>
+            <input
+              type="password"
+              name="potvrdaLozinke"
+              [(ngModel)]="potvrdaLozinke"
+              maxlength="12"
+              autocomplete="new-password"
+            />
+          </label>
+        </div>
+
+        <p class="pomoc">
+          Lozinka: 8–12 karaktera, počinje slovom, sadrži bar jedno veliko slovo, jednu cifru i
+          jedan specijalni karakter.
+        </p>
+
+        <div class="dve-kolone">
+          <label class="ph-polje">
+            <span>{{ institucija() ? 'Ime odgovornog lica *' : 'Ime *' }}</span>
+            <input type="text" name="ime" [(ngModel)]="ime" maxlength="45" />
+          </label>
+
+          <label class="ph-polje">
+            <span>{{ institucija() ? 'Prezime odgovornog lica *' : 'Prezime *' }}</span>
+            <input type="text" name="prezime" [(ngModel)]="prezime" maxlength="45" />
+          </label>
+
+          <label class="ph-polje">
+            <span>Kontakt telefon *</span>
+            <input type="tel" name="telefon" [(ngModel)]="telefon" maxlength="30" />
+          </label>
+
+          @if (!institucija()) {
+            <label class="ph-polje">
+              <span>Grad</span>
+              <input type="text" name="grad" [(ngModel)]="grad" maxlength="100" />
+            </label>
+          }
+        </div>
+
+        @if (institucija()) {
+          <fieldset class="grupa">
+            <legend>{{ tip() === 'stampar' ? 'Podaci o štampariji' : 'Podaci o instituciji' }}</legend>
+
+            <label class="ph-polje">
+              <span>Naziv {{ tip() === 'stampar' ? 'štamparije' : 'institucije' }} *</span>
+              <input
+                type="text"
+                name="nazivInstitucije"
+                [(ngModel)]="nazivInstitucije"
+                maxlength="150"
+              />
+            </label>
+
+            <div class="dve-kolone">
+              <label class="ph-polje">
+                <span>Adresa sedišta *</span>
+                <input type="text" name="adresaSedista" [(ngModel)]="adresaSedista" maxlength="200" />
+              </label>
+
+              <label class="ph-polje">
+                <span>Grad *</span>
+                <input type="text" name="grad" [(ngModel)]="grad" maxlength="100" />
+              </label>
+
+              <label class="ph-polje">
+                <span>Matični broj *</span>
+                <input
+                  type="text"
+                  name="maticniBroj"
+                  [(ngModel)]="maticniBroj"
+                  maxlength="8"
+                  inputmode="numeric"
+                  placeholder="8 cifara"
+                />
+              </label>
+
+              <label class="ph-polje">
+                <span>PIB *</span>
+                <input
+                  type="text"
+                  name="pib"
+                  [(ngModel)]="pib"
+                  maxlength="9"
+                  inputmode="numeric"
+                  placeholder="9 cifara, ne počinje nulom"
+                />
+              </label>
+            </div>
+          </fieldset>
+        }
+
+        <button type="submit" class="ph-dugme" [disabled]="ucitavanje()">
+          {{ ucitavanje() ? 'Slanje...' : 'Nastavi' }}
+        </button>
+      </form>
+
+      <p class="ispod">Već imate nalog? <a routerLink="/login">Prijavite se</a></p>
+    } @else {
+      <h1>Profilna slika</h1>
+      <p class="pomoc">
+        Nalog je kreiran i čeka odobrenje administratora. Dodajte profilnu sliku (JPG, PNG ili GIF,
+        od 100×100 do 250×250 piksela) ili preskočite ovaj korak.
+      </p>
+
+      <div class="slika-korak">
+        @if (pregledSlike(); as izvor) {
+          <img class="pregled" [src]="izvor" alt="Pregled profilne slike" />
+        }
+
+        <label class="ph-polje">
+          <span>Izaberite sliku</span>
+          <input type="file" name="slika" accept="image/jpeg,image/png,image/gif" (change)="izaberiSliku($event)" />
+        </label>
+
+        <div class="dugmici">
+          <button type="button" class="ph-dugme" [disabled]="ucitavanje()" (click)="posaljiSliku()">
+            {{ ucitavanje() ? 'Slanje...' : 'Sačuvaj sliku' }}
+          </button>
+          <button type="button" class="ph-dugme sporedno" [disabled]="ucitavanje()" (click)="zavrsi()">
+            Preskoči
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+</div>

@@ -4,6 +4,7 @@ import { Observable, catchError, of, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { Korisnik, TipKorisnika } from '../models/korisnik';
+import { RegistracijaPodaci } from '../models/registracija';
 
 const KLJUC = 'korisnik';
 
@@ -41,6 +42,26 @@ export class AuthService {
     return this.http
       .post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true })
       .pipe(tap(() => this.zaboravi()));
+  }
+
+  /** Prvi korak registracije — nalog se kreira u statusu "na čekanju". */
+  registracija(podaci: RegistracijaPodaci): Observable<{ korIme: string; poruka: string }> {
+    return this.http.post<{ korIme: string; poruka: string }>(
+      `${environment.apiUrl}/auth/registracija`,
+      podaci,
+      { withCredentials: true }
+    );
+  }
+
+  /** Drugi korak — backend nalog prepoznaje po sesiji iz prvog koraka. */
+  registracijaSlika(slika: File): Observable<{ slikaUrl: string }> {
+    const telo = new FormData();
+    telo.append('slika', slika);
+    return this.http.post<{ slikaUrl: string }>(
+      `${environment.apiUrl}/auth/registracija/slika`,
+      telo,
+      { withCredentials: true }
+    );
   }
 
   /**

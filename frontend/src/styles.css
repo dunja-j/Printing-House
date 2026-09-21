@@ -118,6 +118,16 @@ h3 {
   font-size: 0.9rem;
 }
 
+.ph-info {
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.85rem;
+  background: #eaf6ed;
+  border-left: 4px solid #2e7d4f;
+  border-radius: var(--ph-radius);
+  color: #1f5c3a;
+  font-size: 0.9rem;
+}
+
 .ph-napomena {
   color: var(--ph-siva);
   font-size: 0.9rem;

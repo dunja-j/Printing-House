@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 public final class Sesija {
 
     public static final String ATRIBUT = "korisnik";
+    private static final String ATRIBUT_REGISTRACIJE = "registracija";
 
     private Sesija() {
     }
@@ -32,5 +33,18 @@ public final class Sesija {
 
     public static TipKorisnika tip(HttpSession session) {
         return (TipKorisnika) session.getAttribute("tip");
+    }
+
+    /** Pamti ko se upravo registrovao, da bi drugi korak (slika) znao kom nalogu pripada. */
+    public static void zapocetaRegistracija(HttpSession session, String korIme) {
+        session.setAttribute(ATRIBUT_REGISTRACIJE, korIme);
+    }
+
+    public static String korImeRegistracije(HttpSession session) {
+        return (String) session.getAttribute(ATRIBUT_REGISTRACIJE);
+    }
+
+    public static void zavrsiRegistraciju(HttpSession session) {
+        session.removeAttribute(ATRIBUT_REGISTRACIJE);
     }
 }
