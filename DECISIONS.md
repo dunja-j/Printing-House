@@ -51,13 +51,17 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Prošireni detalji proizvoda | **Ista ruta** `/proizvod/:id` i ista komponenta za sve — ako je prijavljen klijent, poziva se `GET /api/klijent/proizvodi/{id}` i prikazuje dodatna sekcija; inače `GET /api/javno/proizvodi/{id}`. | Duplirana strana bi značila dva šablona sa 90% istog sadržaja. Boje i usluge štampe ne izlaze na javni endpoint, pa ih neprijavljen posetilac ne može dobiti ni direktnim pozivom API-ja. |
 | 2026-09-22 | Pretraga za klijenta | Klijent koristi **istu** pretragu `/pretraga` kao i javni posetilac (#5); razlika je samo u detaljima proizvoda. | Specifikacija za klijenta traži "pretraživanje proizvoda i detalje" — sami kriterijumi pretrage su isti, pa nema razloga za drugu stranu. |
 | 2026-09-22 | `ProizvodService` | Detalji proizvoda (javni i prošireni) izmesteni iz `JavnoService` u novi `ProizvodService`. | Obe varijante dele isto traženje proizvoda i brojanje lajkova/dislajkova; ovako je računanje na jednom mestu. |
+| 2026-09-22 | Čuvanje e-korpe | **Tabela `stavka_korpe` u bazi**, ne stanje na frontu. | Korpa preživljava odjavu i zatvaranje pregledača, a cene računa isključivo server — klijent ne može da pošalje svoju cenu. Alternativa (`localStorage`) bi bila kraća za pisanje, ali bi zahtevala da se ceo sadržaj korpe ionako ponovo validira na serveru pri zatvaranju. |
+| 2026-09-22 | Cene u korpi | Cena stavke se **nikad ne šalje sa fronta** — server je računa kao `(jedinična cena + doplata za uslugu) × količina` i pri prikazu i pri zatvaranju narudžbine. | Kad bi cena stizala sa klijenta, mogla bi se izmeniti kroz alatke pregledača. |
+| 2026-09-22 | Zatvaranje narudžbine | Od svake **štamparije** u korpi nastaje zasebna `narudzbina` (= zasebna faktura), sve u jednoj transakciji. Lager se umanjuje tek tada. | Specifikacija traži "jedna faktura po štampariji". Rezervisanje lagera pri dodavanju u korpu bi zahtevalo i logiku oslobadjanja zaboravljenih korpi. |
+| 2026-09-22 | Pravno lice i korpa | Pravno lice može da puni korpu, ali **ne može** da zatvori narudžbinu — dobija poruku da porudžbina ide u javnu nabavku. | Specifikacija izričito kaže da za pravna lica narudžbina ide na licitaciju (#18), a ne direktno u fakturu. |
+| 2026-09-22 | Obavezna polja pri poručivanju | Boja je obavezna **samo ako** proizvod ima definisane boje; usluga štampe **samo ako** proizvod ima definisane usluge. Tekst za štampu je uvek opcion. | Neki proizvodi (npr. flajer) nemaju boje — tražiti izbor bi blokiralo poručivanje. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 
 - [ ] Tačna šema tabela za `proizvod` ↔ `usluga_stampe` (many-to-many preko
       spojne tabele `proizvod_usluga` sa cenom/dimenzijama po kombinaciji?).
-- [ ] Kako se čuva "trenutna e-korpa" pre potvrde narudžbine — posebna tabela
-      (`stavka_korpe`) ili samo state na frontu dok se ne pritisne "POTVRDI"?
+- [x] Kako se čuva "trenutna e-korpa" — **tabela `stavka_korpe` u bazi** (vidi tabelu, 2026-09-22).
 - [ ] Koja biblioteka za generisanje PDF-a (fakture, izveštaji) — kad se dođe do
       te bonus stavke.
 - [ ] Koja biblioteka/servis za slanje mejlova (reset lozinke, obaveštenje o

@@ -4,6 +4,9 @@
   @if (greska(); as poruka) {
     <p class="ph-greska" role="alert">{{ poruka }}</p>
   }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
 
   @if (proizvod(); as p) {
     <article class="ph-kartica detalji">
@@ -95,13 +98,91 @@
             } @else {
               <p class="ph-napomena">Za ovaj proizvod štamparija nije definisala usluge štampe.</p>
             }
-
-            <p class="ph-napomena">
-              Izbor boje, usluge štampe i količine dolazi u narednoj funkcionalnosti.
-            </p>
           </section>
-        } @else {
-          <p class="ph-napomena">
+
+          <section class="porucivanje">
+            <h2>Poručivanje</h2>
+
+            @if (!naStanju()) {
+              <p class="ph-greska">Proizvod trenutno nije na stanju.</p>
+            } @else {
+              <div class="polja">
+                @if (k.dostupneBoje.length) {
+                  <label class="ph-polje">
+                    <span>Boja *</span>
+                    <select name="boja" [ngModel]="izabranaBoja()" (ngModelChange)="izabranaBoja.set($event)">
+                      <option [ngValue]="null">— izaberite boju —</option>
+                      @for (b of k.dostupneBoje; track b) {
+                        <option [ngValue]="b">{{ b }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+
+                @if (k.uslugeStampe.length) {
+                  <label class="ph-polje">
+                    <span>Usluga štampe *</span>
+                    <select
+                      name="usluga"
+                      [ngModel]="izabranaUslugaId()"
+                      (ngModelChange)="izabranaUslugaId.set($event)"
+                    >
+                      <option [ngValue]="null">— izaberite uslugu —</option>
+                      @for (u of k.uslugeStampe; track u.id) {
+                        <option [ngValue]="u.id">
+                          {{ u.tipStampe }} (+{{ u.dodatnaCenaPoKomadu | number: '1.2-2' }} RSD)
+                        </option>
+                      }
+                    </select>
+                  </label>
+                }
+
+                <label class="ph-polje">
+                  <span>Količina * (na stanju: {{ k.kolicinaNaLageru }})</span>
+                  <input
+                    type="number"
+                    name="kolicina"
+                    [ngModel]="kolicina()"
+                    (ngModelChange)="kolicina.set($event)"
+                    min="1"
+                    [max]="k.kolicinaNaLageru"
+                  />
+                </label>
+              </div>
+
+              <label class="ph-polje">
+                <span>Tekst za štampu (opciono, do 200 karaktera)</span>
+                <textarea
+                  name="tekst"
+                  [(ngModel)]="tekstZaStampu"
+                  maxlength="200"
+                  rows="2"
+                  placeholder="npr. naziv firme, slogan, ime..."
+                ></textarea>
+              </label>
+
+              @if (izabranaUsluga(); as u) {
+                <p class="ph-napomena">
+                  Maksimalne dimenzije štampe: {{ dimenzije(u.maxSirinaMm, u.maxVisinaMm) }}
+                </p>
+              }
+
+              <div class="racun">
+                <span>Cena po komadu: <strong>{{ cenaPoKomadu() | number: '1.2-2' }} RSD</strong></span>
+                <span class="ukupno">Ukupno: {{ ukupnaCena() | number: '1.2-2' }} RSD</span>
+              </div>
+
+              <div class="dugmici">
+                <button type="button" class="ph-dugme" [disabled]="slanje()" (click)="dodajUKorpu()">
+                  {{ slanje() ? 'Dodavanje...' : 'Dodaj u korpu' }}
+                </button>
+                <button type="button" class="ph-dugme sporedno" (click)="naKorpu()">
+                  Idi na korpu
+                </button>
+              </div>
+            }
+          </section>
+        } @else {          <p class="ph-napomena">
             Za poručivanje, izbor boje i usluge štampe potrebno je da se prijavite kao klijent.
           </p>
         }

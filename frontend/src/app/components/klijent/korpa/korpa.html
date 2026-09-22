@@ -1,0 +1,135 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/klijent">&larr; Nazad na moj nalog</a>
+  <h1>E-korpa</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">
+      {{ poruka }}
+      @if (poslateNarudzbine().length) {
+        <a class="link-narudzbine" routerLink="/klijent/narudzbine">Pogledaj moje narudžbine</a>
+      }
+    </p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (korpa(); as k) {
+    @if (k.ukupnoStavki) {
+      @if (k.idePrekoJavneNabavke) {
+        <p class="ph-info">
+          Kao pravno lice ne zatvarate narudžbinu direktno — vaša porudžbina ide u javnu nabavku, na
+          koju štamparije šalju ponude. Ta funkcionalnost dolazi uskoro.
+        </p>
+      } @else {
+        <p class="ph-napomena">
+          Stavke su grupisane po štampariji — za svaku štampariju nastaje zasebna narudžbina i
+          zasebna faktura.
+        </p>
+      }
+
+      @for (g of k.grupe; track g.stamparKorIme) {
+        <section class="grupa ph-kartica">
+          <header class="zaglavlje-grupe">
+            <div>
+              <h2>{{ g.nazivStamparije }}</h2>
+              @if (g.grad) {
+                <p class="grad">{{ g.grad }}</p>
+              }
+            </div>
+            <span class="iznos-grupe">{{ g.iznos | number: '1.2-2' }} RSD</span>
+          </header>
+
+          <ul class="stavke">
+            @for (s of g.stavke; track s.id) {
+              <li class="stavka">
+                <img [src]="slika(s.slikaUrl)" [alt]="s.nazivProizvoda" />
+
+                <div class="opis">
+                  <a class="naziv" [routerLink]="['/proizvod', s.proizvodId]">{{
+                    s.nazivProizvoda
+                  }}</a>
+
+                  <p class="atributi">
+                    @if (s.boja) {
+                      <span>Boja: {{ s.boja }}</span>
+                    }
+                    @if (s.tipStampe) {
+                      <span>{{ s.tipStampe }}</span>
+                    }
+                  </p>
+
+                  @if (s.tekstZaStampu) {
+                    <p class="tekst">Tekst: &bdquo;{{ s.tekstZaStampu }}&ldquo;</p>
+                  }
+
+                  <p class="cena-komad">
+                    {{ s.jedinicnaCena | number: '1.2-2' }} RSD
+                    @if (s.dodatnaCenaPoKomadu) {
+                      <span>+ {{ s.dodatnaCenaPoKomadu | number: '1.2-2' }} RSD štampa</span>
+                    }
+                    = <strong>{{ s.cenaPoKomadu | number: '1.2-2' }} RSD/kom</strong>
+                  </p>
+                </div>
+
+                <div class="kolicina">
+                  <label>
+                    <span>Količina</span>
+                    <input
+                      type="number"
+                      min="1"
+                      [max]="s.kolicinaNaLageru"
+                      [value]="s.kolicina"
+                      [disabled]="radiSe()"
+                      (change)="promeniKolicinu(s, $any($event.target).value)"
+                    />
+                  </label>
+                  <span class="lager">na stanju: {{ s.kolicinaNaLageru }}</span>
+                </div>
+
+                <div class="desna">
+                  <span class="ukupno-stavka">{{ s.ukupno | number: '1.2-2' }} RSD</span>
+                  <button
+                    type="button"
+                    class="dugme-ukloni"
+                    [disabled]="radiSe()"
+                    (click)="ukloni(s)"
+                  >
+                    Ukloni
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <section class="zakljucak ph-kartica">
+        <div class="ukupno-red">
+          <span>Ukupno ({{ k.ukupnoStavki }} stavki, {{ k.grupe.length }} štamparija)</span>
+          <strong>{{ k.ukupanIznos | number: '1.2-2' }} RSD</strong>
+        </div>
+
+        <div class="dugmici">
+          <button
+            type="button"
+            class="ph-dugme"
+            [disabled]="radiSe() || k.idePrekoJavneNabavke"
+            (click)="zakljuci()"
+          >
+            {{ radiSe() ? 'Slanje...' : 'Zatvori narudžbinu' }}
+          </button>
+          <button type="button" class="ph-dugme sporedno" [disabled]="radiSe()" (click)="isprazni()">
+            Isprazni korpu
+          </button>
+          <a class="ph-dugme sporedno ph-dugme-link" routerLink="/pretraga">Nastavi kupovinu</a>
+        </div>
+      </section>
+    } @else {
+      <p class="ph-napomena">Korpa je prazna.</p>
+      <a class="ph-dugme ph-dugme-link" routerLink="/pretraga">Pronađi proizvode</a>
+    }
+  }
+</div>

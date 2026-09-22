@@ -18,6 +18,14 @@
         }
       }
       <a routerLink="/profil">Profil</a>
+      @if (jeKlijent()) {
+        <a class="korpa" routerLink="/klijent/korpa">
+          Korpa
+          @if (brojUKorpi()) {
+            <span class="brojac">{{ brojUKorpi() }}</span>
+          }
+        </a>
+      }
     } @else {
       <a routerLink="/login">Prijava</a>
     }
