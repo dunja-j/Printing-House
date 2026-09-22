@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `narudzbina` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `klijent_kor_ime` VARCHAR(45) NOT NULL,
   `stampar_kor_ime` VARCHAR(45) NOT NULL,
-  `status` ENUM('naruceno','placeno','u_stampi','isporuceno','primljeno') NOT NULL DEFAULT 'naruceno',
+  `status` ENUM('naruceno','placeno','u_stampi','isporuceno','primljeno','otkazano') NOT NULL DEFAULT 'naruceno',
   `datum_narudzbine` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ukupan_iznos` DECIMAL(10,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
@@ -329,7 +329,10 @@ INSERT INTO `narudzbina` (`klijent_kor_ime`, `stampar_kor_ime`, `status`, `datum
   ('firma.doo', 'printmaster', 'primljeno', '2026-09-01 11:00:00', 30000.00),
   ('ana.k', 'artprint', 'isporuceno', '2026-09-12 12:30:00', 5700.00),
   ('marko.p', 'printmaster', 'u_stampi', '2026-09-16 15:10:00', 1500.00),
-  ('sara.j', 'cstudio', 'naruceno', '2026-09-19 18:45:00', 3200.00);
+  ('sara.j', 'cstudio', 'naruceno', '2026-09-19 18:45:00', 3200.00),
+  -- dve narudžbine u statusu "naruceno" za ana.k, da se može testirati otkazivanje:
+  ('ana.k', 'printmaster', 'naruceno', '2026-09-20 09:30:00', 7500.00),
+  ('ana.k', 'artprint', 'naruceno', '2026-09-21 14:05:00', 4500.00);
 
 INSERT INTO `stavka_narudzbine` (`narudzbina_id`, `proizvod_id`, `usluga_id`, `kolicina`, `boja`, `tekst_za_stampu`, `cena_stavke`) VALUES
   (1, (SELECT id FROM proizvod WHERE sifra='PR-001'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-01'), 10, 'Bela', 'Tim Building 2026', 15500.00),
@@ -339,7 +342,11 @@ INSERT INTO `stavka_narudzbine` (`narudzbina_id`, `proizvod_id`, `usluga_id`, `k
   (5, (SELECT id FROM proizvod WHERE sifra='PM-002'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-06'), 2000, NULL, 'Otvaranje nove poslovnice', 29000.00),
   (6, (SELECT id FROM proizvod WHERE sifra='AP-002'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-10'), 8, 'Natur', 'Eko akcija', 5840.00),
   (7, (SELECT id FROM proizvod WHERE sifra='PM-003'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-07'), 1, NULL, 'Koncert u parku', 1200.00),
-  (8, (SELECT id FROM proizvod WHERE sifra='PR-002'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-03'), 6, 'Bela', 'Poklon paket', 2820.00);
+  (8, (SELECT id FROM proizvod WHERE sifra='PR-002'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-03'), 6, 'Bela', 'Poklon paket', 2820.00),
+  -- narudžbina 9 ima dve stavke, da se vidi razvijeni prikaz:
+  (9, (SELECT id FROM proizvod WHERE sifra='PM-001'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-05'), 300, 'Bela', 'Ana Kostic, dizajner', 5400.00),
+  (9, (SELECT id FROM proizvod WHERE sifra='PM-002'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-06'), 150, NULL, 'Radionica ilustracije', 2100.00),
+  (10, (SELECT id FROM proizvod WHERE sifra='AP-004'), (SELECT id FROM usluga_stampe WHERE id_usluge='USL-12'), 100, 'Natur', 'Studio Ana', 4500.00);
 
 INSERT INTO `ocena_proizvoda` (`proizvod_id`, `klijent_kor_ime`, `vrednost`, `datum`) VALUES
   ((SELECT id FROM proizvod WHERE sifra='PR-001'), 'ana.k', 'lajk', '2026-08-10 09:00:00'),
