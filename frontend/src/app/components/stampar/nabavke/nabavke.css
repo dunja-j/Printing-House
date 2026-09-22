@@ -1,0 +1,156 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0 0 1rem;
+}
+
+.rezime {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.dugme-osvezi {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--ph-primarna);
+  border-radius: var(--ph-radius);
+  background: #fff;
+  color: var(--ph-primarna);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.dugme-osvezi:hover {
+  background: var(--ph-primarna);
+  color: #fff;
+}
+
+.nabavka {
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  border-left: 4px solid var(--ph-primarna);
+}
+
+.nabavka header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.nabavka h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.datum {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ph-siva);
+}
+
+.rok {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #fff3e0;
+  border: 1px solid #ffd59e;
+  color: #b25b00;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.stavke {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.88rem;
+}
+
+.stavke th,
+.stavke td {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ph-ivica);
+  vertical-align: top;
+}
+
+.stavke thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ph-siva);
+}
+
+.stavke tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.pot {
+  color: var(--ph-siva);
+}
+
+.detalji span {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--ph-siva);
+}
+
+.desno {
+  text-align: right;
+}
+
+.nabavka footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ph-ivica);
+}
+
+.broj-ponuda {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--ph-siva);
+}
+
+.forma-ponude {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.forma-ponude .ph-polje {
+  margin: 0;
+  min-width: 200px;
+}
+
+.forma-ponude .ph-dugme {
+  width: auto;
+}
+
+.moja-ponuda {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  background: #e6f6ec;
+  border: 1px solid #b7e2c6;
+  border-radius: var(--ph-radius);
+  color: #1c7a42;
+  font-size: 0.9rem;
+}
+
+.razlog {
+  margin: 0;
+}

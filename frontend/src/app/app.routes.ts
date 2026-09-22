@@ -12,10 +12,12 @@ import { Pocetna } from './components/javno/pocetna/pocetna';
 import { Pretraga } from './components/javno/pretraga/pretraga';
 import { Arhiva } from './components/klijent/arhiva/arhiva';
 import { KorpaKomponenta } from './components/klijent/korpa/korpa';
+import { KlijentNabavke } from './components/klijent/nabavke/nabavke';
 import { Narudzbine } from './components/klijent/narudzbine/narudzbine';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
 import { Profil } from './components/profil/profil';
 import { NoviProizvodKomponenta } from './components/stampar/novi-proizvod/novi-proizvod';
+import { StamparNabavke } from './components/stampar/nabavke/nabavke';
 import { StamparNarudzbine } from './components/stampar/narudzbine/narudzbine';
 import { StamparPocetna } from './components/stampar/pocetna/pocetna';
 import { StamparProizvodi } from './components/stampar/proizvodi/proizvodi';
@@ -50,6 +52,11 @@ export const routes: Routes = [
     component: Arhiva,
     canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
   },
+  {
+    path: 'klijent/nabavke',
+    component: KlijentNabavke,
+    canActivate: [dozvoljenTip(['klijent_pravno'])]
+  },
   { path: 'stampar', component: StamparPocetna, canActivate: [dozvoljenTip(['stampar'])] },
   {
     path: 'stampar/proizvodi',
@@ -64,6 +71,11 @@ export const routes: Routes = [
   {
     path: 'stampar/narudzbine',
     component: StamparNarudzbine,
+    canActivate: [dozvoljenTip(['stampar'])]
+  },
+  {
+    path: 'stampar/nabavke',
+    component: StamparNabavke,
     canActivate: [dozvoljenTip(['stampar'])]
   },
   { path: 'admin', component: AdminPocetna, canActivate: [dozvoljenTip(['administrator'])] },

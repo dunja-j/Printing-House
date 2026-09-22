@@ -38,10 +38,10 @@ nema vremena.
 | 12 | Mapa gde je štamparija (u detaljima proizvoda) | 🟡 BONUS | todo | npr. Leaflet + OpenStreetMap, relativno lako |
 | 13 | Dodavanje usluge štampe i teksta/količine za poručivanje | 🔴 OBAVEZNO | gotovo | Forma "Poručivanje" na strani detalja: boja, usluga štampe, količina, tekst (do 200 kar.), živa kalkulacija cene. |
 | 14 | Priprema proizvoda (dodavanje sličice, prikaz na slici proizvoda) | 🟡 BONUS ⚠️ | todo | Canvas/CSS overlay, srednje kompleksno |
-| 15 | E-korpa: trenutni prikaz + zatvaranje narudžbine (grupisano po štampariji) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/korpa`, brojac u meniju. Zatvaranjem nastaje po jedna narudžbina za svaku štampariju i lager se umanjuje. Pravno lice ne može da zatvori direktno — čeka #18. |
+| 15 | E-korpa: trenutni prikaz + zatvaranje narudžbine (grupisano po štampariji) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/korpa`, brojac u meniju. Zatvaranjem nastaje po jedna narudžbina za svaku štampariju i lager se umanjuje. Pravno lice umesto toga šalje korpu u javnu nabavku (#18). |
 | 16 | Dostavljanje PDF fakture na mejl | 🟡 BONUS ⚠️ | todo | zavisi od PDF + mejl biblioteke, raditi kasnije |
 | 17 | Servis za plaćanje (Stripe test / PayPal sandbox) | 🟡 BONUS ⚠️ | todo | najkompleksnija bonus stavka — raditi poslednju, prva kandidat za preskakanje |
-| 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | todo | ne treba pravi tajmer/WebSocket, provera pri sledećoj prijavi |
+| 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/nabavke`. Nabavka nastaje iz e-korpe (dugme "Pošalji u javnu nabavku"), rok je 10 min. Nema tajmera — istekle nabavke se zaključuju pri sledećem učitavanju liste. Pobeđuje najniža ponuda štamparije koja ima dovoljno na stanju; od nje nastaje narudžbina i lager se umanjuje. |
 | 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva`. Klijent prvo potvrdi prijem u tabeli narudžbina (isporučeno→primljeno), pa proizvod ulazi u arhivu. Prikazuje se poslednjih 5 komentara; sopstveni je uokviren narandžastom linijom. |
 
 ## Deo za štampare
@@ -52,8 +52,8 @@ nema vremena.
 | 21 | Proizvodi i usluge — dodavanje | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/proizvodi/novi`. Kategorija/potkategorija iz predefinisanog spiska (potkategorije se filtriraju po kategoriji), više boja i više usluga štampe u istoj formi. Slika se dodaje sa spiska proizvoda. |
 | 22 | Ažuriranje količina postojećih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/proizvodi` — količina se menja direktno u tabeli. Dodat i prekidač "U ponudi" (aktivan/neaktivan). |
 | 23 | Dodavanje iz JSON fajla (+ naknadno dodavanje slika) | 🟡 BONUS ⚠️ | todo | format u `primer-proizvodi.json` — srednje/visoko kompleksno |
-| 24 | Naručeni proizvodi — promena statusa (naručeno→u štampi→isporučeno) | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/narudzbine`. Prikazuju se samo narudžbine fizičkih lica; jedno dugme nudi tačno sledeći dozvoljeni status. Klik na red prikazuje stavke. |
-| 25 | Licitacije — slanje ponuda za otvorene javne nabavke | 🔴 OBAVEZNO | todo | jedna ponuda po javnoj nabavci |
+| 24 | Naručeni proizvodi — promena statusa (naručeno→u štampi→isporučeno) | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/narudzbine`. Prikazuju se sve narudžbine štamparije (i one nastale od dobijene javne nabavke); jedno dugme nudi tačno sledeći dozvoljeni status. Klik na red prikazuje stavke. |
+| 25 | Licitacije — slanje ponuda za otvorene javne nabavke | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/nabavke`. Jedna ponuda (ukupna cena) po nabavci, bez izmene. Server odbija ponudu štamparije koja nema proizvode sa dovoljnom količinom u svim traženim potkategorijama. |
 | 26 | Izveštavanje — PDF izveštaj o svim ponudama i pobedniku | 🟡 BONUS ⚠️ | todo | zavisi od #18/#25, raditi posle njih |
 
 ## Administratorski deo
