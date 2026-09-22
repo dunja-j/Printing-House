@@ -48,6 +48,9 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Zaštita tuđih narudžbina | Pokušaj otkazivanja tuđe narudžbine vraća **404 sa istom porukom** kao nepostojeća, a ne 403. | Različite poruke bi otkrile koji ID-jevi postoje u sistemu. |
 | 2026-09-22 | Provera tipa naloga na backendu | Dodate `Sesija.zahtevajPrijavu()` i `Sesija.zahtevajTip()` — svaki zaštićen endpoint ih poziva na početku. | Ista provera se ponavljala po kontrolerima; ovako je na jednom mestu i teže je zaboraviti je. |
 | 2026-09-22 | Vraćanje na lager pri otkazivanju | **Ne radi se** za sada. | Lager se još nigde ne umanjuje — to počinje tek sa e-korpom (#15). Vraćanje će se dodati zajedno sa umanjenjem, da logika bude na jednom mestu. |
+| 2026-09-22 | Prošireni detalji proizvoda | **Ista ruta** `/proizvod/:id` i ista komponenta za sve — ako je prijavljen klijent, poziva se `GET /api/klijent/proizvodi/{id}` i prikazuje dodatna sekcija; inače `GET /api/javno/proizvodi/{id}`. | Duplirana strana bi značila dva šablona sa 90% istog sadržaja. Boje i usluge štampe ne izlaze na javni endpoint, pa ih neprijavljen posetilac ne može dobiti ni direktnim pozivom API-ja. |
+| 2026-09-22 | Pretraga za klijenta | Klijent koristi **istu** pretragu `/pretraga` kao i javni posetilac (#5); razlika je samo u detaljima proizvoda. | Specifikacija za klijenta traži "pretraživanje proizvoda i detalje" — sami kriterijumi pretrage su isti, pa nema razloga za drugu stranu. |
+| 2026-09-22 | `ProizvodService` | Detalji proizvoda (javni i prošireni) izmesteni iz `JavnoService` u novi `ProizvodService`. | Obe varijante dele isto traženje proizvoda i brojanje lajkova/dislajkova; ovako je računanje na jednom mestu. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 

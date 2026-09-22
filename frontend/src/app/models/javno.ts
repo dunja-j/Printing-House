@@ -44,3 +44,17 @@ export interface DetaljiProizvoda {
   brojLajkova: number;
   brojDislajkova: number;
 }
+
+export interface UslugaStampe {
+  id: number;
+  tipStampe: string;
+  dodatnaCenaPoKomadu: number;
+  maxSirinaMm: number | null;
+  maxVisinaMm: number | null;
+}
+
+/** Ono što vidi prijavljeni klijent — detalji + podaci potrebni za poručivanje. */
+export interface DetaljiZaKlijenta extends DetaljiProizvoda {
+  dostupneBoje: string[];
+  uslugeStampe: UslugaStampe[];
+}

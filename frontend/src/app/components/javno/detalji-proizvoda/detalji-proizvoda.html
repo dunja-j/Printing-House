@@ -53,9 +53,58 @@
           <p class="opis">{{ p.opis }}</p>
         }
 
-        <p class="ph-napomena">
-          Za poručivanje, izbor boje i usluge štampe potrebno je da se prijavite kao klijent.
-        </p>
+        @if (prosireni(); as k) {
+          <section class="za-klijenta">
+            <h2>Dostupne boje</h2>
+            @if (k.dostupneBoje.length) {
+              <ul class="boje">
+                @for (boja of k.dostupneBoje; track boja) {
+                  <li>{{ boja }}</li>
+                }
+              </ul>
+            } @else {
+              <p class="ph-napomena">Proizvod se nudi samo u osnovnoj varijanti.</p>
+            }
+
+            <h2>Usluge štampe</h2>
+            @if (k.uslugeStampe.length) {
+              <div class="tabela-omot">
+                <table class="usluge">
+                  <thead>
+                    <tr>
+                      <th>Tip štampe</th>
+                      <th class="desno">Doplata po komadu</th>
+                      <th class="desno">Ukupno po komadu</th>
+                      <th class="desno">Max dimenzije štampe</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (u of k.uslugeStampe; track u.id) {
+                      <tr>
+                        <td>{{ u.tipStampe }}</td>
+                        <td class="desno">+{{ u.dodatnaCenaPoKomadu | number: '1.2-2' }} RSD</td>
+                        <td class="desno naglaseno">
+                          {{ cenaSaUslugom(u.dodatnaCenaPoKomadu) | number: '1.2-2' }} RSD
+                        </td>
+                        <td class="desno">{{ dimenzije(u.maxSirinaMm, u.maxVisinaMm) }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <p class="ph-napomena">Za ovaj proizvod štamparija nije definisala usluge štampe.</p>
+            }
+
+            <p class="ph-napomena">
+              Izbor boje, usluge štampe i količine dolazi u narednoj funkcionalnosti.
+            </p>
+          </section>
+        } @else {
+          <p class="ph-napomena">
+            Za poručivanje, izbor boje i usluge štampe potrebno je da se prijavite kao klijent.
+          </p>
+        }
       </div>
     </article>
   }
