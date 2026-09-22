@@ -1,0 +1,160 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/admin">&larr; Nazad na administraciju</a>
+  <h1>Korisnički nalozi</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (sortirani().length) {
+    <p class="ph-napomena rezime">
+      Ukupno naloga: {{ sortirani().length }} &middot; klik na zaglavlje kolone sortira
+    </p>
+
+    <div class="tabela-omot">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th (click)="promeniSortiranje('korIme')">Kor. ime {{ strelica('korIme') }}</th>
+            <th (click)="promeniSortiranje('ime')">Ime i prezime {{ strelica('ime') }}</th>
+            <th (click)="promeniSortiranje('mejl')">Mejl {{ strelica('mejl') }}</th>
+            <th (click)="promeniSortiranje('tip')">Tip {{ strelica('tip') }}</th>
+            <th (click)="promeniSortiranje('statusRegistracije')">
+              Status {{ strelica('statusRegistracije') }}
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (k of sortirani(); track k.korIme) {
+            <tr>
+              <td class="kor-ime">{{ k.korIme }}</td>
+              <td>
+                <span class="ime">{{ k.ime }} {{ k.prezime }}</span>
+                @if (k.nazivInstitucije) {
+                  <span class="institucija">{{ k.nazivInstitucije }}</span>
+                }
+              </td>
+              <td>{{ k.mejl }}</td>
+              <td>{{ nazivTipa(k.tip) }}</td>
+              <td>
+                <span class="status" [class]="'status-' + k.statusRegistracije">{{
+                  nazivStatusa(k.statusRegistracije)
+                }}</span>
+              </td>
+              <td class="desno akcije">
+                <button
+                  type="button"
+                  class="dugme-izmeni"
+                  [disabled]="radiSe() === k.korIme"
+                  (click)="zapocniIzmenu(k)"
+                >
+                  {{ izmena() === k.korIme ? 'ZATVORI' : 'IZMENI' }}
+                </button>
+                <button
+                  type="button"
+                  class="dugme-obrisi"
+                  [disabled]="radiSe() === k.korIme"
+                  (click)="obrisi(k)"
+                >
+                  OBRIŠI
+                </button>
+              </td>
+            </tr>
+
+            @if (izmena() === k.korIme) {
+              <tr class="izmena-red">
+                <td colspan="6">
+                  <form class="forma-izmene" (ngSubmit)="sacuvaj(k)" novalidate>
+                    <div class="dve-kolone">
+                      <label class="ph-polje">
+                        <span>Ime *</span>
+                        <input type="text" name="ime" [(ngModel)]="forma.ime" maxlength="45" />
+                      </label>
+
+                      <label class="ph-polje">
+                        <span>Prezime *</span>
+                        <input
+                          type="text"
+                          name="prezime"
+                          [(ngModel)]="forma.prezime"
+                          maxlength="45"
+                        />
+                      </label>
+
+                      <label class="ph-polje">
+                        <span>Telefon *</span>
+                        <input type="tel" name="telefon" [(ngModel)]="forma.telefon" maxlength="30" />
+                      </label>
+
+                      <label class="ph-polje">
+                        <span>Mejl *</span>
+                        <input type="email" name="mejl" [(ngModel)]="forma.mejl" maxlength="100" />
+                      </label>
+
+                      <label class="ph-polje">
+                        <span>Grad{{ k.institucija ? ' *' : '' }}</span>
+                        <input type="text" name="grad" [(ngModel)]="forma.grad" maxlength="100" />
+                      </label>
+                    </div>
+
+                    @if (k.institucija) {
+                      <div class="dve-kolone">
+                        <label class="ph-polje">
+                          <span>Naziv institucije *</span>
+                          <input
+                            type="text"
+                            name="nazivInstitucije"
+                            [(ngModel)]="forma.nazivInstitucije"
+                            maxlength="150"
+                          />
+                        </label>
+
+                        <label class="ph-polje">
+                          <span>Adresa sedišta *</span>
+                          <input
+                            type="text"
+                            name="adresaSedista"
+                            [(ngModel)]="forma.adresaSedista"
+                            maxlength="200"
+                          />
+                        </label>
+
+                        <label class="ph-polje">
+                          <span>Matični broj *</span>
+                          <input
+                            type="text"
+                            name="maticniBroj"
+                            [(ngModel)]="forma.maticniBroj"
+                            maxlength="8"
+                          />
+                        </label>
+
+                        <label class="ph-polje">
+                          <span>PIB *</span>
+                          <input type="text" name="pib" [(ngModel)]="forma.pib" maxlength="9" />
+                        </label>
+                      </div>
+                    }
+
+                    <button type="submit" class="ph-dugme" [disabled]="radiSe() === k.korIme">
+                      {{ radiSe() === k.korIme ? 'Čuvanje...' : 'Sačuvaj izmene' }}
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (!greska()) {
+    <p class="ph-napomena">Nema registrovanih naloga.</p>
+  }
+</div>

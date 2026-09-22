@@ -1,0 +1,78 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/admin">&larr; Nazad na administraciju</a>
+  <h1>Zahtevi za registraciju</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (zahtevi().length) {
+    <p class="ph-napomena rezime">Naloga na čekanju: {{ zahtevi().length }}</p>
+
+    @for (k of zahtevi(); track k.korIme) {
+      <article class="ph-kartica zahtev">
+        <div class="podaci">
+          <h2>{{ k.ime }} {{ k.prezime }}</h2>
+          <p class="tip">{{ nazivTipa(k.tip) }}</p>
+
+          <dl>
+            <dt>Korisničko ime</dt>
+            <dd>{{ k.korIme }}</dd>
+
+            <dt>Mejl</dt>
+            <dd>{{ k.mejl }}</dd>
+
+            <dt>Telefon</dt>
+            <dd>{{ k.telefon ?? '—' }}</dd>
+
+            @if (k.institucija) {
+              <dt>Naziv</dt>
+              <dd>{{ k.nazivInstitucije }}</dd>
+
+              <dt>Adresa</dt>
+              <dd>{{ k.adresaSedista }}, {{ k.grad }}</dd>
+
+              <dt>Matični broj</dt>
+              <dd>{{ k.maticniBroj }}</dd>
+
+              <dt>PIB</dt>
+              <dd>{{ k.pib }}</dd>
+            } @else {
+              <dt>Grad</dt>
+              <dd>{{ k.grad ?? '—' }}</dd>
+            }
+
+            <dt>Prijavljen</dt>
+            <dd>{{ k.datumRegistracije | date: 'dd.MM.yyyy. HH:mm' }}</dd>
+          </dl>
+        </div>
+
+        <div class="akcije">
+          <button
+            type="button"
+            class="ph-dugme"
+            [disabled]="radiSe() === k.korIme"
+            (click)="odluci(k, true)"
+          >
+            ODOBRI
+          </button>
+          <button
+            type="button"
+            class="ph-dugme odbij"
+            [disabled]="radiSe() === k.korIme"
+            (click)="odluci(k, false)"
+          >
+            ODBIJ
+          </button>
+        </div>
+      </article>
+    }
+  } @else if (!greska()) {
+    <p class="ph-napomena">Nema naloga koji čekaju odobrenje.</p>
+  }
+</div>

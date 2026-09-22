@@ -60,9 +60,9 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 27 | Upravljanje korisničkim nalozima (pregled, ažuriranje, brisanje) | 🔴 OBAVEZNO | todo | |
-| 28 | Obrada zahteva za registraciju (prihvati/odbaci) | 🔴 OBAVEZNO | todo | |
-| 29 | Upravljanje kategorijama proizvoda (dodavanje kategorija/potkategorija) | 🔴 OBAVEZNO | todo | |
+| 27 | Upravljanje korisničkim nalozima (pregled, ažuriranje, brisanje) | 🔴 OBAVEZNO | gotovo | `/admin/korisnici` — tabela svih naloga (bez administratora) sa sortiranjem po kolonama, inline forma za izmenu i brisanje. Nalog sa narudžbinama ili proizvodima se ne briše (409) da se ne izgubi istorija. |
+| 28 | Obrada zahteva za registraciju (prihvati/odbaci) | 🔴 OBAVEZNO | gotovo | `/admin/zahtevi` — kartice naloga u statusu `na_cekanju` sa dugmadima ODOBRI/ODBIJ. |
+| 29 | Upravljanje kategorijama proizvoda (dodavanje kategorija/potkategorija) | 🔴 OBAVEZNO | gotovo | `/admin/kategorije` — pregled kategorija sa potkategorijama + forme za dodavanje. Brisanje/preimenovanje nije traženo specifikacijom. |
 | 30 | Statistike u vidu grafikona (bar/pita/linijski) | 🟡 BONUS ⚠️ | todo | 3 različita grafikona — raditi kasnije, kandidat za preskakanje ako fali vremena |
 
 ## Ostale karakteristike (baseline kvalitet — nema posebnu listu poena u minimalnim zahtevima, ali su deo opisa projekta)

@@ -1,5 +1,6 @@
 package com.example.backend.db.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,8 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, String> {
     boolean existsByPibAndKorImeNot(String pib, String korIme);
 
     long countByTipAndStatusRegistracije(TipKorisnika tip, StatusRegistracije status);
+
+    List<Korisnik> findByStatusRegistracijeOrderByDatumRegistracijeAsc(StatusRegistracije status);
+
+    List<Korisnik> findByTipNotOrderByKorImeAsc(TipKorisnika tip);
 }
