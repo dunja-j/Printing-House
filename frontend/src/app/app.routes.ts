@@ -7,6 +7,7 @@ import { Registracija } from './components/auth/registracija/registracija';
 import { DetaljiProizvodaKomponenta } from './components/javno/detalji-proizvoda/detalji-proizvoda';
 import { Pocetna } from './components/javno/pocetna/pocetna';
 import { Pretraga } from './components/javno/pretraga/pretraga';
+import { Arhiva } from './components/klijent/arhiva/arhiva';
 import { KorpaKomponenta } from './components/klijent/korpa/korpa';
 import { Narudzbine } from './components/klijent/narudzbine/narudzbine';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
@@ -39,6 +40,11 @@ export const routes: Routes = [
   {
     path: 'klijent/korpa',
     component: KorpaKomponenta,
+    canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
+  },
+  {
+    path: 'klijent/arhiva',
+    component: Arhiva,
     canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
   },
   { path: 'stampar', component: StamparPocetna, canActivate: [dozvoljenTip(['stampar'])] },

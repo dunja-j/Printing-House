@@ -42,7 +42,7 @@ nema vremena.
 | 16 | Dostavljanje PDF fakture na mejl | 🟡 BONUS ⚠️ | todo | zavisi od PDF + mejl biblioteke, raditi kasnije |
 | 17 | Servis za plaćanje (Stripe test / PayPal sandbox) | 🟡 BONUS ⚠️ | todo | najkompleksnija bonus stavka — raditi poslednju, prva kandidat za preskakanje |
 | 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | todo | ne treba pravi tajmer/WebSocket, provera pri sledećoj prijavi |
-| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | todo | prikaz poslednjih 5 komentara; sopstveni komentar uokviren narandžasto |
+| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva`. Klijent prvo potvrdi prijem u tabeli narudžbina (isporučeno→primljeno), pa proizvod ulazi u arhivu. Prikazuje se poslednjih 5 komentara; sopstveni je uokviren narandžastom linijom. |
 
 ## Deo za štampare
 

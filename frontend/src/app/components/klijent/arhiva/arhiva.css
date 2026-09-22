@@ -1,0 +1,178 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0 0 1rem;
+}
+
+.rezime {
+  margin: 0 0 1rem;
+}
+
+.proizvod {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+}
+
+.zaglavlje {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ph-ivica);
+}
+
+.zaglavlje img {
+  width: 140px;
+  height: 105px;
+  object-fit: cover;
+  border-radius: var(--ph-radius);
+  border: 1px solid var(--ph-ivica);
+}
+
+.osnovno {
+  flex: 1;
+  min-width: 220px;
+}
+
+.naziv {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ph-tamna);
+  text-decoration: none;
+}
+
+.naziv:hover {
+  color: var(--ph-primarna);
+}
+
+.stamparija {
+  margin: 0.2rem 0 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+}
+
+.ocene {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ocena {
+  padding: 0.4rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--ph-ivica);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ocena:hover:not(:disabled) {
+  border-color: var(--ph-primarna);
+}
+
+.ocena:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ocena.lajk.izabrana {
+  background: #eaf6ed;
+  border-color: #2e7d4f;
+  color: #1f5c3a;
+}
+
+.ocena.dislajk.izabrana {
+  background: #fdeceb;
+  border-color: var(--ph-greska);
+  color: var(--ph-greska);
+}
+
+.pomoc {
+  font-size: 0.75rem;
+  color: var(--ph-siva);
+}
+
+.komentari {
+  padding-top: 1rem;
+}
+
+.komentari h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.komentari ul {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.komentari li {
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.6rem;
+  background: var(--ph-pozadina);
+  border: 1px solid transparent;
+  border-radius: var(--ph-radius);
+}
+
+/* Zahtev specifikacije: sopstveni komentar uokviren tankom narandžastom linijom. */
+.komentari li.moj {
+  background: #fff;
+  border: 1px solid var(--ph-primarna);
+}
+
+.zaglavlje-komentara {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.datum {
+  color: var(--ph-siva);
+}
+
+.oznaka {
+  padding: 0.1rem 0.45rem;
+  background: var(--ph-primarna);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.komentari li p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.novi-komentar textarea {
+  resize: vertical;
+}
+
+.novi-komentar .ph-dugme {
+  width: auto;
+}
+
+@media (max-width: 640px) {
+  .zaglavlje img {
+    width: 100%;
+    height: 160px;
+  }
+}
