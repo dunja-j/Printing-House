@@ -44,6 +44,10 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Šta se može menjati na profilu | Sve osim **korisničkog imena** (primarni ključ) i **tipa naloga**. Matični broj i PIB se mogu ispraviti, uz proveru jedinstvenosti koja ignoriše sam nalog. | Korisničko ime je strani ključ u tabelama proizvoda, narudžbina i ocena — promena bi zahtevala kaskadno ažuriranje bez stvarne koristi. Tip naloga menja skup obaveznih polja i prava pristupa. |
 | 2026-09-22 | Promena lozinke | **Nije** deo profila. | Specifikacija je ne navodi ni u opisu profila ni u minimalnim zahtevima. Može se dodati naknadno ako ostane vremena. |
 | 2026-09-22 | Keširanje profilne slike | Uz URL slike se šalje `?v=<timestamp>` koji se menja posle svakog uploada. | Naziv fajla se menja pri svakoj izmeni, ali pregledač je ipak znao da prikaže staru sliku iz keša; ovako je prikaz uvek svež. |
+| 2026-09-22 | Otkazivanje narudžbine | Dodat status **`otkazano`** u `narudzbina.status` ENUM; narudžbina se **ne briše** iz baze. | Brisanje bi uništilo istoriju i referencirane stavke. Otkazana narudžbina ostaje vidljiva klijentu i štampariji, samo je precrtana. |
+| 2026-09-22 | Zaštita tuđih narudžbina | Pokušaj otkazivanja tuđe narudžbine vraća **404 sa istom porukom** kao nepostojeća, a ne 403. | Različite poruke bi otkrile koji ID-jevi postoje u sistemu. |
+| 2026-09-22 | Provera tipa naloga na backendu | Dodate `Sesija.zahtevajPrijavu()` i `Sesija.zahtevajTip()` — svaki zaštićen endpoint ih poziva na početku. | Ista provera se ponavljala po kontrolerima; ovako je na jednom mestu i teže je zaboraviti je. |
+| 2026-09-22 | Vraćanje na lager pri otkazivanju | **Ne radi se** za sada. | Lager se još nigde ne umanjuje — to počinje tek sa e-korpom (#15). Vraćanje će se dodati zajedno sa umanjenjem, da logika bude na jednom mestu. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 

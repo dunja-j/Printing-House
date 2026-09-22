@@ -1,5 +1,8 @@
 package com.example.backend.security;
 
+import org.springframework.http.HttpStatus;
+
+import com.example.backend.dto.PoslovnaGreska;
 import com.example.backend.models.Korisnik;
 import com.example.backend.models.TipKorisnika;
 
@@ -33,6 +36,28 @@ public final class Sesija {
 
     public static TipKorisnika tip(HttpSession session) {
         return (TipKorisnika) session.getAttribute("tip");
+    }
+
+    /** Vraca korisnicko ime prijavljenog korisnika ili prekida zahtev sa 401. */
+    public static String zahtevajPrijavu(HttpSession session) {
+        String korIme = korIme(session);
+        if (korIme == null) {
+            throw new PoslovnaGreska(HttpStatus.UNAUTHORIZED, "Niste prijavljeni.");
+        }
+        return korIme;
+    }
+
+    /** Kao zahtevajPrijavu, uz dodatnu proveru da je nalog odgovarajuceg tipa. */
+    public static String zahtevajTip(HttpSession session, TipKorisnika... dozvoljeni) {
+        String korIme = zahtevajPrijavu(session);
+        TipKorisnika tip = tip(session);
+
+        for (TipKorisnika t : dozvoljeni) {
+            if (t == tip) {
+                return korIme;
+            }
+        }
+        throw new PoslovnaGreska(HttpStatus.FORBIDDEN, "Nemate pristup ovom delu sistema.");
     }
 
     /** Pamti ko se upravo registrovao, da bi drugi korak (slika) znao kom nalogu pripada. */

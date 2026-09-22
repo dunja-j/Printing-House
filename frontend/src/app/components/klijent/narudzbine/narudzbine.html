@@ -1,0 +1,112 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/klijent">&larr; Nazad na moj nalog</a>
+  <h1>Moje narudžbine</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (sortirane().length) {
+    <p class="ph-napomena rezime">
+      Ukupno narudžbina: {{ sortirane().length }} &middot; klikni na zaglavlje kolone za sortiranje,
+      a na red za prikaz stavki
+    </p>
+
+    <div class="tabela-omot">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th (click)="promeniSortiranje('id')">Br. {{ strelica('id') }}</th>
+            <th (click)="promeniSortiranje('datumNarudzbine')">
+              Datum {{ strelica('datumNarudzbine') }}
+            </th>
+            <th (click)="promeniSortiranje('nazivStamparije')">
+              Štamparija {{ strelica('nazivStamparije') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('brojStavki')">
+              Stavki {{ strelica('brojStavki') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('ukupanIznos')">
+              Iznos {{ strelica('ukupanIznos') }}
+            </th>
+            <th (click)="promeniSortiranje('status')">Status {{ strelica('status') }}</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (n of sortirane(); track n.id) {
+            <tr class="red" (click)="prikaziStavke(n.id)">
+              <td>#{{ n.id }}</td>
+              <td>{{ n.datumNarudzbine | date: 'dd.MM.yyyy. HH:mm' }}</td>
+              <td>
+                {{ n.nazivStamparije }}
+                @if (n.gradStamparije) {
+                  <span class="grad">{{ n.gradStamparije }}</span>
+                }
+              </td>
+              <td class="desno">{{ n.brojStavki }}</td>
+              <td class="desno">{{ n.ukupanIznos | number: '1.2-2' }} RSD</td>
+              <td>
+                <span class="status" [class]="'status-' + n.status">{{
+                  nazivStatusa(n.status)
+                }}</span>
+              </td>
+              <td class="desno akcije">
+                @if (n.mozeOtkazati) {
+                  <button
+                    type="button"
+                    class="dugme-otkazi"
+                    [disabled]="otkazivanjeId() === n.id"
+                    (click)="otkazi(n); $event.stopPropagation()"
+                  >
+                    {{ otkazivanjeId() === n.id ? 'Otkazivanje...' : 'OTKAŽI' }}
+                  </button>
+                }
+                <span class="strelica-reda">{{ razvijena(n.id) ? '▲' : '▼' }}</span>
+              </td>
+            </tr>
+
+            @if (razvijena(n.id)) {
+              <tr class="stavke-red">
+                <td colspan="7">
+                  <table class="stavke">
+                    <thead>
+                      <tr>
+                        <th>Proizvod</th>
+                        <th>Usluga štampe</th>
+                        <th>Boja</th>
+                        <th>Tekst za štampu</th>
+                        <th class="desno">Količina</th>
+                        <th class="desno">Cena</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (s of n.stavke; track s.id) {
+                        <tr>
+                          <td>{{ s.nazivProizvoda }}</td>
+                          <td>{{ s.tipStampe ?? '—' }}</td>
+                          <td>{{ s.boja ?? '—' }}</td>
+                          <td>{{ s.tekstZaStampu ?? '—' }}</td>
+                          <td class="desno">{{ s.kolicina }}</td>
+                          <td class="desno">{{ s.cenaStavke | number: '1.2-2' }} RSD</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (!greska()) {
+    <p class="ph-napomena">Još uvek nemate nijednu narudžbinu.</p>
+  }
+</div>
