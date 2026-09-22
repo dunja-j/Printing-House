@@ -34,7 +34,7 @@ nema vremena.
 | 8 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | gotovo | Zajednička ruta `/profil` za sve tipove naloga, uklj. promenu profilne slike. Korisničko ime se ne može menjati. |
 | 9 | Tabela sa prethodnim i aktuelnim narudžbinama (sa sortiranjem) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/narudzbine`. Sortiranje klikom na zaglavlje; klik na red razvija stavke (proizvod, usluga štampe, boja, tekst, količina, cena). |
 | 10 | Otkazivanje narudžbine u statusu "naručeno" | 🟡 BONUS | gotovo | Dugme OTKAŽI u istoj tabeli, uz potvrdu. Status prelazi u `otkazano` (novi status u bazi), zapis se ne briše. |
-| 11 | Pretraživanje proizvoda i (prošireni) detalji | 🔴 OBAVEZNO | todo | boja, tip štampe, max dimenzije, cena po komadu |
+| 11 | Pretraživanje proizvoda i (prošireni) detalji | 🔴 OBAVEZNO | gotovo | Ista ruta `/proizvod/:id` — prijavljen klijent dodatno vidi dostupne boje i tabelu usluga štampe (doplata, ukupna cena po komadu, max dimenzije). Pretraga je zajednička sa #5. |
 | 12 | Mapa gde je štamparija (u detaljima proizvoda) | 🟡 BONUS | todo | npr. Leaflet + OpenStreetMap, relativno lako |
 | 13 | Dodavanje usluge štampe i teksta/količine za poručivanje | 🔴 OBAVEZNO | todo | |
 | 14 | Priprema proizvoda (dodavanje sličice, prikaz na slici proizvoda) | 🟡 BONUS ⚠️ | todo | Canvas/CSS overlay, srednje kompleksno |

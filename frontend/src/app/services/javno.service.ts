@@ -3,7 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { DetaljiProizvoda, JavnaPocetna, Kategorija, PretragaRed } from '../models/javno';
+import {
+  DetaljiProizvoda,
+  DetaljiZaKlijenta,
+  JavnaPocetna,
+  Kategorija,
+  PretragaRed
+} from '../models/javno';
 
 @Injectable({ providedIn: 'root' })
 export class JavnoService {
@@ -33,6 +39,13 @@ export class JavnoService {
 
   detalji(id: number): Observable<DetaljiProizvoda> {
     return this.http.get<DetaljiProizvoda>(`${environment.apiUrl}/javno/proizvodi/${id}`);
+  }
+
+  /** Prošireni detalji — dostupni samo prijavljenom klijentu. */
+  detaljiZaKlijenta(id: number): Observable<DetaljiZaKlijenta> {
+    return this.http.get<DetaljiZaKlijenta>(`${environment.apiUrl}/klijent/proizvodi/${id}`, {
+      withCredentials: true
+    });
   }
 
   /** Puna putanja do slike proizvoda, sa rezervnom slikom ako je nema. */

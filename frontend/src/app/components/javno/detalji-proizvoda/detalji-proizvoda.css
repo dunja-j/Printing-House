@@ -94,6 +94,79 @@
   line-height: 1.6;
 }
 
+.za-klijenta {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ph-ivica);
+}
+
+.za-klijenta h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.za-klijenta h2 + * {
+  margin-bottom: 1.25rem;
+}
+
+.boje {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.boje li {
+  padding: 0.3rem 0.75rem;
+  background: var(--ph-pozadina);
+  border: 1px solid var(--ph-ivica);
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.tabela-omot {
+  overflow-x: auto;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+}
+
+.usluge {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.usluge th {
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  background: var(--ph-pozadina);
+  border-bottom: 1px solid var(--ph-ivica);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.usluge td {
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid #eef0f3;
+  white-space: nowrap;
+}
+
+.usluge tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.desno {
+  text-align: right;
+}
+
+.naglaseno {
+  font-weight: 700;
+}
+
 @media (max-width: 760px) {
   .detalji {
     grid-template-columns: 1fr;

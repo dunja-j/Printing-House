@@ -13,15 +13,18 @@ import com.example.backend.dto.JavnaPocetnaDto;
 import com.example.backend.dto.KategorijaDto;
 import com.example.backend.dto.PretragaRedDto;
 import com.example.backend.service.JavnoService;
+import com.example.backend.service.ProizvodService;
 
 @RestController
 @RequestMapping("/api/javno")
 public class JavnoController {
 
     private final JavnoService javnoService;
+    private final ProizvodService proizvodService;
 
-    public JavnoController(JavnoService javnoService) {
+    public JavnoController(JavnoService javnoService, ProizvodService proizvodService) {
         this.javnoService = javnoService;
+        this.proizvodService = proizvodService;
     }
 
     @GetMapping("/pocetna")
@@ -43,6 +46,6 @@ public class JavnoController {
 
     @GetMapping("/proizvodi/{id}")
     public DetaljiProizvodaDto detalji(@PathVariable Integer id) {
-        return javnoService.detalji(id);
+        return proizvodService.detalji(id);
     }
 }

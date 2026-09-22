@@ -1,8 +1,12 @@
 package com.example.backend.models;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 @Entity
@@ -52,6 +58,31 @@ public class Proizvod {
 
     @Column(name = "aktivan", nullable = false)
     private boolean aktivan;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "proizvod_boja", joinColumns = @JoinColumn(name = "proizvod_id"))
+    @Column(name = "boja")
+    private List<String> dostupneBoje = new ArrayList<>();
+
+    @OneToMany(mappedBy = "proizvod", fetch = FetchType.LAZY)
+    @OrderBy("id ASC")
+    private List<UslugaStampe> uslugeStampe = new ArrayList<>();
+
+    public List<String> getDostupneBoje() {
+        return dostupneBoje;
+    }
+
+    public void setDostupneBoje(List<String> dostupneBoje) {
+        this.dostupneBoje = dostupneBoje;
+    }
+
+    public List<UslugaStampe> getUslugeStampe() {
+        return uslugeStampe;
+    }
+
+    public void setUslugeStampe(List<UslugaStampe> uslugeStampe) {
+        this.uslugeStampe = uslugeStampe;
+    }
 
     public Integer getId() {
         return id;
