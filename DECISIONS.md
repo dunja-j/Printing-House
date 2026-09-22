@@ -60,6 +60,9 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Slika proizvoda | Dodaje se **nakon** čuvanja proizvoda, sa spiska (dugme "Promeni"), kao i kod registracije. Dimenzije: 200×200 do 2000×2000 px. | Isti dvokoračni obrazac kao za profilnu sliku. Granice su šire nego za profilnu jer fotografija proizvoda treba da bude čitljiva u detaljima. |
 | 2026-09-22 | Brisanje proizvoda | **Ne postoji** — umesto toga prekidač "U ponudi" (`proizvod.aktivan`). | Proizvod je referenciran iz narudžbina i ocena; brisanje bi uništilo istoriju. Neaktivan proizvod nestaje iz javne pretrage, a stare narudžbine ostaju ispravne. |
 | 2026-09-22 | Padajuća lista kategorija za štampara | `GET /api/stampar/kategorije` vraća **sve** kategorije sa potkategorijama, za razliku od javne liste koja prikazuje samo one sa proizvodima na stanju. | Štampar mora moći da doda prvi proizvod u praznu kategoriju — filtrirana lista bi to onemogućila. |
+| 2026-09-22 | Promena statusa narudžbine | Štamparija pomera status **samo unapred i samo za jedan korak**: `naruceno` → `u_stampi` → `isporuceno`. Server odbija svaki drugi prelaz (preskakanje, vraćanje unazad, diranje `primljeno`/`otkazano`). | Tok statusa iz specifikacije je linearan. Prelaz `isporuceno` → `primljeno` je klijentov (#19), pa ga štamparija ne sme raditi. |
+| 2026-09-22 | Prikaz dugmeta za status | Backend uz svaku narudžbinu šalje i `sledeciStatus`; front samo prikazuje dugme za tu vrednost, umesto da sam računa pravila. | Pravila prelaza su na jednom mestu (server); front ne može da se "raziđe" sa njima. |
+| 2026-09-22 | Koje narudžbine štampar vidi | Samo one **fizičkih lica** (`klijent_fizicko`). | Specifikacija vezuje promenu statusa baš za fizička lica; porudžbine pravnih lica idu kroz javnu nabavku (#18). |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 

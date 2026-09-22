@@ -52,7 +52,7 @@ nema vremena.
 | 21 | Proizvodi i usluge — dodavanje | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/proizvodi/novi`. Kategorija/potkategorija iz predefinisanog spiska (potkategorije se filtriraju po kategoriji), više boja i više usluga štampe u istoj formi. Slika se dodaje sa spiska proizvoda. |
 | 22 | Ažuriranje količina postojećih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/proizvodi` — količina se menja direktno u tabeli. Dodat i prekidač "U ponudi" (aktivan/neaktivan). |
 | 23 | Dodavanje iz JSON fajla (+ naknadno dodavanje slika) | 🟡 BONUS ⚠️ | todo | format u `primer-proizvodi.json` — srednje/visoko kompleksno |
-| 24 | Naručeni proizvodi — promena statusa (naručeno→u štampi→isporučeno) | 🔴 OBAVEZNO | todo | samo za klijente - fizička lica |
+| 24 | Naručeni proizvodi — promena statusa (naručeno→u štampi→isporučeno) | 🔴 OBAVEZNO | gotovo | Ruta `/stampar/narudzbine`. Prikazuju se samo narudžbine fizičkih lica; jedno dugme nudi tačno sledeći dozvoljeni status. Klik na red prikazuje stavke. |
 | 25 | Licitacije — slanje ponuda za otvorene javne nabavke | 🔴 OBAVEZNO | todo | jedna ponuda po javnoj nabavci |
 | 26 | Izveštavanje — PDF izveštaj o svim ponudama i pobedniku | 🟡 BONUS ⚠️ | todo | zavisi od #18/#25, raditi posle njih |
 

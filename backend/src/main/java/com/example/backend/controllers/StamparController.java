@@ -14,9 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.dto.KategorijaSaPotkategorijamaDto;
 import com.example.backend.dto.NoviProizvodRequest;
+import com.example.backend.dto.StamparNarudzbinaDto;
 import com.example.backend.dto.StamparProizvodDto;
+import com.example.backend.models.StatusNarudzbine;
 import com.example.backend.models.TipKorisnika;
 import com.example.backend.security.Sesija;
+import com.example.backend.service.NarudzbinaService;
 import com.example.backend.service.StamparService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,9 +30,11 @@ import jakarta.validation.Valid;
 public class StamparController {
 
     private final StamparService stamparService;
+    private final NarudzbinaService narudzbinaService;
 
-    public StamparController(StamparService stamparService) {
+    public StamparController(StamparService stamparService, NarudzbinaService narudzbinaService) {
         this.stamparService = stamparService;
+        this.narudzbinaService = narudzbinaService;
     }
 
     @GetMapping("/kategorije")
@@ -65,6 +70,17 @@ public class StamparController {
     public StamparProizvodDto promeniSliku(@PathVariable Integer id,
             @RequestParam("slika") MultipartFile slika, HttpSession session) {
         return stamparService.promeniSliku(stampar(session), id, slika);
+    }
+
+    @GetMapping("/narudzbine")
+    public List<StamparNarudzbinaDto> narudzbine(HttpSession session) {
+        return narudzbinaService.zaStampara(stampar(session));
+    }
+
+    @PutMapping("/narudzbine/{id}/status")
+    public StamparNarudzbinaDto promeniStatus(@PathVariable Integer id,
+            @RequestParam StatusNarudzbine status, HttpSession session) {
+        return narudzbinaService.promeniStatus(id, stampar(session), status);
     }
 
     private String stampar(HttpSession session) {

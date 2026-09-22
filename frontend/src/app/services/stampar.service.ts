@@ -3,6 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { StatusNarudzbine } from '../models/narudzbina';
+import { StamparNarudzbina } from '../models/stampar-narudzbina';
 import {
   KategorijaSaPotkategorijama,
   NoviProizvod,
@@ -48,6 +50,17 @@ export class StamparService {
     const telo = new FormData();
     telo.append('slika', slika);
     return this.http.post<StamparProizvod>(`${this.url}/proizvodi/${id}/slika`, telo, {
+      withCredentials: true
+    });
+  }
+
+  narudzbine(): Observable<StamparNarudzbina[]> {
+    return this.http.get<StamparNarudzbina[]>(`${this.url}/narudzbine`, { withCredentials: true });
+  }
+
+  promeniStatus(id: number, status: StatusNarudzbine): Observable<StamparNarudzbina> {
+    return this.http.put<StamparNarudzbina>(`${this.url}/narudzbine/${id}/status`, null, {
+      params: new HttpParams().set('status', status),
       withCredentials: true
     });
   }
