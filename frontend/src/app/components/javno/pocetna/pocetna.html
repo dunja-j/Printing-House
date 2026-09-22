@@ -30,14 +30,16 @@
     <ol class="lista-proizvoda">
       @for (p of topProizvodi(); track p.id) {
         <li class="kartica-proizvoda">
-          <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
-          <div class="opis">
-            <h3>{{ p.naziv }}</h3>
-            <p class="stamparija">
-              {{ p.nazivStamparije }}@if (p.grad) { <span>, {{ p.grad }}</span> }
-            </p>
-            <p class="lajkovi">&#128077; {{ p.brojLajkova }}</p>
-          </div>
+          <a [routerLink]="['/proizvod', p.id]">
+            <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+            <div class="opis">
+              <h3>{{ p.naziv }}</h3>
+              <p class="stamparija">
+                {{ p.nazivStamparije }}@if (p.grad) { <span>, {{ p.grad }}</span> }
+              </p>
+              <p class="lajkovi">&#128077; {{ p.brojLajkova }}</p>
+            </div>
+          </a>
         </li>
       }
     </ol>

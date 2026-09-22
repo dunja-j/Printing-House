@@ -1,0 +1,62 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/pretraga">&larr; Nazad na pretragu</a>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+
+  @if (proizvod(); as p) {
+    <article class="ph-kartica detalji">
+      <img class="slika" [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+
+      <div class="podaci">
+        <p class="sifra">Šifra: {{ p.sifra }}</p>
+        <h1>{{ p.naziv }}</h1>
+
+        <p class="stamparija">
+          <strong>{{ p.nazivStamparije }}</strong>
+          @if (p.grad) {
+            <span>&middot; {{ p.grad }}</span>
+          }
+          @if (p.adresaSedista) {
+            <span class="adresa">{{ p.adresaSedista }}</span>
+          }
+        </p>
+
+        <div class="ocene">
+          <span class="lajk">&#128077; {{ p.brojLajkova }}</span>
+          <span class="dislajk">&#128078; {{ p.brojDislajkova }}</span>
+        </div>
+
+        <dl class="osobine">
+          <dt>Kategorija</dt>
+          <dd>
+            {{ p.kategorija }}@if (p.potkategorija) {
+              <span> / {{ p.potkategorija }}</span>
+            }
+          </dd>
+
+          <dt>Cena po komadu</dt>
+          <dd class="cena">{{ p.jedinicnaCena | number: '1.2-2' }} RSD</dd>
+
+          <dt>Na stanju</dt>
+          <dd>
+            @if (p.kolicinaNaLageru > 0) {
+              {{ p.kolicinaNaLageru }} kom.
+            } @else {
+              <span class="nema">Trenutno nema na stanju</span>
+            }
+          </dd>
+        </dl>
+
+        @if (p.opis) {
+          <p class="opis">{{ p.opis }}</p>
+        }
+
+        <p class="ph-napomena">
+          Za poručivanje, izbor boje i usluge štampe potrebno je da se prijavite kao klijent.
+        </p>
+      </div>
+    </article>
+  }
+</div>

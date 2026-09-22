@@ -23,8 +23,8 @@ nema vremena.
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
 | 4 | Ukupan broj štamparija + TOP 5 najbolje ocenjenih proizvoda | 🔴 OBAVEZNO | gotovo | `GET /api/javno/pocetna`. Broje se samo odobrene štamparije; TOP 5 po lajkovima, tie-break abecedno. |
-| 5 | Pretraga po više parametara (naziv/kategorija) + rezultati sa sortiranjem | 🔴 OBAVEZNO | todo | abecedno sortiranje klikom na zaglavlje kolone |
-| 6 | Detalji proizvoda (sa jednom slikom) | 🔴 OBAVEZNO | todo | |
+| 5 | Pretraga po više parametara (naziv/kategorija) + rezultati sa sortiranjem | 🔴 OBAVEZNO | gotovo | Ruta `/pretraga`. Klik na zaglavlje bilo koje kolone sortira (rastuće/opadajuće). Padajuća lista nudi samo kategorije sa proizvodima na stanju. |
+| 6 | Detalji proizvoda (sa jednom slikom) | 🔴 OBAVEZNO | gotovo | Ruta `/proizvod/:id`. Naziv, štamparija, grad, lajkovi/dislajkovi, kategorija, cena, lager, opis. |
 | 7 | Galerija sa dodatnim slikama u detaljima (max 3 thumbnail-a) | 🟡 BONUS | todo | pamćenje izabrane slike u kolačiću |
 
 ## Deo za klijente
