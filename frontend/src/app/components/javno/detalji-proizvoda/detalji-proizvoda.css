@@ -167,6 +167,66 @@
   font-weight: 700;
 }
 
+.porucivanje {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--ph-pozadina);
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+}
+
+.porucivanje h2 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.polja {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0 1rem;
+}
+
+.porucivanje textarea {
+  resize: vertical;
+}
+
+.racun {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  margin-bottom: 0.9rem;
+  border-top: 1px solid var(--ph-ivica);
+  font-size: 0.92rem;
+}
+
+.racun .ukupno {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ph-primarna-tamna);
+}
+
+.dugmici {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.dugmici .ph-dugme {
+  width: auto;
+}
+
+.sporedno {
+  background: #fff;
+  color: var(--ph-tamna);
+  border: 1px solid var(--ph-ivica);
+}
+
+.sporedno:hover:not(:disabled) {
+  background: var(--ph-pozadina);
+}
+
 @media (max-width: 760px) {
   .detalji {
     grid-template-columns: 1fr;

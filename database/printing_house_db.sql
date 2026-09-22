@@ -176,6 +176,29 @@ CREATE TABLE IF NOT EXISTS `stavka_narudzbine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------
+-- E-korpa: stavke koje je klijent pripremio, ali još nije potvrdio narudžbinu.
+-- Čuva se u bazi (a ne samo na frontu) da korpa preživi odjavu i da cene
+-- uvek računa server — videti DECISIONS.md.
+-- ---------------------------------------------------------------------
+DROP TABLE IF EXISTS `stavka_korpe`;
+
+CREATE TABLE IF NOT EXISTS `stavka_korpe` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `klijent_kor_ime` VARCHAR(45) NOT NULL,
+  `proizvod_id` INT NOT NULL,
+  `usluga_id` INT NULL,
+  `kolicina` INT NOT NULL DEFAULT 1,
+  `boja` VARCHAR(50) NULL,
+  `tekst_za_stampu` VARCHAR(200) NULL,
+  `slicica_za_stampu_url` VARCHAR(255) NULL,
+  `datum_dodavanja` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_korpa_klijent` FOREIGN KEY (`klijent_kor_ime`) REFERENCES `korisnik` (`kor_ime`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_korpa_proizvod` FOREIGN KEY (`proizvod_id`) REFERENCES `proizvod` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_korpa_usluga` FOREIGN KEY (`usluga_id`) REFERENCES `usluga_stampe` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------------
 -- Lajk/dislajk i komentari na primljene proizvode
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS `komentar_proizvoda`;

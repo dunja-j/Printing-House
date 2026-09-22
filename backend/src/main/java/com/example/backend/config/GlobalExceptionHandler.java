@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.example.backend.dto.PoslovnaGreska;
 
@@ -50,6 +51,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> pogresanTip(MethodArgumentTypeMismatchException e) {
         return ResponseEntity.badRequest()
                 .body(Map.of("poruka", "Neispravna vrednost parametra \"" + e.getName() + "\"."));
+    }
+
+    /** Bez ovoga bi nepostojeca adresa upala u catch-all ispod i vracala 500. */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<Map<String, String>> nemaRute(NoResourceFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("poruka", "Tražena adresa ne postoji."));
     }
 
     @ExceptionHandler(Exception.class)

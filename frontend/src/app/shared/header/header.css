@@ -40,6 +40,26 @@
   border-bottom-color: var(--ph-primarna);
 }
 
+.korpa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.brojac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  background: var(--ph-primarna);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .korisnik {
   display: flex;
   align-items: center;

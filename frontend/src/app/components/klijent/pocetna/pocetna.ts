@@ -18,12 +18,13 @@ import { AuthService } from '../../../services/auth.service';
           </p>
 
           <nav class="precice">
+            <a routerLink="/klijent/korpa">E-korpa</a>
             <a routerLink="/klijent/narudzbine">Moje narudžbine</a>
             <a routerLink="/pretraga">Pretraga proizvoda</a>
             <a routerLink="/profil">Moj profil</a>
           </nav>
 
-          <p class="ph-napomena">E-korpa i poručivanje dolaze u narednim funkcionalnostima.</p>
+          <p class="ph-napomena">Javne nabavke i ocenjivanje proizvoda dolaze u narednim funkcionalnostima.</p>
         </section>
       </div>
     }

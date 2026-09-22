@@ -36,9 +36,9 @@ nema vremena.
 | 10 | Otkazivanje narudžbine u statusu "naručeno" | 🟡 BONUS | gotovo | Dugme OTKAŽI u istoj tabeli, uz potvrdu. Status prelazi u `otkazano` (novi status u bazi), zapis se ne briše. |
 | 11 | Pretraživanje proizvoda i (prošireni) detalji | 🔴 OBAVEZNO | gotovo | Ista ruta `/proizvod/:id` — prijavljen klijent dodatno vidi dostupne boje i tabelu usluga štampe (doplata, ukupna cena po komadu, max dimenzije). Pretraga je zajednička sa #5. |
 | 12 | Mapa gde je štamparija (u detaljima proizvoda) | 🟡 BONUS | todo | npr. Leaflet + OpenStreetMap, relativno lako |
-| 13 | Dodavanje usluge štampe i teksta/količine za poručivanje | 🔴 OBAVEZNO | todo | |
+| 13 | Dodavanje usluge štampe i teksta/količine za poručivanje | 🔴 OBAVEZNO | gotovo | Forma "Poručivanje" na strani detalja: boja, usluga štampe, količina, tekst (do 200 kar.), živa kalkulacija cene. |
 | 14 | Priprema proizvoda (dodavanje sličice, prikaz na slici proizvoda) | 🟡 BONUS ⚠️ | todo | Canvas/CSS overlay, srednje kompleksno |
-| 15 | E-korpa: trenutni prikaz + zatvaranje narudžbine (grupisano po štampariji) | 🔴 OBAVEZNO | todo | jedna faktura po štampariji |
+| 15 | E-korpa: trenutni prikaz + zatvaranje narudžbine (grupisano po štampariji) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/korpa`, brojac u meniju. Zatvaranjem nastaje po jedna narudžbina za svaku štampariju i lager se umanjuje. Pravno lice ne može da zatvori direktno — čeka #18. |
 | 16 | Dostavljanje PDF fakture na mejl | 🟡 BONUS ⚠️ | todo | zavisi od PDF + mejl biblioteke, raditi kasnije |
 | 17 | Servis za plaćanje (Stripe test / PayPal sandbox) | 🟡 BONUS ⚠️ | todo | najkompleksnija bonus stavka — raditi poslednju, prva kandidat za preskakanje |
 | 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | todo | ne treba pravi tajmer/WebSocket, provera pri sledećoj prijavi |
