@@ -11,7 +11,9 @@ import { KorpaKomponenta } from './components/klijent/korpa/korpa';
 import { Narudzbine } from './components/klijent/narudzbine/narudzbine';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
 import { Profil } from './components/profil/profil';
+import { NoviProizvodKomponenta } from './components/stampar/novi-proizvod/novi-proizvod';
 import { StamparPocetna } from './components/stampar/pocetna/pocetna';
+import { StamparProizvodi } from './components/stampar/proizvodi/proizvodi';
 import { dozvoljenTip, samoGost, samoPrijavljeni } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -39,6 +41,16 @@ export const routes: Routes = [
     canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
   },
   { path: 'stampar', component: StamparPocetna, canActivate: [dozvoljenTip(['stampar'])] },
+  {
+    path: 'stampar/proizvodi',
+    component: StamparProizvodi,
+    canActivate: [dozvoljenTip(['stampar'])]
+  },
+  {
+    path: 'stampar/proizvodi/novi',
+    component: NoviProizvodKomponenta,
+    canActivate: [dozvoljenTip(['stampar'])]
+  },
   { path: 'admin', component: AdminPocetna, canActivate: [dozvoljenTip(['administrator'])] },
   { path: '**', redirectTo: '' }
 ];

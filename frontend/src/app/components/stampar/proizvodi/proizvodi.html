@@ -1,0 +1,110 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/stampar">&larr; Nazad na moju štampariju</a>
+
+  <div class="naslov">
+    <h1>Proizvodi i usluge</h1>
+    <a class="ph-dugme ph-dugme-link" routerLink="/stampar/proizvodi/novi">+ Dodaj proizvod</a>
+  </div>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (sortirani().length) {
+    <p class="ph-napomena rezime">
+      Ukupno proizvoda: {{ sortirani().length }} &middot; količinu menjate direktno u tabeli
+    </p>
+
+    <div class="tabela-omot">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th></th>
+            <th (click)="promeniSortiranje('sifra')">Šifra {{ strelica('sifra') }}</th>
+            <th (click)="promeniSortiranje('naziv')">Naziv {{ strelica('naziv') }}</th>
+            <th (click)="promeniSortiranje('kategorija')">
+              Kategorija {{ strelica('kategorija') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('jedinicnaCena')">
+              Cena {{ strelica('jedinicnaCena') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('kolicinaNaLageru')">
+              Na lageru {{ strelica('kolicinaNaLageru') }}
+            </th>
+            <th>U ponudi</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (p of sortirani(); track p.id) {
+            <tr [class.neaktivan]="!p.aktivan">
+              <td class="kolona-slike">
+                <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+                <label class="promeni-sliku">
+                  Promeni
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/gif"
+                    [disabled]="radiSe() === p.id"
+                    (change)="promeniSliku(p, $event)"
+                  />
+                </label>
+              </td>
+
+              <td class="sifra">{{ p.sifra }}</td>
+
+              <td>
+                <span class="naziv">{{ p.naziv }}</span>
+                @if (p.dostupneBoje.length) {
+                  <span class="dodatno">{{ p.dostupneBoje.length }} boja</span>
+                }
+                @if (p.uslugeStampe.length) {
+                  <span class="dodatno">{{ p.uslugeStampe.length }} usluga štampe</span>
+                }
+              </td>
+
+              <td>
+                {{ p.kategorija }}
+                @if (p.potkategorija) {
+                  <span class="potkategorija">{{ p.potkategorija }}</span>
+                }
+              </td>
+
+              <td class="desno">{{ p.jedinicnaCena | number: '1.2-2' }} RSD</td>
+
+              <td class="desno">
+                <input
+                  class="unos-kolicine"
+                  type="number"
+                  min="0"
+                  [value]="p.kolicinaNaLageru"
+                  [disabled]="radiSe() === p.id"
+                  (change)="sacuvajKolicinu(p, $any($event.target).value)"
+                />
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  class="prekidac"
+                  [class.ukljucen]="p.aktivan"
+                  [disabled]="radiSe() === p.id"
+                  (click)="promeniDostupnost(p)"
+                >
+                  {{ p.aktivan ? 'DA' : 'NE' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (!greska()) {
+    <p class="ph-napomena">Još uvek nemate nijedan proizvod u ponudi.</p>
+  }
+</div>

@@ -1,0 +1,132 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0 0 1rem;
+}
+
+.dve-kolone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.grupa {
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  padding: 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.grupa legend {
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dodavanje-boje {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.dodavanje-boje input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  font: inherit;
+}
+
+.lista-boja {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-boja li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--ph-pozadina);
+  border: 1px solid var(--ph-ivica);
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.lista-boja button {
+  background: none;
+  border: none;
+  color: var(--ph-greska);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.usluga {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 0 0.75rem;
+  align-items: end;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: var(--ph-pozadina);
+  border-radius: var(--ph-radius);
+}
+
+.usluga .ph-polje {
+  margin-bottom: 0.5rem;
+}
+
+.ukloni-uslugu {
+  margin-bottom: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  background: #fff;
+  color: var(--ph-greska);
+  border: 1px solid var(--ph-greska);
+  border-radius: var(--ph-radius);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.ukloni-uslugu:hover {
+  background: var(--ph-greska);
+  color: #fff;
+}
+
+.sporedno {
+  width: auto;
+  background: #fff;
+  color: var(--ph-tamna);
+  border: 1px solid var(--ph-ivica);
+}
+
+.sporedno:hover:not(:disabled) {
+  background: var(--ph-pozadina);
+}
+
+textarea {
+  resize: vertical;
+}
+
+@media (max-width: 860px) {
+  .dve-kolone,
+  .usluga {
+    grid-template-columns: 1fr;
+  }
+}

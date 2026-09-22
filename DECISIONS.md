@@ -56,6 +56,10 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Zatvaranje narudžbine | Od svake **štamparije** u korpi nastaje zasebna `narudzbina` (= zasebna faktura), sve u jednoj transakciji. Lager se umanjuje tek tada. | Specifikacija traži "jedna faktura po štampariji". Rezervisanje lagera pri dodavanju u korpu bi zahtevalo i logiku oslobadjanja zaboravljenih korpi. |
 | 2026-09-22 | Pravno lice i korpa | Pravno lice može da puni korpu, ali **ne može** da zatvori narudžbinu — dobija poruku da porudžbina ide u javnu nabavku. | Specifikacija izričito kaže da za pravna lica narudžbina ide na licitaciju (#18), a ne direktno u fakturu. |
 | 2026-09-22 | Obavezna polja pri poručivanju | Boja je obavezna **samo ako** proizvod ima definisane boje; usluga štampe **samo ako** proizvod ima definisane usluge. Tekst za štampu je uvek opcion. | Neki proizvodi (npr. flajer) nemaju boje — tražiti izbor bi blokiralo poručivanje. |
+| 2026-09-22 | Šifra proizvoda | Jedinstvena **po štampariji**, ne globalno (uz postojeći `UNIQUE(sifra, stampar_kor_ime)`). | Dve štamparije nezavisno vode svoje šifarnike; globalna jedinstvenost bi značila da jedna zauzme "PR-001" svima. |
+| 2026-09-22 | Slika proizvoda | Dodaje se **nakon** čuvanja proizvoda, sa spiska (dugme "Promeni"), kao i kod registracije. Dimenzije: 200×200 do 2000×2000 px. | Isti dvokoračni obrazac kao za profilnu sliku. Granice su šire nego za profilnu jer fotografija proizvoda treba da bude čitljiva u detaljima. |
+| 2026-09-22 | Brisanje proizvoda | **Ne postoji** — umesto toga prekidač "U ponudi" (`proizvod.aktivan`). | Proizvod je referenciran iz narudžbina i ocena; brisanje bi uništilo istoriju. Neaktivan proizvod nestaje iz javne pretrage, a stare narudžbine ostaju ispravne. |
+| 2026-09-22 | Padajuća lista kategorija za štampara | `GET /api/stampar/kategorije` vraća **sve** kategorije sa potkategorijama, za razliku od javne liste koja prikazuje samo one sa proizvodima na stanju. | Štampar mora moći da doda prvi proizvod u praznu kategoriju — filtrirana lista bi to onemogućila. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 
