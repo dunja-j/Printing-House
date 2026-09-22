@@ -1,0 +1,113 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0 0 1rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.nova {
+  margin-bottom: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-left: 4px solid var(--ph-primarna);
+}
+
+.nova h2 {
+  margin-bottom: 0.75rem;
+}
+
+.red {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.red .ph-polje {
+  flex: 1;
+  min-width: 200px;
+  margin: 0;
+}
+
+.red .ph-dugme {
+  width: auto;
+  flex: none;
+}
+
+.sakriveno {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.kategorija {
+  margin-bottom: 0.9rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.kategorija header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.dugme-dodaj {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--ph-primarna);
+  border-radius: var(--ph-radius);
+  background: #fff;
+  color: var(--ph-primarna);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.dugme-dodaj:hover {
+  background: var(--ph-primarna);
+  color: #fff;
+}
+
+.potkategorije {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.potkategorije li {
+  padding: 0.25rem 0.65rem;
+  background: var(--ph-pozadina);
+  border: 1px solid var(--ph-ivica);
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.prazno {
+  margin: 0.9rem 0 0;
+}
+
+.forma-pot {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ph-ivica);
+}

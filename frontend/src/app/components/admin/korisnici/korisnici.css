@@ -1,0 +1,162 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  margin: 0 0 1rem;
+}
+
+.rezime {
+  margin: 0 0 1rem;
+}
+
+.tabela-omot {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  box-shadow: var(--ph-senka);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+  font-size: 0.9rem;
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ph-ivica);
+  vertical-align: top;
+}
+
+.tabela thead th {
+  background: var(--ph-pozadina);
+  color: var(--ph-tamna);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tabela thead th:hover {
+  color: var(--ph-primarna);
+}
+
+.tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.kor-ime {
+  font-weight: 600;
+}
+
+.ime {
+  display: block;
+}
+
+.institucija {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ph-siva);
+}
+
+.desno {
+  text-align: right;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.status-odobren {
+  background: #e6f6ec;
+  color: #1c7a42;
+}
+
+.status-na_cekanju {
+  background: #fff3e0;
+  color: #b25b00;
+}
+
+.status-odbijen {
+  background: #fdecea;
+  color: var(--ph-greska);
+}
+
+.akcije {
+  white-space: nowrap;
+}
+
+.akcije button {
+  padding: 0.35rem 0.7rem;
+  margin-left: 0.35rem;
+  border-radius: var(--ph-radius);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  background: #fff;
+}
+
+.akcije button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.dugme-izmeni {
+  border: 1px solid var(--ph-primarna);
+  color: var(--ph-primarna);
+}
+
+.dugme-izmeni:hover:not(:disabled) {
+  background: var(--ph-primarna);
+  color: #fff;
+}
+
+.dugme-obrisi {
+  border: 1px solid var(--ph-greska);
+  color: var(--ph-greska);
+}
+
+.dugme-obrisi:hover:not(:disabled) {
+  background: var(--ph-greska);
+  color: #fff;
+}
+
+.izmena-red td {
+  background: var(--ph-pozadina);
+}
+
+.forma-izmene {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.dve-kolone {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.9rem;
+}
+
+.forma-izmene .ph-dugme {
+  align-self: flex-start;
+  width: auto;
+}

@@ -1,0 +1,69 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/admin">&larr; Nazad na administraciju</a>
+  <h1>Kategorije proizvoda</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  <section class="ph-kartica nova">
+    <h2>Nova kategorija</h2>
+    <form class="red" (ngSubmit)="dodajKategoriju()" novalidate>
+      <label class="ph-polje">
+        <span class="sakriveno">Naziv kategorije</span>
+        <input
+          type="text"
+          name="novaKategorija"
+          placeholder="npr. Reklamni materijal"
+          maxlength="100"
+          [(ngModel)]="novaKategorija"
+        />
+      </label>
+      <button type="submit" class="ph-dugme" [disabled]="cuva()">DODAJ</button>
+    </form>
+  </section>
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else {
+    @for (k of kategorije(); track k.id) {
+      <article class="ph-kartica kategorija">
+        <header>
+          <h2>{{ k.naziv }}</h2>
+          <button type="button" class="dugme-dodaj" (click)="otvoriFormu(k.id)">
+            {{ otvorena() === k.id ? 'ZATVORI' : '+ POTKATEGORIJA' }}
+          </button>
+        </header>
+
+        @if (k.potkategorije.length) {
+          <ul class="potkategorije">
+            @for (p of k.potkategorije; track p.id) {
+              <li>{{ p.naziv }}</li>
+            }
+          </ul>
+        } @else {
+          <p class="ph-napomena prazno">Ova kategorija nema potkategorije.</p>
+        }
+
+        @if (otvorena() === k.id) {
+          <form class="red forma-pot" (ngSubmit)="dodajPotkategoriju(k.id)" novalidate>
+            <label class="ph-polje">
+              <span class="sakriveno">Naziv potkategorije</span>
+              <input
+                type="text"
+                name="novaPotkategorija"
+                placeholder="Naziv nove potkategorije"
+                maxlength="100"
+                [(ngModel)]="novaPotkategorija"
+              />
+            </label>
+            <button type="submit" class="ph-dugme" [disabled]="cuva()">SAČUVAJ</button>
+          </form>
+        }
+      </article>
+    }
+  }
+</div>

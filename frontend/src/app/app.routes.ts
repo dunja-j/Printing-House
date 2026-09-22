@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 
+import { AdminKategorije } from './components/admin/kategorije/kategorije';
+import { AdminKorisnici } from './components/admin/korisnici/korisnici';
 import { AdminPocetna } from './components/admin/pocetna/pocetna';
+import { AdminZahtevi } from './components/admin/zahtevi/zahtevi';
 import { Login } from './components/auth/login/login';
 import { LoginAdmin } from './components/auth/login-admin/login-admin';
 import { Registracija } from './components/auth/registracija/registracija';
@@ -64,5 +67,20 @@ export const routes: Routes = [
     canActivate: [dozvoljenTip(['stampar'])]
   },
   { path: 'admin', component: AdminPocetna, canActivate: [dozvoljenTip(['administrator'])] },
+  {
+    path: 'admin/zahtevi',
+    component: AdminZahtevi,
+    canActivate: [dozvoljenTip(['administrator'])]
+  },
+  {
+    path: 'admin/korisnici',
+    component: AdminKorisnici,
+    canActivate: [dozvoljenTip(['administrator'])]
+  },
+  {
+    path: 'admin/kategorije',
+    component: AdminKategorije,
+    canActivate: [dozvoljenTip(['administrator'])]
+  },
   { path: '**', redirectTo: '' }
 ];
