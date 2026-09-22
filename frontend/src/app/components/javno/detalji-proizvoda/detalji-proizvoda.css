@@ -232,3 +232,49 @@
     grid-template-columns: 1fr;
   }
 }
+
+.komentari {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ph-ivica);
+}
+
+.komentari h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.komentari ul {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.komentari li {
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  background: #fff;
+}
+
+.komentari li.moj {
+  border-color: var(--ph-primarna);
+}
+
+.zaglavlje-komentara {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.zaglavlje-komentara .datum {
+  color: var(--ph-siva);
+}
+
+.komentari li p {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+}

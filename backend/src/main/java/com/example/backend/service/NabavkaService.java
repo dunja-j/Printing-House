@@ -223,7 +223,8 @@ public class NabavkaService {
         Narudzbina n = new Narudzbina();
         n.setKlijent(nabavka.getInstitucija());
         n.setStampar(pobednicka.getStampar());
-        n.setStatus(StatusNarudzbine.naruceno);
+        // specifikacija: dobijena nabavka se odmah fakturiše i ide u štampu
+        n.setStatus(StatusNarudzbine.u_stampi);
         n.setDatumNarudzbine(LocalDateTime.now());
         n.setUkupanIznos(pobednicka.getUkupnaCena());
 

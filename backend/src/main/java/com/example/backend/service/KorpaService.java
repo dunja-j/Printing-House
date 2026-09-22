@@ -232,8 +232,8 @@ public class KorpaService {
         }
         if (kolicina > proizvod.getKolicinaNaLageru()) {
             throw new PoslovnaGreska(HttpStatus.CONFLICT,
-                    "Na stanju je samo " + proizvod.getKolicinaNaLageru() + " kom. proizvoda \""
-                            + proizvod.getNaziv() + "\".");
+                    "Nema dovoljno proizvoda trenutno na stanju. Proizvod \"" + proizvod.getNaziv()
+                            + "\" ima jo\u0161 " + proizvod.getKolicinaNaLageru() + " kom. na lageru.");
         }
     }
 

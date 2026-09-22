@@ -9,14 +9,23 @@ export interface Komentar {
   moj: boolean;
 }
 
-export interface ArhivaProizvod {
+export interface ArhivaStavka {
+  stavkaId: number;
+  narudzbinaId: number;
+  datumNarudzbine: string;
+  status: 'isporuceno' | 'primljeno';
   proizvodId: number;
   naziv: string;
   slikaUrl: string | null;
+  kolicina: number;
+  boja: string | null;
+  tipStampe: string | null;
   nazivStamparije: string;
   grad: string | null;
   brojLajkova: number;
   brojDislajkova: number;
   mojaOcena: VrednostOcene | null;
   poslednjiKomentari: Komentar[];
+  mozePotvrditiPrijem: boolean;
+  mozeOceniti: boolean;
 }

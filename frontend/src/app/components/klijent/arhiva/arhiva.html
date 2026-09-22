@@ -11,100 +11,146 @@
 
   @if (ucitavanje()) {
     <p class="ph-napomena">Učitavanje...</p>
-  } @else if (proizvodi().length) {
+  } @else if (sortirane().length) {
     <p class="ph-napomena rezime">
-      Proizvodi koje ste primili &mdash; možete ih oceniti i komentarisati.
+      Isporučeni i primljeni proizvodi. Isporučenu stavku prvo potvrdite kao primljenu, pa je onda
+      možete oceniti i komentarisati.
     </p>
 
-    @for (p of proizvodi(); track p.proizvodId) {
-      <article class="ph-kartica proizvod">
+    <div class="sortiranje">
+      <span>Sortiraj po:</span>
+      <button type="button" (click)="promeniSortiranje('datumNarudzbine')">
+        datumu naručivanja {{ strelica('datumNarudzbine') }}
+      </button>
+      <button type="button" (click)="promeniSortiranje('naziv')">
+        nazivu {{ strelica('naziv') }}
+      </button>
+      <button type="button" (click)="promeniSortiranje('kolicina')">
+        količini {{ strelica('kolicina') }}
+      </button>
+      <button type="button" (click)="promeniSortiranje('nazivStamparije')">
+        štampariji {{ strelica('nazivStamparije') }}
+      </button>
+    </div>
+
+    @for (s of sortirane(); track s.stavkaId) {
+      <article class="ph-kartica proizvod" [class.ceka-prijem]="s.mozePotvrditiPrijem">
         <header class="zaglavlje">
-          <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+          <img [src]="slika(s.slikaUrl)" [alt]="s.naziv" />
 
           <div class="osnovno">
-            <a class="naziv" [routerLink]="['/proizvod', p.proizvodId]">{{ p.naziv }}</a>
+            <a class="naziv" [routerLink]="['/proizvod', s.proizvodId]">{{ s.naziv }}</a>
             <p class="stamparija">
-              {{ p.nazivStamparije }}@if (p.grad) { &middot; {{ p.grad }} }
+              {{ s.nazivStamparije }}@if (s.grad) { &middot; {{ s.grad }} }
             </p>
 
-            <div class="ocene">
-              <button
-                type="button"
-                class="ocena lajk"
-                [class.izabrana]="p.mojaOcena === 'lajk'"
-                [disabled]="radiSe() === p.proizvodId"
-                (click)="oceni(p, 'lajk')"
-              >
-                &#128077; {{ p.brojLajkova }}
-              </button>
-
-              <button
-                type="button"
-                class="ocena dislajk"
-                [class.izabrana]="p.mojaOcena === 'dislajk'"
-                [disabled]="radiSe() === p.proizvodId"
-                (click)="oceni(p, 'dislajk')"
-              >
-                &#128078; {{ p.brojDislajkova }}
-              </button>
-
-              @if (p.mojaOcena) {
-                <span class="pomoc">Ponovnim klikom poništavate svoju ocenu.</span>
+            <p class="podaci">
+              <span>Narudžbina #{{ s.narudzbinaId }}</span>
+              <span>{{ s.datumNarudzbine | date: 'dd.MM.yyyy.' }}</span>
+              <span>Količina: {{ s.kolicina }}</span>
+              @if (s.boja) {
+                <span>Boja: {{ s.boja }}</span>
               }
-            </div>
+              @if (s.tipStampe) {
+                <span>{{ s.tipStampe }}</span>
+              }
+            </p>
+
+            @if (s.mozePotvrditiPrijem) {
+              <div class="prijem">
+                <span class="oznaka-statusa">Isporučeno</span>
+                <button
+                  type="button"
+                  class="ph-dugme"
+                  [disabled]="radiSe() === s.stavkaId"
+                  (click)="potvrdiPrijem(s)"
+                >
+                  {{ radiSe() === s.stavkaId ? 'Čuvanje...' : 'POTVRDI PRIJEM' }}
+                </button>
+              </div>
+            } @else {
+              <div class="ocene">
+                <button
+                  type="button"
+                  class="ocena lajk"
+                  [class.izabrana]="s.mojaOcena === 'lajk'"
+                  [disabled]="radiSe() === s.stavkaId"
+                  (click)="oceni(s, 'lajk')"
+                >
+                  &#128077; {{ s.brojLajkova }}
+                </button>
+
+                <button
+                  type="button"
+                  class="ocena dislajk"
+                  [class.izabrana]="s.mojaOcena === 'dislajk'"
+                  [disabled]="radiSe() === s.stavkaId"
+                  (click)="oceni(s, 'dislajk')"
+                >
+                  &#128078; {{ s.brojDislajkova }}
+                </button>
+
+                @if (s.mojaOcena) {
+                  <span class="pomoc">Ponovnim klikom poništavate svoju ocenu.</span>
+                }
+              </div>
+            }
           </div>
         </header>
 
-        <section class="komentari">
-          <h2>Poslednji komentari</h2>
+        @if (s.mozeOceniti) {
+          <section class="komentari">
+            <h2>Poslednji komentari</h2>
 
-          @if (p.poslednjiKomentari.length) {
-            <ul>
-              @for (k of p.poslednjiKomentari; track k.id) {
-                <li [class.moj]="k.moj">
-                  <div class="zaglavlje-komentara">
-                    <strong>{{ k.autor }}</strong>
-                    <span class="datum">{{ k.datum | date: 'dd.MM.yyyy. HH:mm' }}</span>
-                    @if (k.moj) {
-                      <span class="oznaka">vaš komentar</span>
-                    }
-                  </div>
-                  <p>{{ k.tekst }}</p>
-                </li>
-              }
-            </ul>
-          } @else {
-            <p class="ph-napomena">Još nema komentara za ovaj proizvod.</p>
-          }
+            @if (s.poslednjiKomentari.length) {
+              <ul>
+                @for (k of s.poslednjiKomentari; track k.id) {
+                  <li [class.moj]="k.moj">
+                    <div class="zaglavlje-komentara">
+                      <strong>{{ k.autor }}</strong>
+                      <span class="datum">{{ k.datum | date: 'dd.MM.yyyy. HH:mm' }}</span>
+                      @if (k.moj) {
+                        <span class="oznaka">vaš komentar</span>
+                      }
+                    </div>
+                    <p>{{ k.tekst }}</p>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="ph-napomena">Još nema komentara za ovaj proizvod.</p>
+            }
 
-          <div class="novi-komentar">
-            <label class="ph-polje">
-              <span>Vaš komentar (do 500 karaktera)</span>
-              <textarea
-                [name]="'komentar' + p.proizvodId"
-                [(ngModel)]="noviKomentari[p.proizvodId]"
-                [ngModelOptions]="{ standalone: true }"
-                maxlength="500"
-                rows="2"
-              ></textarea>
-            </label>
+            <div class="novi-komentar">
+              <label class="ph-polje">
+                <span>Vaš komentar (do 500 karaktera)</span>
+                <textarea
+                  [(ngModel)]="noviKomentari[s.stavkaId]"
+                  [ngModelOptions]="{ standalone: true }"
+                  maxlength="500"
+                  rows="2"
+                ></textarea>
+              </label>
 
-            <button
-              type="button"
-              class="ph-dugme"
-              [disabled]="radiSe() === p.proizvodId"
-              (click)="posaljiKomentar(p)"
-            >
-              {{ radiSe() === p.proizvodId ? 'Slanje...' : 'Objavi komentar' }}
-            </button>
-          </div>
-        </section>
+              <button
+                type="button"
+                class="ph-dugme"
+                [disabled]="radiSe() === s.stavkaId"
+                (click)="posaljiKomentar(s)"
+              >
+                {{ radiSe() === s.stavkaId ? 'Slanje...' : 'Objavi komentar' }}
+              </button>
+            </div>
+          </section>
+        }
       </article>
     }
   } @else if (!greska()) {
     <p class="ph-napomena">
-      Arhiva je prazna. Ovde se pojavljuju proizvodi iz narudžbina kojima ste potvrdili prijem.
+      Arhiva je prazna. Ovde se pojavljuju proizvodi iz narudžbina koje je štamparija isporučila.
     </p>
-    <a class="ph-dugme ph-dugme-link" routerLink="/klijent/narudzbine">Moje narudžbine</a>
+    <a class="ph-dugme ph-dugme-link" routerLink="/profil" fragment="narudzbine"
+      >Moje narudžbine</a
+    >
   }
 </div>

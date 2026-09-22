@@ -1,17 +1,10 @@
-.nazad {
-  display: inline-block;
-  margin-bottom: 0.75rem;
-  color: var(--ph-primarna);
-  text-decoration: none;
-  font-size: 0.9rem;
+.narudzbine {
+  margin-top: 1.5rem;
 }
 
-.nazad:hover {
-  text-decoration: underline;
-}
-
-h1 {
-  margin: 0 0 1rem;
+.narudzbine > h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
 }
 
 .rezime {
@@ -71,6 +64,12 @@ h1 {
 
 .desno {
   text-align: right;
+}
+
+.proizvodi span {
+  display: block;
+  font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 .status {

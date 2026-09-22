@@ -1,7 +1,9 @@
 package com.example.backend.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -10,33 +12,42 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.backend.db.dao.KomentarProizvodaRepository;
 import com.example.backend.db.dao.KorisnikRepository;
+import com.example.backend.db.dao.NarudzbinaRepository;
 import com.example.backend.db.dao.OcenaProizvodaRepository;
 import com.example.backend.db.dao.ProizvodRepository;
-import com.example.backend.dto.ArhivaProizvodDto;
+import com.example.backend.dto.ArhivaStavkaDto;
 import com.example.backend.dto.KomentarDto;
 import com.example.backend.dto.PoslovnaGreska;
 import com.example.backend.models.KomentarProizvoda;
 import com.example.backend.models.Korisnik;
 import com.example.backend.models.OcenaProizvoda;
 import com.example.backend.models.Proizvod;
+import com.example.backend.models.StavkaNarudzbine;
 import com.example.backend.models.VrednostOcene;
 
-/** Arhiva primljenih proizvoda: ocenjivanje i komentarisanje. */
+/**
+ * Arhiva klijenta: isporučene i primljene stavke narudžbina. Isporučenu stavku
+ * klijent prvo potvrđuje kao primljenu, pa tek onda sme da oceni i komentariše
+ * proizvod.
+ */
 @Service
 public class ArhivaService {
 
     private static final int BROJ_KOMENTARA = 5;
     private static final int MAX_DUZINA_KOMENTARA = 500;
 
+    private final NarudzbinaRepository narudzbinaRepository;
     private final ProizvodRepository proizvodRepository;
     private final OcenaProizvodaRepository ocenaRepository;
     private final KomentarProizvodaRepository komentarRepository;
     private final KorisnikRepository korisnikRepository;
 
-    public ArhivaService(ProizvodRepository proizvodRepository,
+    public ArhivaService(NarudzbinaRepository narudzbinaRepository,
+            ProizvodRepository proizvodRepository,
             OcenaProizvodaRepository ocenaRepository,
             KomentarProizvodaRepository komentarRepository,
             KorisnikRepository korisnikRepository) {
+        this.narudzbinaRepository = narudzbinaRepository;
         this.proizvodRepository = proizvodRepository;
         this.ocenaRepository = ocenaRepository;
         this.komentarRepository = komentarRepository;
@@ -44,15 +55,38 @@ public class ArhivaService {
     }
 
     @Transactional(readOnly = true)
-    public List<ArhivaProizvodDto> arhiva(String korIme) {
-        return proizvodRepository.primljeniOdKlijenta(korIme).stream()
-                .map(p -> sastavi(p, korIme))
-                .toList();
+    public List<ArhivaStavkaDto> arhiva(String korIme) {
+        List<StavkaNarudzbine> stavke = narudzbinaRepository.arhivaKlijenta(korIme);
+
+        // isti proizvod može biti u više narudžbina — ocene i komentari se čitaju jednom
+        Map<Integer, List<KomentarDto>> komentari = new HashMap<>();
+        Map<Integer, VrednostOcene> ocene = new HashMap<>();
+        Map<Integer, long[]> brojaci = new HashMap<>();
+
+        for (StavkaNarudzbine s : stavke) {
+            Integer proizvodId = s.getProizvod().getId();
+            komentari.computeIfAbsent(proizvodId, id -> komentarRepository
+                    .poslednjiZaProizvod(id, PageRequest.of(0, BROJ_KOMENTARA)).stream()
+                    .map(k -> new KomentarDto(k, korIme))
+                    .toList());
+            ocene.computeIfAbsent(proizvodId, id -> ocenaRepository
+                    .findByProizvodIdAndKlijentKorIme(id, korIme)
+                    .map(OcenaProizvoda::getVrednost).orElse(null));
+            brojaci.computeIfAbsent(proizvodId, id -> new long[] {
+                    ocenaRepository.countByProizvodIdAndVrednost(id, VrednostOcene.lajk),
+                    ocenaRepository.countByProizvodIdAndVrednost(id, VrednostOcene.dislajk) });
+        }
+
+        return stavke.stream().map(s -> {
+            Integer id = s.getProizvod().getId();
+            long[] broj = brojaci.get(id);
+            return new ArhivaStavkaDto(s, broj[0], broj[1], ocene.get(id), komentari.get(id));
+        }).toList();
     }
 
     /** Ponovni klik na istu ocenu je poništava. */
     @Transactional
-    public ArhivaProizvodDto oceni(String korIme, Integer proizvodId, VrednostOcene vrednost) {
+    public List<ArhivaStavkaDto> oceni(String korIme, Integer proizvodId, VrednostOcene vrednost) {
         Proizvod p = primljenProizvod(korIme, proizvodId);
 
         ocenaRepository.findByProizvodIdAndKlijentKorIme(proizvodId, korIme).ifPresentOrElse(
@@ -74,11 +108,11 @@ public class ArhivaService {
                     ocenaRepository.save(nova);
                 });
 
-        return sastavi(p, korIme);
+        return arhiva(korIme);
     }
 
     @Transactional
-    public ArhivaProizvodDto komentarisi(String korIme, Integer proizvodId, String tekst) {
+    public List<ArhivaStavkaDto> komentarisi(String korIme, Integer proizvodId, String tekst) {
         Proizvod p = primljenProizvod(korIme, proizvodId);
 
         if (tekst == null || tekst.isBlank()) {
@@ -96,23 +130,7 @@ public class ArhivaService {
         k.setDatum(LocalDateTime.now());
         komentarRepository.save(k);
 
-        return sastavi(p, korIme);
-    }
-
-    private ArhivaProizvodDto sastavi(Proizvod p, String korIme) {
-        List<KomentarDto> komentari = komentarRepository
-                .poslednjiZaProizvod(p.getId(), PageRequest.of(0, BROJ_KOMENTARA)).stream()
-                .map(k -> new KomentarDto(k, korIme))
-                .toList();
-
-        VrednostOcene moja = ocenaRepository.findByProizvodIdAndKlijentKorIme(p.getId(), korIme)
-                .map(OcenaProizvoda::getVrednost)
-                .orElse(null);
-
-        return new ArhivaProizvodDto(p,
-                ocenaRepository.countByProizvodIdAndVrednost(p.getId(), VrednostOcene.lajk),
-                ocenaRepository.countByProizvodIdAndVrednost(p.getId(), VrednostOcene.dislajk),
-                moja, komentari);
+        return arhiva(korIme);
     }
 
     /** Oceniti i komentarisati sme samo onaj ko je proizvod stvarno primio. */

@@ -9,11 +9,14 @@ public class DetaljiZaKlijentaDto extends DetaljiProizvodaDto {
 
     private final List<String> dostupneBoje;
     private final List<UslugaStampeDto> uslugeStampe;
+    private final List<KomentarDto> poslednjiKomentari;
 
-    public DetaljiZaKlijentaDto(Proizvod p, long brojLajkova, long brojDislajkova) {
+    public DetaljiZaKlijentaDto(Proizvod p, long brojLajkova, long brojDislajkova,
+            List<KomentarDto> poslednjiKomentari) {
         super(p, brojLajkova, brojDislajkova);
         this.dostupneBoje = List.copyOf(p.getDostupneBoje());
         this.uslugeStampe = p.getUslugeStampe().stream().map(UslugaStampeDto::new).toList();
+        this.poslednjiKomentari = poslednjiKomentari;
     }
 
     public List<String> getDostupneBoje() {
@@ -22,5 +25,9 @@ public class DetaljiZaKlijentaDto extends DetaljiProizvodaDto {
 
     public List<UslugaStampeDto> getUslugeStampe() {
         return uslugeStampe;
+    }
+
+    public List<KomentarDto> getPoslednjiKomentari() {
+        return poslednjiKomentari;
     }
 }

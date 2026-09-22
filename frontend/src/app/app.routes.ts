@@ -13,7 +13,6 @@ import { Pretraga } from './components/javno/pretraga/pretraga';
 import { Arhiva } from './components/klijent/arhiva/arhiva';
 import { KorpaKomponenta } from './components/klijent/korpa/korpa';
 import { KlijentNabavke } from './components/klijent/nabavke/nabavke';
-import { Narudzbine } from './components/klijent/narudzbine/narudzbine';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
 import { Profil } from './components/profil/profil';
 import { NoviProizvodKomponenta } from './components/stampar/novi-proizvod/novi-proizvod';
@@ -35,11 +34,6 @@ export const routes: Routes = [
   {
     path: 'klijent',
     component: KlijentPocetna,
-    canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
-  },
-  {
-    path: 'klijent/narudzbine',
-    component: Narudzbine,
     canActivate: [dozvoljenTip(['klijent_fizicko', 'klijent_pravno'])]
   },
   {

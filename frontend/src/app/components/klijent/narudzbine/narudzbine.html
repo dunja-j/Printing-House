@@ -1,6 +1,5 @@
-<div class="ph-omot">
-  <a class="nazad" routerLink="/klijent">&larr; Nazad na moj nalog</a>
-  <h1>Moje narudžbine</h1>
+<section class="narudzbine" id="narudzbine">
+  <h2>Moje narudžbine</h2>
 
   @if (greska(); as poruka) {
     <p class="ph-greska" role="alert">{{ poruka }}</p>
@@ -28,9 +27,7 @@
             <th (click)="promeniSortiranje('nazivStamparije')">
               Štamparija {{ strelica('nazivStamparije') }}
             </th>
-            <th class="desno" (click)="promeniSortiranje('brojStavki')">
-              Stavki {{ strelica('brojStavki') }}
-            </th>
+            <th>Poručeni proizvodi</th>
             <th class="desno" (click)="promeniSortiranje('ukupanIznos')">
               Iznos {{ strelica('ukupanIznos') }}
             </th>
@@ -50,7 +47,11 @@
                   <span class="grad">{{ n.gradStamparije }}</span>
                 }
               </td>
-              <td class="desno">{{ n.brojStavki }}</td>
+              <td class="proizvodi">
+                @for (red of spisakProizvoda(n); track red) {
+                  <span>{{ red }}</span>
+                }
+              </td>
               <td class="desno">{{ n.ukupanIznos | number: '1.2-2' }} RSD</td>
               <td>
                 <span class="status" [class]="'status-' + n.status">{{
@@ -119,4 +120,4 @@
   } @else if (!greska()) {
     <p class="ph-napomena">Još uvek nemate nijednu narudžbinu.</p>
   }
-</div>
+</section>

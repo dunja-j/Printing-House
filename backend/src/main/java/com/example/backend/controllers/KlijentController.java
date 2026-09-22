@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.dto.ArhivaProizvodDto;
+import com.example.backend.dto.ArhivaStavkaDto;
 import com.example.backend.dto.DetaljiZaKlijentaDto;
 import com.example.backend.dto.DodajUKorpuRequest;
 import com.example.backend.dto.KomentarRequest;
@@ -50,8 +50,7 @@ public class KlijentController {
     /** Prosireni detalji — sa bojama i uslugama stampe potrebnim za porucivanje. */
     @GetMapping("/proizvodi/{id}")
     public DetaljiZaKlijentaDto detaljiProizvoda(@PathVariable Integer id, HttpSession session) {
-        klijent(session);
-        return proizvodService.detaljiZaKlijenta(id);
+        return proizvodService.detaljiZaKlijenta(id, klijent(session));
     }
 
     @GetMapping("/narudzbine")
@@ -70,18 +69,18 @@ public class KlijentController {
     }
 
     @GetMapping("/arhiva")
-    public List<ArhivaProizvodDto> arhiva(HttpSession session) {
+    public List<ArhivaStavkaDto> arhiva(HttpSession session) {
         return arhivaService.arhiva(klijent(session));
     }
 
     @PostMapping("/proizvodi/{id}/ocena")
-    public ArhivaProizvodDto oceni(@PathVariable Integer id,
+    public List<ArhivaStavkaDto> oceni(@PathVariable Integer id,
             @RequestParam VrednostOcene vrednost, HttpSession session) {
         return arhivaService.oceni(klijent(session), id, vrednost);
     }
 
     @PostMapping("/proizvodi/{id}/komentar")
-    public ArhivaProizvodDto komentarisi(@PathVariable Integer id,
+    public List<ArhivaStavkaDto> komentarisi(@PathVariable Integer id,
             @Valid @RequestBody KomentarRequest zahtev, HttpSession session) {
         return arhivaService.komentarisi(klijent(session), id, zahtev.getTekst());
     }

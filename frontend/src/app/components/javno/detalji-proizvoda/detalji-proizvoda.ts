@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -10,7 +10,7 @@ import { KorpaService } from '../../../services/korpa.service';
 
 @Component({
   selector: 'app-detalji-proizvoda',
-  imports: [RouterLink, DecimalPipe, FormsModule],
+  imports: [RouterLink, DecimalPipe, DatePipe, FormsModule],
   templateUrl: './detalji-proizvoda.html',
   styleUrl: './detalji-proizvoda.css'
 })

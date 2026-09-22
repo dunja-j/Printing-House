@@ -9,7 +9,9 @@
     <p class="ph-info" role="status">
       {{ poruka }}
       @if (poslateNarudzbine().length) {
-        <a class="link-narudzbine" routerLink="/klijent/narudzbine">Pogledaj moje narudžbine</a>
+        <a class="link-narudzbine" routerLink="/profil" fragment="narudzbine"
+          >Pogledaj moje narudžbine</a
+        >
       }
       @if (objavljenaNabavka()) {
         <a class="link-narudzbine" routerLink="/klijent/nabavke">Pogledaj moje javne nabavke</a>
@@ -128,7 +130,7 @@
             </button>
           } @else {
             <button type="button" class="ph-dugme" [disabled]="radiSe()" (click)="zakljuci()">
-              {{ radiSe() ? 'Slanje...' : 'Zatvori narudžbinu' }}
+              {{ radiSe() ? 'Slanje...' : 'POTVRDI' }}
             </button>
           }
           <button type="button" class="ph-dugme sporedno" [disabled]="radiSe()" (click)="isprazni()">

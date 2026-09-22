@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 
 import { Korisnik } from '../../models/korisnik';
 import { ProfilService } from '../../services/profil.service';
+import { NarudzbineTabela } from '../klijent/narudzbine/narudzbine';
 
 @Component({
   selector: 'app-profil',
-  imports: [FormsModule],
+  imports: [FormsModule, NarudzbineTabela],
   templateUrl: './profil.html',
   styleUrl: './profil.css'
 })
@@ -34,6 +35,11 @@ export class Profil {
   institucija = computed(() => {
     const tip = this.korisnik()?.tip;
     return tip === 'klijent_pravno' || tip === 'stampar';
+  });
+
+  jeKlijent = computed(() => {
+    const tip = this.korisnik()?.tip;
+    return tip === 'klijent_fizicko' || tip === 'klijent_pravno';
   });
 
   izabranaSlika = signal<File | null>(null);

@@ -182,6 +182,31 @@
               </div>
             }
           </section>
+
+          <section class="komentari">
+            <h2>Poslednji komentari</h2>
+
+            @if (k.poslednjiKomentari.length) {
+              <ul>
+                @for (komentar of k.poslednjiKomentari; track komentar.id) {
+                  <li [class.moj]="komentar.moj">
+                    <div class="zaglavlje-komentara">
+                      <strong>{{ komentar.korIme }}</strong>
+                      <span class="datum">{{ komentar.datum | date: 'dd.MM.yyyy. HH:mm' }}</span>
+                    </div>
+                    <p>{{ komentar.tekst }}</p>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="ph-napomena">Još nema komentara za ovaj proizvod.</p>
+            }
+
+            <p class="ph-napomena">
+              Komentar možete ostaviti u
+              <a routerLink="/klijent/arhiva">arhivi proizvoda</a>, za proizvode koje ste primili.
+            </p>
+          </section>
         } @else {          <p class="ph-napomena">
             Za poručivanje, izbor boje i usluge štampe potrebno je da se prijavite kao klijent.
           </p>

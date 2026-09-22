@@ -1,6 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { NAZIV_STATUSA, Narudzbina, StatusNarudzbine } from '../../../models/narudzbina';
 import { NarudzbinaService } from '../../../services/narudzbina.service';
@@ -8,12 +7,12 @@ import { NarudzbinaService } from '../../../services/narudzbina.service';
 type Kolona = 'id' | 'datumNarudzbine' | 'nazivStamparije' | 'brojStavki' | 'ukupanIznos' | 'status';
 
 @Component({
-  selector: 'app-narudzbine',
-  imports: [RouterLink, DatePipe, DecimalPipe],
+  selector: 'app-narudzbine-tabela',
+  imports: [DatePipe, DecimalPipe],
   templateUrl: './narudzbine.html',
   styleUrl: './narudzbine.css'
 })
-export class Narudzbine {
+export class NarudzbineTabela {
   private servis = inject(NarudzbinaService);
 
   narudzbine = signal<Narudzbina[]>([]);
@@ -135,5 +134,10 @@ export class Narudzbine {
 
   nazivStatusa(status: StatusNarudzbine): string {
     return NAZIV_STATUSA[status];
+  }
+
+  /** Specifikacija traži kolonu sa numerisanim proizvodima i količinom u zagradi. */
+  spisakProizvoda(n: Narudzbina): string[] {
+    return n.stavke.map((s, i) => `${i + 1}. ${s.nazivProizvoda} (${s.kolicina})`);
   }
 }

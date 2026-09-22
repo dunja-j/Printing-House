@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.backend.models.Narudzbina;
+import com.example.backend.models.StavkaNarudzbine;
 
 public interface NarudzbinaRepository extends JpaRepository<Narudzbina, Integer> {
 
@@ -39,4 +40,21 @@ public interface NarudzbinaRepository extends JpaRepository<Narudzbina, Integer>
             ORDER BY n.datumNarudzbine DESC
             """)
     List<Narudzbina> zaStampara(@Param("korIme") String korIme);
+
+    /**
+     * Arhiva klijenta: isporučene i primljene stavke, podrazumevano sortirane po
+     * datumu naručivanja (specifikacija, odeljak "Arhiva proizvoda").
+     */
+    @Query("""
+            SELECT s FROM StavkaNarudzbine s
+            JOIN FETCH s.narudzbina n
+            JOIN FETCH n.stampar
+            JOIN FETCH s.proizvod
+            LEFT JOIN FETCH s.usluga
+            WHERE n.klijent.korIme = :korIme
+              AND n.status IN (com.example.backend.models.StatusNarudzbine.isporuceno,
+                               com.example.backend.models.StatusNarudzbine.primljeno)
+            ORDER BY n.datumNarudzbine DESC, s.id ASC
+            """)
+    List<StavkaNarudzbine> arhivaKlijenta(@Param("korIme") String korIme);
 }

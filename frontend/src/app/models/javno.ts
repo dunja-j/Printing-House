@@ -1,3 +1,5 @@
+import { Komentar } from './arhiva';
+
 export interface TopProizvod {
   id: number;
   naziv: string;
@@ -57,4 +59,5 @@ export interface UslugaStampe {
 export interface DetaljiZaKlijenta extends DetaljiProizvoda {
   dostupneBoje: string[];
   uslugeStampe: UslugaStampe[];
+  poslednjiKomentari: Komentar[];
 }

@@ -19,7 +19,7 @@ import { AuthService } from '../../../services/auth.service';
 
           <nav class="precice">
             <a routerLink="/klijent/korpa">E-korpa</a>
-            <a routerLink="/klijent/narudzbine">Moje narudžbine</a>
+            <a routerLink="/profil" fragment="narudzbine">Moje narudžbine</a>
             @if (k.tip === 'klijent_pravno') {
               <a routerLink="/klijent/nabavke">Moje javne nabavke</a>
             }

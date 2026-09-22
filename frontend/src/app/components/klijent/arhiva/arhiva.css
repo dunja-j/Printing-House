@@ -23,12 +23,70 @@ h1 {
   padding: 1.25rem;
 }
 
+.ceka-prijem {
+  border-left: 4px solid var(--ph-primarna);
+}
+
+.sortiranje {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+}
+
+.sortiranje button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--ph-ivica);
+  border-radius: 999px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sortiranje button:hover {
+  border-color: var(--ph-primarna);
+  color: var(--ph-primarna);
+}
+
+.podaci {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.4rem 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--ph-siva);
+}
+
+.prijem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.prijem .ph-dugme {
+  width: auto;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.oznaka-statusa {
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: #e8f1ff;
+  color: #1f4e9c;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
 .zaglavlje {
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--ph-ivica);
 }
 
 .zaglavlje img {
@@ -107,6 +165,7 @@ h1 {
 
 .komentari {
   padding-top: 1rem;
+  border-top: 1px solid var(--ph-ivica);
 }
 
 .komentari h2 {

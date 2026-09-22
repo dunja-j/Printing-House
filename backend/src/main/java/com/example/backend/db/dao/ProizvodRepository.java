@@ -42,6 +42,7 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             LEFT JOIN OcenaProizvoda o
                    ON o.proizvod = p AND o.vrednost = com.example.backend.models.VrednostOcene.lajk
             WHERE p.aktivan = true
+              AND p.kolicinaNaLageru > 0
               AND (:naziv IS NULL OR LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')))
               AND (:kategorijaId IS NULL OR k.id = :kategorijaId)
             GROUP BY p.id, p.naziv, s.nazivInstitucije, s.grad, k.naziv,

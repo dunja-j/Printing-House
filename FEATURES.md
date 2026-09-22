@@ -23,7 +23,7 @@ nema vremena.
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
 | 4 | Ukupan broj štamparija + TOP 5 najbolje ocenjenih proizvoda | 🔴 OBAVEZNO | gotovo | `GET /api/javno/pocetna`. Broje se samo odobrene štamparije; TOP 5 po lajkovima, tie-break abecedno. |
-| 5 | Pretraga po više parametara (naziv/kategorija) + rezultati sa sortiranjem | 🔴 OBAVEZNO | gotovo | Ruta `/pretraga`. Klik na zaglavlje bilo koje kolone sortira (rastuće/opadajuće). Padajuća lista nudi samo kategorije sa proizvodima na stanju. |
+| 5 | Pretraga po više parametara (naziv/kategorija) + rezultati sa sortiranjem | 🔴 OBAVEZNO | gotovo | Ruta `/pretraga`. Klik na zaglavlje bilo koje kolone sortira (rastuće/opadajuće). Prikazuju se samo aktivni proizvodi **koje štamparija ima na stanju**; padajuća lista nudi samo kategorije u kojima takvih proizvoda ima. |
 | 6 | Detalji proizvoda (sa jednom slikom) | 🔴 OBAVEZNO | gotovo | Ruta `/proizvod/:id`. Naziv, štamparija, grad, lajkovi/dislajkovi, kategorija, cena, lager, opis. |
 | 7 | Galerija sa dodatnim slikama u detaljima (max 3 thumbnail-a) | 🟡 BONUS | todo | pamćenje izabrane slike u kolačiću |
 
@@ -32,7 +32,7 @@ nema vremena.
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
 | 8 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | gotovo | Zajednička ruta `/profil` za sve tipove naloga, uklj. promenu profilne slike. Korisničko ime se ne može menjati. |
-| 9 | Tabela sa prethodnim i aktuelnim narudžbinama (sa sortiranjem) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/narudzbine`. Sortiranje klikom na zaglavlje; klik na red razvija stavke (proizvod, usluga štampe, boja, tekst, količina, cena). |
+| 9 | Tabela sa prethodnim i aktuelnim narudžbinama (sa sortiranjem) | 🔴 OBAVEZNO | gotovo | Tabela je **na strani profila**, ispod ličnih podataka (`/profil#narudzbine`), sa kolonama koje traži specifikacija: ID fakture, štamparija, grad, numerisani poručeni proizvodi sa količinom u zagradi, ukupan iznos, dugme OTKAŽI. Sortiranje klikom na zaglavlje; klik na red razvija stavke (usluga štampe, boja, tekst, cena). |
 | 10 | Otkazivanje narudžbine u statusu "naručeno" | 🟡 BONUS | gotovo | Dugme OTKAŽI u istoj tabeli, uz potvrdu. Status prelazi u `otkazano` (novi status u bazi), zapis se ne briše. |
 | 11 | Pretraživanje proizvoda i (prošireni) detalji | 🔴 OBAVEZNO | gotovo | Ista ruta `/proizvod/:id` — prijavljen klijent dodatno vidi dostupne boje i tabelu usluga štampe (doplata, ukupna cena po komadu, max dimenzije). Pretraga je zajednička sa #5. |
 | 12 | Mapa gde je štamparija (u detaljima proizvoda) | 🟡 BONUS | todo | npr. Leaflet + OpenStreetMap, relativno lako |
@@ -41,8 +41,8 @@ nema vremena.
 | 15 | E-korpa: trenutni prikaz + zatvaranje narudžbine (grupisano po štampariji) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/korpa`, brojac u meniju. Zatvaranjem nastaje po jedna narudžbina za svaku štampariju i lager se umanjuje. Pravno lice umesto toga šalje korpu u javnu nabavku (#18). |
 | 16 | Dostavljanje PDF fakture na mejl | 🟡 BONUS ⚠️ | todo | zavisi od PDF + mejl biblioteke, raditi kasnije |
 | 17 | Servis za plaćanje (Stripe test / PayPal sandbox) | 🟡 BONUS ⚠️ | todo | najkompleksnija bonus stavka — raditi poslednju, prva kandidat za preskakanje |
-| 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/nabavke`. Nabavka nastaje iz e-korpe (dugme "Pošalji u javnu nabavku"), rok je 10 min. Nema tajmera — istekle nabavke se zaključuju pri sledećem učitavanju liste. Pobeđuje najniža ponuda štamparije koja ima dovoljno na stanju; od nje nastaje narudžbina i lager se umanjuje. |
-| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva`. Klijent prvo potvrdi prijem u tabeli narudžbina (isporučeno→primljeno), pa proizvod ulazi u arhivu. Prikazuje se poslednjih 5 komentara; sopstveni je uokviren narandžastom linijom. |
+| 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/nabavke`. Nabavka nastaje iz e-korpe (dugme "Pošalji u javnu nabavku"), rok je 10 min. Nema tajmera — istekle nabavke se zaključuju pri sledećem učitavanju liste. Pobeđuje najniža ponuda štamparije koja ima dovoljno na stanju; od nje nastaje narudžbina u statusu **u štampi** i lager se umanjuje. |
+| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva` prikazuje **isporučene i primljene** stavke, sortirane po datumu naručivanja (može i po nazivu, količini, štampariji). Isporučenu stavku klijent prvo potvrdi kao primljenu, pa je onda ocenjuje i komentariše. Poslednjih 5 komentara vidi se i na strani sa detaljima proizvoda; sopstveni je uokviren narandžastom linijom. |
 
 ## Deo za štampare
 
