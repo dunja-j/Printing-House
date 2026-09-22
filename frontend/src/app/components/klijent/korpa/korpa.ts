@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { Korpa, StavkaKorpe } from '../../../models/korpa';
 import { JavnoService } from '../../../services/javno.service';
 import { KorpaService } from '../../../services/korpa.service';
+import { NabavkaService } from '../../../services/nabavka.service';
 
 @Component({
   selector: 'app-korpa',
@@ -16,6 +17,7 @@ import { KorpaService } from '../../../services/korpa.service';
 export class KorpaKomponenta {
   private servis = inject(KorpaService);
   private javno = inject(JavnoService);
+  private nabavke = inject(NabavkaService);
 
   korpa = this.servis.korpa;
   greska = signal<string | null>(null);
@@ -23,6 +25,7 @@ export class KorpaKomponenta {
   ucitavanje = signal(true);
   radiSe = signal(false);
   poslateNarudzbine = signal<number[]>([]);
+  objavljenaNabavka = signal(false);
 
   constructor() {
     this.servis.ucitaj().subscribe({
@@ -82,10 +85,38 @@ export class KorpaKomponenta {
     });
   }
 
+  objaviNabavku(): void {
+    const k = this.korpa();
+    if (!k || !k.ukupnoStavki) {
+      return;
+    }
+    if (!confirm('Poslati ovu porud\u017ebinu u javnu nabavku? Licitacija traje 10 minuta.')) {
+      return;
+    }
+
+    this.greska.set(null);
+    this.uspeh.set(null);
+    this.radiSe.set(true);
+
+    this.nabavke.objavi().subscribe({
+      next: (n) => {
+        this.radiSe.set(false);
+        this.objavljenaNabavka.set(true);
+        this.uspeh.set(
+          `Javna nabavka #${n.id} je objavljena. \u0160tamparije mogu da \u0161alju ponude jo\u0161 10 minuta.`
+        );
+        this.servis.ucitaj().subscribe();
+      },
+      error: (err) => {
+        this.radiSe.set(false);
+        this.greska.set(err?.error?.poruka ?? 'Javna nabavka nije objavljena.');
+      }
+    });
+  }
+
   slika(naziv: string | null): string {
     return this.javno.slikaProizvoda(naziv);
   }
-
   private izvrsi(zahtev: ReturnType<KorpaService['ukloni']>, poruka?: string): void {
     this.greska.set(null);
     this.uspeh.set(null);

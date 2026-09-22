@@ -1,0 +1,104 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/stampar">&larr; Nazad na moju štampariju</a>
+  <h1>Javne nabavke — licitacije</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (nabavke().length) {
+    <p class="ph-napomena rezime">
+      Šaljete jednu ponudu po nabavci i ne možete je kasnije menjati. Pobeđuje najniža ponuda
+      štamparije koja ima dovoljno proizvoda na stanju.
+      <button type="button" class="dugme-osvezi" (click)="ucitaj()">Osveži</button>
+    </p>
+
+    @for (n of nabavke(); track n.id) {
+      <article class="ph-kartica nabavka">
+        <header>
+          <div>
+            <h2>{{ n.institucija }}</h2>
+            <p class="datum">
+              @if (n.grad) {
+                {{ n.grad }} &middot;
+              }
+              nabavka #{{ n.id }}, objavljena {{ n.datumObjave | date: 'dd.MM.yyyy. HH:mm' }}
+            </p>
+          </div>
+          <span class="rok">preostalo {{ preostalo(n.preostaloSekundi) }}</span>
+        </header>
+
+        <table class="stavke">
+          <thead>
+            <tr>
+              <th>Traženi proizvod</th>
+              <th>Kategorija</th>
+              <th>Detalji</th>
+              <th class="desno">Količina</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of n.stavke; track s.id) {
+              <tr>
+                <td>{{ s.nazivProizvoda }}</td>
+                <td>
+                  {{ s.kategorija }}
+                  @if (s.potkategorija) {
+                    <span class="pot">/ {{ s.potkategorija }}</span>
+                  }
+                </td>
+                <td class="detalji">
+                  @if (s.boja) {
+                    <span>Boja: {{ s.boja }}</span>
+                  }
+                  @if (s.tipStampe) {
+                    <span>{{ s.tipStampe }}</span>
+                  }
+                  @if (s.tekstZaStampu) {
+                    <span>Tekst: &bdquo;{{ s.tekstZaStampu }}&ldquo;</span>
+                  }
+                </td>
+                <td class="desno">{{ s.kolicina }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <footer>
+          <span class="broj-ponuda">Pristiglih ponuda: {{ n.brojPonuda }}</span>
+
+          @if (n.mojaPonuda !== null) {
+            <p class="moja-ponuda">
+              Vaša ponuda: <strong>{{ n.mojaPonuda | number: '1.2-2' }} RSD</strong>
+            </p>
+          } @else if (n.mozeDaPonudi) {
+            <form class="forma-ponude" (ngSubmit)="posalji(n)" novalidate>
+              <label class="ph-polje">
+                <span>Ukupna cena ponude (RSD)</span>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  [(ngModel)]="cene[n.id]"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </label>
+              <button type="submit" class="ph-dugme" [disabled]="radiSe() === n.id">
+                {{ radiSe() === n.id ? 'Slanje...' : 'POŠALJI PONUDU' }}
+              </button>
+            </form>
+          } @else {
+            <p class="ph-greska razlog">{{ n.razlog }}</p>
+          }
+        </footer>
+      </article>
+    }
+  } @else if (!greska()) {
+    <p class="ph-napomena">Trenutno nema otvorenih javnih nabavki.</p>
+  }
+</div>

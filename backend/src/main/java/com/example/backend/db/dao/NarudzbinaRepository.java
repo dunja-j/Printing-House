@@ -26,8 +26,8 @@ public interface NarudzbinaRepository extends JpaRepository<Narudzbina, Integer>
     List<Narudzbina> zaKlijenta(@Param("korIme") String korIme);
 
     /**
-     * Narudžbine pristigle štampariji. Prikazuju se samo one od fizičkih lica —
-     * porudžbine pravnih lica idu preko javne nabavke (videti FEATURES.md #18).
+     * Narudžbine pristigle štampariji — i one od fizičkih lica i one nastale od
+     * pobedničke ponude na javnoj nabavci pravnog lica (videti FEATURES.md #18).
      */
     @Query("""
             SELECT DISTINCT n FROM Narudzbina n
@@ -36,7 +36,6 @@ public interface NarudzbinaRepository extends JpaRepository<Narudzbina, Integer>
             LEFT JOIN FETCH s.proizvod
             LEFT JOIN FETCH s.usluga
             WHERE n.stampar.korIme = :korIme
-              AND k.tip = com.example.backend.models.TipKorisnika.klijent_fizicko
             ORDER BY n.datumNarudzbine DESC
             """)
     List<Narudzbina> zaStampara(@Param("korIme") String korIme);

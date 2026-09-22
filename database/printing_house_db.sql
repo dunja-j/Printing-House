@@ -227,11 +227,61 @@ CREATE TABLE IF NOT EXISTS `komentar_proizvoda` (
   CONSTRAINT `fk_komentar_klijent` FOREIGN KEY (`klijent_kor_ime`) REFERENCES `korisnik` (`kor_ime`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ---------------------------------------------------------------------
+-- Javne nabavke (klijent — pravno lice) i licitacije (ponude štamparija)
+-- Nabavka nastaje od korpe pravnog lica; rok za ponude je 10 minuta od
+-- objave. Stavka pamti ŠTA se traži (naziv, kategorija/potkategorija,
+-- količina...), bez veze sa konkretnim proizvodom, jer svaka štamparija
+-- nudi svoje proizvode — videti DECISIONS.md.
+-- ---------------------------------------------------------------------
+DROP TABLE IF EXISTS `ponuda`;
+DROP TABLE IF EXISTS `stavka_nabavke`;
+DROP TABLE IF EXISTS `javna_nabavka`;
+
+CREATE TABLE IF NOT EXISTS `javna_nabavka` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `institucija_kor_ime` VARCHAR(45) NOT NULL,
+  `datum_objave` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `rok_za_ponude` DATETIME NOT NULL,
+  `status` ENUM('otvorena','zakljucena','neuspela') NOT NULL DEFAULT 'otvorena',
+  `narudzbina_id` INT NULL COMMENT 'narudžbina nastala od pobedničke ponude',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_nabavka_institucija` FOREIGN KEY (`institucija_kor_ime`) REFERENCES `korisnik` (`kor_ime`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_nabavka_narudzbina` FOREIGN KEY (`narudzbina_id`) REFERENCES `narudzbina` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `stavka_nabavke` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nabavka_id` INT NOT NULL,
+  `naziv_proizvoda` VARCHAR(150) NOT NULL,
+  `kategorija_id` INT NOT NULL,
+  `potkategorija_id` INT NULL,
+  `kolicina` INT NOT NULL DEFAULT 1,
+  `boja` VARCHAR(50) NULL,
+  `tip_stampe` VARCHAR(150) NULL,
+  `tekst_za_stampu` VARCHAR(200) NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_stavka_nabavke_nabavka` FOREIGN KEY (`nabavka_id`) REFERENCES `javna_nabavka` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_stavka_nabavke_kategorija` FOREIGN KEY (`kategorija_id`) REFERENCES `kategorija` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_stavka_nabavke_potkategorija` FOREIGN KEY (`potkategorija_id`) REFERENCES `potkategorija` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `ponuda` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nabavka_id` INT NOT NULL,
+  `stampar_kor_ime` VARCHAR(45) NOT NULL,
+  `ukupna_cena` DECIMAL(10,2) NOT NULL,
+  `datum` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pobednicka` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_ponuda_nabavka_stampar` (`nabavka_id`, `stampar_kor_ime`),
+  CONSTRAINT `fk_ponuda_nabavka` FOREIGN KEY (`nabavka_id`) REFERENCES `javna_nabavka` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_ponuda_stampar` FOREIGN KEY (`stampar_kor_ime`) REFERENCES `korisnik` (`kor_ime`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- =====================================================================
 -- TODO (dodati kad se dođe do tih funkcionalnosti — videti FEATURES.md):
---   - javna_nabavka, stavka_javne_nabavke, ponuda  (Javne nabavke / Licitacije)
 --   - tabela za reset lozinke (token, korisnik, datum_isteka)
---   - eventualna tabela za "trenutnu e-korpu" ako se ne drži samo na frontu
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -308,7 +358,29 @@ VALUES
    'Drvena olovka sa laserskom gravurom logotipa, minimalna količina 100 komada.',
    (SELECT id FROM kategorija WHERE naziv='Štampa malih formata'),
    (SELECT id FROM potkategorija WHERE naziv='Olovke'),
-   45.00, 3000, 'seed_ap004.jpg');
+   45.00, 3000, 'seed_ap004.jpg'),
+  -- Sledeca tri proizvoda namerno pokrivaju iste potkategorije kao cstudio,
+  -- da bi na javnim nabavkama vise stamparija moglo da licitira.
+  ('PM-004', 'printmaster', 'Keramicka solja 300ml',
+   'Bela keramicka solja, pogodna za sublimacionu stampu.',
+   (SELECT id FROM kategorija WHERE naziv='Kreativne štampe'),
+   (SELECT id FROM potkategorija WHERE naziv='Šolje'),
+   290.00, 400, 'default_product_image.jpg'),
+  ('PM-005', 'printmaster', 'Pamucna majica basic 160g',
+   'Unisex pamucna majica 160g/m2 za vece tirade.',
+   (SELECT id FROM kategorija WHERE naziv='Kreativne štampe'),
+   (SELECT id FROM potkategorija WHERE naziv='Štampa na majicama'),
+   1100.00, 220, 'default_product_image.jpg'),
+  ('AP-005', 'artprint', 'Solja sa drskom u boji',
+   'Keramicka solja sa drskom u boji, sublimaciona stampa.',
+   (SELECT id FROM kategorija WHERE naziv='Kreativne štampe'),
+   (SELECT id FROM potkategorija WHERE naziv='Šolje'),
+   340.00, 150, 'default_product_image.jpg'),
+  ('AP-006', 'artprint', 'Majica premium 190g',
+   'Pamucna majica 190g/m2, uzi kroj, pogodna za DTG stampu.',
+   (SELECT id FROM kategorija WHERE naziv='Kreativne štampe'),
+   (SELECT id FROM potkategorija WHERE naziv='Štampa na majicama'),
+   1250.00, 90, 'default_product_image.jpg');
 
 INSERT INTO `proizvod_boja` (`proizvod_id`, `boja`) VALUES
   ((SELECT id FROM proizvod WHERE sifra='PR-001'), 'Bela'),
@@ -324,7 +396,14 @@ INSERT INTO `proizvod_boja` (`proizvod_id`, `boja`) VALUES
   ((SELECT id FROM proizvod WHERE sifra='AP-002'), 'Natur'),
   ((SELECT id FROM proizvod WHERE sifra='AP-002'), 'Crna'),
   ((SELECT id FROM proizvod WHERE sifra='AP-004'), 'Natur'),
-  ((SELECT id FROM proizvod WHERE sifra='PM-001'), 'Bela');
+  ((SELECT id FROM proizvod WHERE sifra='PM-001'), 'Bela'),
+  ((SELECT id FROM proizvod WHERE sifra='PM-004'), 'Bela'),
+  ((SELECT id FROM proizvod WHERE sifra='PM-005'), 'Bela'),
+  ((SELECT id FROM proizvod WHERE sifra='PM-005'), 'Crna'),
+  ((SELECT id FROM proizvod WHERE sifra='AP-005'), 'Bela'),
+  ((SELECT id FROM proizvod WHERE sifra='AP-005'), 'Crvena'),
+  ((SELECT id FROM proizvod WHERE sifra='AP-006'), 'Bela'),
+  ((SELECT id FROM proizvod WHERE sifra='AP-006'), 'Crna');
 
 INSERT INTO `usluga_stampe` (`proizvod_id`, `id_usluge`, `tip_stampe`, `dodatna_cena_po_komadu`, `max_sirina_mm`, `max_visina_mm`) VALUES
   ((SELECT id FROM proizvod WHERE sifra='PR-001'), 'USL-01', 'Direktna štampa na tekstil (DTG)', 350.00, 300, 400),
@@ -338,7 +417,11 @@ INSERT INTO `usluga_stampe` (`proizvod_id`, `id_usluge`, `tip_stampe`, `dodatna_
   ((SELECT id FROM proizvod WHERE sifra='AP-001'), 'USL-09', 'Vez', 900.00, 150, 150),
   ((SELECT id FROM proizvod WHERE sifra='AP-002'), 'USL-10', 'Sito štampa', 180.00, 250, 300),
   ((SELECT id FROM proizvod WHERE sifra='AP-003'), 'USL-11', 'Lateks štampa', 600.00, 1300, 3000),
-  ((SELECT id FROM proizvod WHERE sifra='AP-004'), 'USL-12', 'Laserska gravura', 20.00, 100, 8);
+  ((SELECT id FROM proizvod WHERE sifra='AP-004'), 'USL-12', 'Laserska gravura', 20.00, 100, 8),
+  ((SELECT id FROM proizvod WHERE sifra='PM-004'), 'USL-13', 'Sublimaciona štampa', 140.00, 200, 85),
+  ((SELECT id FROM proizvod WHERE sifra='PM-005'), 'USL-14', 'Sito štampa', 180.00, 280, 350),
+  ((SELECT id FROM proizvod WHERE sifra='AP-005'), 'USL-15', 'Sublimaciona štampa', 160.00, 200, 85),
+  ((SELECT id FROM proizvod WHERE sifra='AP-006'), 'USL-16', 'Direktna štampa na tekstil (DTG)', 380.00, 300, 400);
 
 -- ---------------------------------------------------------------------
 -- Narudžbine, ocene i komentari (potrebni za TOP 5 listu na početnoj strani)

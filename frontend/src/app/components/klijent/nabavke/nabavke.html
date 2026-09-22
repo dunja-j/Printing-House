@@ -1,0 +1,110 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/klijent">&larr; Nazad na moj nalog</a>
+  <h1>Moje javne nabavke</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (nabavke().length) {
+    <p class="ph-napomena rezime">
+      Licitacija traje 10 minuta. Rezultat se obračunava kada istekne rok i vi osvežite ovu stranu.
+      <button type="button" class="dugme-osvezi" (click)="ucitaj()">Osveži</button>
+    </p>
+
+    @for (n of nabavke(); track n.id) {
+      <article class="ph-kartica nabavka" [class]="'stanje-' + n.status">
+        <header>
+          <div>
+            <h2>Javna nabavka #{{ n.id }}</h2>
+            <p class="datum">objavljena {{ n.datumObjave | date: 'dd.MM.yyyy. HH:mm' }}</p>
+          </div>
+          <span class="status">{{ nazivStatusa(n.status) }}</span>
+        </header>
+
+        @if (n.status === 'otvorena') {
+          <p class="rok">
+            Rok: {{ n.rokZaPonude | date: 'HH:mm:ss' }} &middot; preostalo
+            <strong>{{ preostalo(n.preostaloSekundi) }}</strong> &middot; pristiglih ponuda:
+            <strong>{{ n.brojPonuda }}</strong>
+          </p>
+        }
+
+        <table class="stavke">
+          <thead>
+            <tr>
+              <th>Traženi proizvod</th>
+              <th>Kategorija</th>
+              <th>Detalji</th>
+              <th class="desno">Količina</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of n.stavke; track s.id) {
+              <tr>
+                <td>{{ s.nazivProizvoda }}</td>
+                <td>
+                  {{ s.kategorija }}
+                  @if (s.potkategorija) {
+                    <span class="pot">/ {{ s.potkategorija }}</span>
+                  }
+                </td>
+                <td class="detalji">
+                  @if (s.boja) {
+                    <span>Boja: {{ s.boja }}</span>
+                  }
+                  @if (s.tipStampe) {
+                    <span>{{ s.tipStampe }}</span>
+                  }
+                  @if (s.tekstZaStampu) {
+                    <span>Tekst: &bdquo;{{ s.tekstZaStampu }}&ldquo;</span>
+                  }
+                </td>
+                <td class="desno">{{ s.kolicina }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (n.status === 'zakljucena') {
+          <div class="ishod">
+            <h3>Pristigle ponude</h3>
+            <ul class="ponude">
+              @for (p of n.ponude; track p.id) {
+                <li [class.pobednik]="p.pobednicka">
+                  <span class="stamparija">
+                    {{ p.nazivStamparije }}
+                    @if (p.grad) {
+                      <span class="grad">{{ p.grad }}</span>
+                    }
+                  </span>
+                  <span class="cena">{{ p.ukupnaCena | number: '1.2-2' }} RSD</span>
+                  @if (p.pobednicka) {
+                    <span class="oznaka">POBEDNIK</span>
+                  }
+                </li>
+              }
+            </ul>
+
+            @if (n.narudzbinaId) {
+              <p class="ph-info">
+                Od pobedničke ponude je napravljena narudžbina #{{ n.narudzbinaId }}.
+                <a routerLink="/klijent/narudzbine">Pogledaj narudžbine</a>
+              </p>
+            }
+          </div>
+        } @else if (n.status === 'neuspela') {
+          <p class="ph-greska">
+            Nabavka je neuspela — nijedna štamparija nije poslala ponudu sa dovoljnom količinom na
+            stanju.
+          </p>
+        }
+      </article>
+    }
+  } @else if (!greska()) {
+    <p class="ph-napomena">Još niste objavili nijednu javnu nabavku.</p>
+    <a class="ph-dugme ph-dugme-link" routerLink="/klijent/korpa">Otvori e-korpu</a>
+  }
+</div>
