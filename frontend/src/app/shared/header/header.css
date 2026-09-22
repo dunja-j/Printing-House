@@ -23,8 +23,10 @@
 
 .meni {
   display: flex;
-  gap: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
   flex: 1;
+  font-size: 0.95rem;
 }
 
 .meni a {

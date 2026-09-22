@@ -70,7 +70,7 @@ nema vremena.
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
 | 31 | Otpornost na nekorektan unos + serverska validacija svuda | 🔴 OBAVEZNO | u radu | Postavljen okvir: Bean Validation na DTO-ovima + `GlobalExceptionHandler` koji sve greške vraća kao `{"poruka": "..."}`. Dopunjavati uz svaki novi endpoint. |
-| 32 | Uniforman CSS izgled, header/footer/meni na svakoj strani | 🔴 OBAVEZNO | u radu | Urađeni `shared/header` i `shared/footer` + CSS varijable i `.ph-*` klase u `styles.css`. Meni se dopunjava kako se dodaju ekrani. |
+| 32 | Uniforman CSS izgled, header/footer/meni na svakoj strani | 🔴 OBAVEZNO | gotovo | Urađeni `shared/header` i `shared/footer` + CSS varijable i `.ph-*` klase u `styles.css`. Glavni meni sadrži sve funkcionalnosti koje specifikacija nabraja za dati tip korisnika, plus link na početnu i dugme za odjavu. |
 | 33 | Responsive design (manji/veći ekrani) | 🔴 OBAVEZNO | u radu | Media queries u `styles.css` i `header.css`; proveravati uz svaki novi ekran. |
 | 34 | Testirano u bar 3 browsera | 🔴 OBAVEZNO | todo | Chrome, Firefox, Edge npr. |
 | 35 | Baza popunjena sa dovoljno podataka za odbranu | 🔴 OBAVEZNO | u radu | 3 štamparije + 5 klijenata + admin, 10 proizvoda kroz sve 3 kategorije, 12 usluga štampe, 8 narudžbina u raznim statusima, 20 ocena i 8 komentara. Dopunjavati pred odbranu — u suprotnom -5 poena. |

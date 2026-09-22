@@ -9,12 +9,22 @@
       @switch (k.tip) {
         @case ('stampar') {
           <a routerLink="/stampar">Moja štamparija</a>
+          <a routerLink="/stampar/proizvodi">Proizvodi i usluge</a>
+          <a routerLink="/stampar/narudzbine">Naručeni proizvodi</a>
+          <a routerLink="/stampar/nabavke">Licitacije</a>
         }
         @case ('administrator') {
           <a routerLink="/admin">Administracija</a>
+          <a routerLink="/admin/zahtevi">Zahtevi</a>
+          <a routerLink="/admin/korisnici">Nalozi</a>
+          <a routerLink="/admin/kategorije">Kategorije</a>
         }
         @default {
           <a routerLink="/klijent">Moj nalog</a>
+          @if (k.tip === 'klijent_pravno') {
+            <a routerLink="/klijent/nabavke">Javne nabavke</a>
+          }
+          <a routerLink="/klijent/arhiva">Arhiva proizvoda</a>
         }
       }
       <a routerLink="/profil">Profil</a>
