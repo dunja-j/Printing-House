@@ -4,13 +4,17 @@ import { AdminPocetna } from './components/admin/pocetna/pocetna';
 import { Login } from './components/auth/login/login';
 import { LoginAdmin } from './components/auth/login-admin/login-admin';
 import { Registracija } from './components/auth/registracija/registracija';
+import { DetaljiProizvodaKomponenta } from './components/javno/detalji-proizvoda/detalji-proizvoda';
 import { Pocetna } from './components/javno/pocetna/pocetna';
+import { Pretraga } from './components/javno/pretraga/pretraga';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
 import { StamparPocetna } from './components/stampar/pocetna/pocetna';
 import { dozvoljenTip, samoGost } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Pocetna },
+  { path: 'pretraga', component: Pretraga },
+  { path: 'proizvod/:id', component: DetaljiProizvodaKomponenta },
   { path: 'login', component: Login, canActivate: [samoGost] },
   { path: 'registracija', component: Registracija, canActivate: [samoGost] },
   // skrivena ruta za administratora — namerno se ne linkuje ni sa jedne javne strane

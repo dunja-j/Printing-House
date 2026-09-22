@@ -71,6 +71,18 @@ h2 {
   box-shadow: var(--ph-senka);
   overflow: hidden;
   counter-increment: mesto;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kartica-proizvoda:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+}
+
+.kartica-proizvoda > a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 
 .kartica-proizvoda::before {

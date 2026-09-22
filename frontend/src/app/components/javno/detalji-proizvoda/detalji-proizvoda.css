@@ -1,0 +1,101 @@
+.nazad {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--ph-primarna);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nazad:hover {
+  text-decoration: underline;
+}
+
+.detalji {
+  display: grid;
+  grid-template-columns: minmax(240px, 380px) 1fr;
+  gap: 1.75rem;
+}
+
+.slika {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 320px;
+  border-radius: var(--ph-radius);
+  border: 1px solid var(--ph-ivica);
+  object-fit: cover;
+}
+
+.sifra {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ph-siva);
+  letter-spacing: 0.04em;
+}
+
+.podaci h1 {
+  margin: 0.15rem 0 0.5rem;
+}
+
+.stamparija {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--ph-siva);
+}
+
+.stamparija strong {
+  color: var(--ph-tamna);
+}
+
+.stamparija .adresa {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.ocene {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ocene span {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.osobine {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1.25rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.92rem;
+}
+
+.osobine dt {
+  color: var(--ph-siva);
+}
+
+.osobine dd {
+  margin: 0;
+}
+
+.cena {
+  font-weight: 700;
+}
+
+.nema {
+  color: var(--ph-greska);
+}
+
+.opis {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .detalji {
+    grid-template-columns: 1fr;
+  }
+}

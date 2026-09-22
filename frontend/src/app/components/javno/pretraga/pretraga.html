@@ -1,0 +1,79 @@
+<div class="ph-omot">
+  <h1>Pretraga proizvoda</h1>
+
+  <form class="forma-pretrage" (ngSubmit)="pretrazi()">
+    <label class="ph-polje">
+      <span>Naziv proizvoda</span>
+      <input type="text" name="naziv" [(ngModel)]="naziv" maxlength="150" placeholder="npr. majica" />
+    </label>
+
+    <label class="ph-polje">
+      <span>Kategorija</span>
+      <select name="kategorija" [(ngModel)]="kategorijaId">
+        <option [ngValue]="null">Sve kategorije</option>
+        @for (k of kategorije(); track k.id) {
+          <option [ngValue]="k.id">{{ k.naziv }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="dugmici">
+      <button type="submit" class="ph-dugme" [disabled]="ucitavanje()">
+        {{ ucitavanje() ? 'Tražim...' : 'Pretraži' }}
+      </button>
+      <button type="button" class="ph-dugme sporedno" (click)="ponisti()">Poništi</button>
+    </div>
+  </form>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+
+  @if (sortiraniRezultati().length) {
+    <p class="ph-napomena rezime">
+      Pronađeno proizvoda: {{ sortiraniRezultati().length }} &middot; klikni na zaglavlje kolone za
+      sortiranje
+    </p>
+
+    <div class="tabela-omot">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th (click)="promeniSortiranje('naziv')">Naziv {{ strelica('naziv') }}</th>
+            <th (click)="promeniSortiranje('nazivStamparije')">
+              Štamparija {{ strelica('nazivStamparije') }}
+            </th>
+            <th (click)="promeniSortiranje('grad')">Grad {{ strelica('grad') }}</th>
+            <th (click)="promeniSortiranje('kategorija')">
+              Kategorija {{ strelica('kategorija') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('jedinicnaCena')">
+              Cena {{ strelica('jedinicnaCena') }}
+            </th>
+            <th class="desno" (click)="promeniSortiranje('brojLajkova')">
+              Lajkova {{ strelica('brojLajkova') }}
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of sortiraniRezultati(); track p.id) {
+            <tr>
+              <td>{{ p.naziv }}</td>
+              <td>{{ p.nazivStamparije }}</td>
+              <td>{{ p.grad }}</td>
+              <td>{{ p.kategorija }}</td>
+              <td class="desno">{{ p.jedinicnaCena | number: '1.2-2' }} RSD</td>
+              <td class="desno">{{ p.brojLajkova }}</td>
+              <td class="desno">
+                <a class="dugme-detalji" [routerLink]="['/proizvod', p.id]">DETALJI</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (pretrazeno() && !greska()) {
+    <p class="ph-napomena">Nijedan proizvod ne odgovara zadatim kriterijumima.</p>
+  }
+</div>
