@@ -1,0 +1,91 @@
+h1 {
+  margin: 0 0 1.25rem;
+}
+
+h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.1rem;
+}
+
+.raspored {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.kartica-slike {
+  text-align: center;
+}
+
+.profilna {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--ph-ivica);
+}
+
+.kor-ime {
+  margin: 0.9rem 0 0.15rem;
+  font-weight: 700;
+}
+
+.tip {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+  color: var(--ph-siva);
+}
+
+.kartica-slike .ph-polje {
+  text-align: left;
+}
+
+.pregled {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--ph-radius);
+  border: 1px solid var(--ph-ivica);
+  margin-bottom: 0.9rem;
+}
+
+.pomoc {
+  margin: 0.75rem 0 0;
+  font-size: 0.78rem;
+  color: var(--ph-siva);
+}
+
+.dve-kolone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.grupa {
+  border: 1px solid var(--ph-ivica);
+  border-radius: var(--ph-radius);
+  padding: 1rem 1rem 0.25rem;
+  margin: 0 0 1rem;
+}
+
+.grupa legend {
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+input:disabled {
+  background: var(--ph-pozadina);
+  color: var(--ph-siva);
+}
+
+@media (max-width: 860px) {
+  .raspored {
+    grid-template-columns: 1fr;
+  }
+
+  .dve-kolone {
+    grid-template-columns: 1fr;
+  }
+}

@@ -16,6 +16,8 @@ public class KorisnikDto {
     private String nazivInstitucije;
     private String adresaSedista;
     private String grad;
+    private String maticniBroj;
+    private String pib;
 
     public static KorisnikDto od(Korisnik k) {
         KorisnikDto dto = new KorisnikDto();
@@ -29,6 +31,8 @@ public class KorisnikDto {
         dto.nazivInstitucije = k.getNazivInstitucije();
         dto.adresaSedista = k.getAdresaSedista();
         dto.grad = k.getGrad();
+        dto.maticniBroj = k.getMaticniBroj();
+        dto.pib = k.getPib();
         return dto;
     }
 
@@ -70,5 +74,13 @@ public class KorisnikDto {
 
     public String getGrad() {
         return grad;
+    }
+
+    public String getMaticniBroj() {
+        return maticniBroj;
+    }
+
+    public String getPib() {
+        return pib;
     }
 }

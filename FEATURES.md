@@ -31,7 +31,7 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 8 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | todo | uklj. promenu profilne slike |
+| 8 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | gotovo | Zajednička ruta `/profil` za sve tipove naloga, uklj. promenu profilne slike. Korisničko ime se ne može menjati. |
 | 9 | Tabela sa prethodnim i aktuelnim narudžbinama (sa sortiranjem) | 🔴 OBAVEZNO | todo | |
 | 10 | Otkazivanje narudžbine u statusu "naručeno" | 🟡 BONUS | todo | lako, raditi rano |
 | 11 | Pretraživanje proizvoda i (prošireni) detalji | 🔴 OBAVEZNO | todo | boja, tip štampe, max dimenzije, cena po komadu |
@@ -48,7 +48,7 @@ nema vremena.
 
 | # | Funkcionalnost | Prioritet | Status | Napomena |
 |---|---|---|---|---|
-| 20 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | todo | |
+| 20 | Prikaz i ažuriranje profila | 🔴 OBAVEZNO | gotovo | Ista ruta `/profil` kao kod klijenta — forma dodatno prikazuje polja štamparije (naziv, adresa, grad, MB, PIB). |
 | 21 | Proizvodi i usluge — dodavanje | 🔴 OBAVEZNO | todo | predefinisane kategorije/potkategorije |
 | 22 | Ažuriranje količina postojećih proizvoda | 🔴 OBAVEZNO | todo | |
 | 23 | Dodavanje iz JSON fajla (+ naknadno dodavanje slika) | 🟡 BONUS ⚠️ | todo | format u `primer-proizvodi.json` — srednje/visoko kompleksno |

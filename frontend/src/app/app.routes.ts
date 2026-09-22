@@ -8,8 +8,9 @@ import { DetaljiProizvodaKomponenta } from './components/javno/detalji-proizvoda
 import { Pocetna } from './components/javno/pocetna/pocetna';
 import { Pretraga } from './components/javno/pretraga/pretraga';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
+import { Profil } from './components/profil/profil';
 import { StamparPocetna } from './components/stampar/pocetna/pocetna';
-import { dozvoljenTip, samoGost } from './guards/auth.guard';
+import { dozvoljenTip, samoGost, samoPrijavljeni } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Pocetna },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'proizvod/:id', component: DetaljiProizvodaKomponenta },
   { path: 'login', component: Login, canActivate: [samoGost] },
   { path: 'registracija', component: Registracija, canActivate: [samoGost] },
+  { path: 'profil', component: Profil, canActivate: [samoPrijavljeni] },
   // skrivena ruta za administratora — namerno se ne linkuje ni sa jedne javne strane
   { path: 'admin-login', component: LoginAdmin, canActivate: [samoGost] },
   {

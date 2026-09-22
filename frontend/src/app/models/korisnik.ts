@@ -15,4 +15,6 @@ export interface Korisnik {
   nazivInstitucije: string | null;
   adresaSedista: string | null;
   grad: string | null;
+  maticniBroj: string | null;
+  pib: string | null;
 }

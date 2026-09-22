@@ -1,0 +1,141 @@
+<div class="ph-omot">
+  <h1>Moj profil</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (korisnik(); as k) {
+    <div class="raspored">
+      <section class="ph-kartica kartica-slike">
+        <img class="profilna" [src]="slika()" alt="Profilna slika" />
+
+        <p class="kor-ime">{{ k.korIme }}</p>
+        <p class="tip">{{ nazivTipa() }}</p>
+
+        <label class="ph-polje">
+          <span>Nova profilna slika</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/gif"
+            (change)="izaberiSliku($event)"
+          />
+        </label>
+
+        @if (pregledSlike(); as izvor) {
+          <img class="pregled" [src]="izvor" alt="Pregled nove slike" />
+        }
+
+        <button type="button" class="ph-dugme" [disabled]="cuvanje()" (click)="posaljiSliku()">
+          {{ cuvanje() ? 'Slanje...' : 'Promeni sliku' }}
+        </button>
+
+        <p class="pomoc">JPG, PNG ili GIF, od 100×100 do 250×250 piksela.</p>
+      </section>
+
+      <section class="ph-kartica">
+        <h2>Podaci naloga</h2>
+
+        <form (ngSubmit)="sacuvaj()" novalidate>
+          <label class="ph-polje">
+            <span>Korisničko ime</span>
+            <input type="text" [value]="k.korIme" disabled />
+          </label>
+
+          <div class="dve-kolone">
+            <label class="ph-polje">
+              <span>{{ institucija() ? 'Ime odgovornog lica *' : 'Ime *' }}</span>
+              <input type="text" name="ime" [(ngModel)]="ime" maxlength="45" />
+            </label>
+
+            <label class="ph-polje">
+              <span>{{ institucija() ? 'Prezime odgovornog lica *' : 'Prezime *' }}</span>
+              <input type="text" name="prezime" [(ngModel)]="prezime" maxlength="45" />
+            </label>
+
+            <label class="ph-polje">
+              <span>Kontakt telefon *</span>
+              <input type="tel" name="telefon" [(ngModel)]="telefon" maxlength="30" />
+            </label>
+
+            <label class="ph-polje">
+              <span>Mejl *</span>
+              <input type="email" name="mejl" [(ngModel)]="mejl" maxlength="100" />
+            </label>
+
+            @if (!institucija()) {
+              <label class="ph-polje">
+                <span>Grad</span>
+                <input type="text" name="grad" [(ngModel)]="grad" maxlength="100" />
+              </label>
+            }
+          </div>
+
+          @if (institucija()) {
+            <fieldset class="grupa">
+              <legend>
+                {{ k.tip === 'stampar' ? 'Podaci o štampariji' : 'Podaci o instituciji' }}
+              </legend>
+
+              <label class="ph-polje">
+                <span>Naziv {{ k.tip === 'stampar' ? 'štamparije' : 'institucije' }} *</span>
+                <input
+                  type="text"
+                  name="nazivInstitucije"
+                  [(ngModel)]="nazivInstitucije"
+                  maxlength="150"
+                />
+              </label>
+
+              <div class="dve-kolone">
+                <label class="ph-polje">
+                  <span>Adresa sedišta *</span>
+                  <input
+                    type="text"
+                    name="adresaSedista"
+                    [(ngModel)]="adresaSedista"
+                    maxlength="200"
+                  />
+                </label>
+
+                <label class="ph-polje">
+                  <span>Grad *</span>
+                  <input type="text" name="grad" [(ngModel)]="grad" maxlength="100" />
+                </label>
+
+                <label class="ph-polje">
+                  <span>Matični broj *</span>
+                  <input
+                    type="text"
+                    name="maticniBroj"
+                    [(ngModel)]="maticniBroj"
+                    maxlength="8"
+                    inputmode="numeric"
+                  />
+                </label>
+
+                <label class="ph-polje">
+                  <span>PIB *</span>
+                  <input
+                    type="text"
+                    name="pib"
+                    [(ngModel)]="pib"
+                    maxlength="9"
+                    inputmode="numeric"
+                  />
+                </label>
+              </div>
+            </fieldset>
+          }
+
+          <button type="submit" class="ph-dugme" [disabled]="cuvanje()">
+            {{ cuvanje() ? 'Čuvanje...' : 'Sačuvaj izmene' }}
+          </button>
+        </form>
+      </section>
+    </div>
+  }
+</div>

@@ -92,6 +92,11 @@ export class AuthService {
     }
   }
 
+  /** Koristi se posle izmene profila, da zaglavlje odmah prikaže nove podatke. */
+  postaviKorisnika(k: Korisnik): void {
+    this.zapamti(k);
+  }
+
   private zapamti(k: Korisnik): void {
     localStorage.setItem(KLJUC, JSON.stringify(k));
     this._korisnik.set(k);

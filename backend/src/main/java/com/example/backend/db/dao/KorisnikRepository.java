@@ -20,5 +20,12 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, String> {
 
     boolean existsByPib(String pib);
 
+    // varijante koje ignorisu samog korisnika — za proveru jedinstvenosti pri azuriranju profila
+    boolean existsByMejlIgnoreCaseAndKorImeNot(String mejl, String korIme);
+
+    boolean existsByMaticniBrojAndKorImeNot(String maticniBroj, String korIme);
+
+    boolean existsByPibAndKorImeNot(String pib, String korIme);
+
     long countByTipAndStatusRegistracije(TipKorisnika tip, StatusRegistracije status);
 }
