@@ -140,6 +140,28 @@ h1 {
   cursor: not-allowed;
 }
 
+.dugme-prijem {
+  padding: 0.35rem 0.8rem;
+  background: #1f5c3a;
+  color: #fff;
+  border: 1px solid #1f5c3a;
+  border-radius: var(--ph-radius);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.dugme-prijem:hover:not(:disabled) {
+  background: #2e7d4f;
+}
+
+.dugme-prijem:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .strelica-reda {
   margin-left: 0.6rem;
   color: var(--ph-siva);

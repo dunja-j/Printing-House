@@ -60,6 +60,11 @@ public class NarudzbinaDto {
         return status == StatusNarudzbine.naruceno;
     }
 
+    /** Prijem potvrđuje klijent, i tek tada sme da oceni proizvode iz narudžbine. */
+    public boolean isMozePotvrditiPrijem() {
+        return status == StatusNarudzbine.isporuceno;
+    }
+
     public int getBrojStavki() {
         return stavke.size();
     }

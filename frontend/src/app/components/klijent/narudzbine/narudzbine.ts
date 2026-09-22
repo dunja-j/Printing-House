@@ -81,6 +81,28 @@ export class Narudzbine {
     });
   }
 
+  potvrdiPrijem(n: Narudzbina): void {
+    this.greska.set(null);
+    this.uspeh.set(null);
+    this.otkazivanjeId.set(n.id);
+
+    this.servis.potvrdiPrijem(n.id).subscribe({
+      next: (izmenjena) => {
+        this.narudzbine.update((lista) =>
+          lista.map((x) => (x.id === izmenjena.id ? izmenjena : x))
+        );
+        this.otkazivanjeId.set(null);
+        this.uspeh.set(
+          `Prijem narudžbine #${izmenjena.id} je potvrđen — proizvode sada možete oceniti u arhivi.`
+        );
+      },
+      error: (err) => {
+        this.otkazivanjeId.set(null);
+        this.greska.set(err?.error?.poruka ?? 'Prijem nije potvrđen.');
+      }
+    });
+  }
+
   prikaziStavke(id: number): void {
     this.razvijene.update((skup) => {
       const novi = new Set(skup);

@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend.dto.ArhivaProizvodDto;
 import com.example.backend.dto.DetaljiZaKlijentaDto;
 import com.example.backend.dto.DodajUKorpuRequest;
+import com.example.backend.dto.KomentarRequest;
 import com.example.backend.dto.KorpaDto;
 import com.example.backend.dto.NarudzbinaDto;
 import com.example.backend.models.TipKorisnika;
+import com.example.backend.models.VrednostOcene;
 import com.example.backend.security.Sesija;
+import com.example.backend.service.ArhivaService;
 import com.example.backend.service.KorpaService;
 import com.example.backend.service.NarudzbinaService;
 import com.example.backend.service.ProizvodService;
@@ -33,12 +37,14 @@ public class KlijentController {
     private final NarudzbinaService narudzbinaService;
     private final ProizvodService proizvodService;
     private final KorpaService korpaService;
+    private final ArhivaService arhivaService;
 
     public KlijentController(NarudzbinaService narudzbinaService, ProizvodService proizvodService,
-            KorpaService korpaService) {
+            KorpaService korpaService, ArhivaService arhivaService) {
         this.narudzbinaService = narudzbinaService;
         this.proizvodService = proizvodService;
         this.korpaService = korpaService;
+        this.arhivaService = arhivaService;
     }
 
     /** Prosireni detalji — sa bojama i uslugama stampe potrebnim za porucivanje. */
@@ -56,6 +62,28 @@ public class KlijentController {
     @PostMapping("/narudzbine/{id}/otkazi")
     public NarudzbinaDto otkazi(@PathVariable Integer id, HttpSession session) {
         return narudzbinaService.otkazi(id, klijent(session));
+    }
+
+    @PostMapping("/narudzbine/{id}/primljeno")
+    public NarudzbinaDto potvrdiPrijem(@PathVariable Integer id, HttpSession session) {
+        return narudzbinaService.potvrdiPrijem(id, klijent(session));
+    }
+
+    @GetMapping("/arhiva")
+    public List<ArhivaProizvodDto> arhiva(HttpSession session) {
+        return arhivaService.arhiva(klijent(session));
+    }
+
+    @PostMapping("/proizvodi/{id}/ocena")
+    public ArhivaProizvodDto oceni(@PathVariable Integer id,
+            @RequestParam VrednostOcene vrednost, HttpSession session) {
+        return arhivaService.oceni(klijent(session), id, vrednost);
+    }
+
+    @PostMapping("/proizvodi/{id}/komentar")
+    public ArhivaProizvodDto komentarisi(@PathVariable Integer id,
+            @Valid @RequestBody KomentarRequest zahtev, HttpSession session) {
+        return arhivaService.komentarisi(klijent(session), id, zahtev.getTekst());
     }
 
     @GetMapping("/korpa")

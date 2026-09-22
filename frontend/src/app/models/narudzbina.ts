@@ -26,6 +26,7 @@ export interface Narudzbina {
   ukupanIznos: number;
   brojStavki: number;
   mozeOtkazati: boolean;
+  mozePotvrditiPrijem: boolean;
   stavke: StavkaNarudzbine[];
 }
 

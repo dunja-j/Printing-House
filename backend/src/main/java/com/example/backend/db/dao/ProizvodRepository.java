@@ -69,5 +69,17 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             """)
     List<Proizvod> zaStampara(@Param("korIme") String korIme);
 
+    /** Proizvodi koje je klijent stvarno primio — samo njih sme da oceni i komentariše. */
+    @Query("""
+            SELECT DISTINCT p FROM StavkaNarudzbine s
+            JOIN s.narudzbina n
+            JOIN s.proizvod p
+            JOIN FETCH p.stampar
+            WHERE n.klijent.korIme = :korIme
+              AND n.status = com.example.backend.models.StatusNarudzbine.primljeno
+            ORDER BY p.naziv ASC
+            """)
+    List<Proizvod> primljeniOdKlijenta(@Param("korIme") String korIme);
+
     boolean existsBySifraAndStamparKorIme(String sifra, String stamparKorIme);
 }

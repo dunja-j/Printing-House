@@ -1,0 +1,110 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/klijent">&larr; Nazad na moj nalog</a>
+  <h1>Arhiva proizvoda</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+  @if (uspeh(); as poruka) {
+    <p class="ph-info" role="status">{{ poruka }}</p>
+  }
+
+  @if (ucitavanje()) {
+    <p class="ph-napomena">Učitavanje...</p>
+  } @else if (proizvodi().length) {
+    <p class="ph-napomena rezime">
+      Proizvodi koje ste primili &mdash; možete ih oceniti i komentarisati.
+    </p>
+
+    @for (p of proizvodi(); track p.proizvodId) {
+      <article class="ph-kartica proizvod">
+        <header class="zaglavlje">
+          <img [src]="slika(p.slikaUrl)" [alt]="p.naziv" />
+
+          <div class="osnovno">
+            <a class="naziv" [routerLink]="['/proizvod', p.proizvodId]">{{ p.naziv }}</a>
+            <p class="stamparija">
+              {{ p.nazivStamparije }}@if (p.grad) { &middot; {{ p.grad }} }
+            </p>
+
+            <div class="ocene">
+              <button
+                type="button"
+                class="ocena lajk"
+                [class.izabrana]="p.mojaOcena === 'lajk'"
+                [disabled]="radiSe() === p.proizvodId"
+                (click)="oceni(p, 'lajk')"
+              >
+                &#128077; {{ p.brojLajkova }}
+              </button>
+
+              <button
+                type="button"
+                class="ocena dislajk"
+                [class.izabrana]="p.mojaOcena === 'dislajk'"
+                [disabled]="radiSe() === p.proizvodId"
+                (click)="oceni(p, 'dislajk')"
+              >
+                &#128078; {{ p.brojDislajkova }}
+              </button>
+
+              @if (p.mojaOcena) {
+                <span class="pomoc">Ponovnim klikom poništavate svoju ocenu.</span>
+              }
+            </div>
+          </div>
+        </header>
+
+        <section class="komentari">
+          <h2>Poslednji komentari</h2>
+
+          @if (p.poslednjiKomentari.length) {
+            <ul>
+              @for (k of p.poslednjiKomentari; track k.id) {
+                <li [class.moj]="k.moj">
+                  <div class="zaglavlje-komentara">
+                    <strong>{{ k.autor }}</strong>
+                    <span class="datum">{{ k.datum | date: 'dd.MM.yyyy. HH:mm' }}</span>
+                    @if (k.moj) {
+                      <span class="oznaka">vaš komentar</span>
+                    }
+                  </div>
+                  <p>{{ k.tekst }}</p>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="ph-napomena">Još nema komentara za ovaj proizvod.</p>
+          }
+
+          <div class="novi-komentar">
+            <label class="ph-polje">
+              <span>Vaš komentar (do 500 karaktera)</span>
+              <textarea
+                [name]="'komentar' + p.proizvodId"
+                [(ngModel)]="noviKomentari[p.proizvodId]"
+                [ngModelOptions]="{ standalone: true }"
+                maxlength="500"
+                rows="2"
+              ></textarea>
+            </label>
+
+            <button
+              type="button"
+              class="ph-dugme"
+              [disabled]="radiSe() === p.proizvodId"
+              (click)="posaljiKomentar(p)"
+            >
+              {{ radiSe() === p.proizvodId ? 'Slanje...' : 'Objavi komentar' }}
+            </button>
+          </div>
+        </section>
+      </article>
+    }
+  } @else if (!greska()) {
+    <p class="ph-napomena">
+      Arhiva je prazna. Ovde se pojavljuju proizvodi iz narudžbina kojima ste potvrdili prijem.
+    </p>
+    <a class="ph-dugme ph-dugme-link" routerLink="/klijent/narudzbine">Moje narudžbine</a>
+  }
+</div>

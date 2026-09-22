@@ -50,6 +50,24 @@ public class NarudzbinaService {
         return narudzbinaRepository.zaStampara(korIme).stream().map(StamparNarudzbinaDto::new).toList();
     }
 
+    /** Klijent potvrđuje prijem: isporučeno → primljeno. Tek tada sme da oceni proizvod. */
+    @Transactional
+    public NarudzbinaDto potvrdiPrijem(Integer id, String korIme) {
+        Narudzbina n = narudzbinaRepository.findById(id)
+                .orElseThrow(() -> new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena."));
+
+        if (!n.getKlijent().getKorIme().equals(korIme)) {
+            throw new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena.");
+        }
+        if (n.getStatus() != StatusNarudzbine.isporuceno) {
+            throw new PoslovnaGreska(HttpStatus.CONFLICT,
+                    "Prijem se potvrđuje samo za narudžbinu u statusu \"isporučeno\".");
+        }
+
+        n.setStatus(StatusNarudzbine.primljeno);
+        return new NarudzbinaDto(narudzbinaRepository.save(n));
+    }
+
     /** Štamparija pomera narudžbinu samo unapred: naručeno → u štampi → isporučeno. */
     @Transactional
     public StamparNarudzbinaDto promeniStatus(Integer id, String korIme, StatusNarudzbine noviStatus) {

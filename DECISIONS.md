@@ -63,6 +63,10 @@ Format: `Datum | Oblast | Odluka | Zašto / alternative`
 | 2026-09-22 | Promena statusa narudžbine | Štamparija pomera status **samo unapred i samo za jedan korak**: `naruceno` → `u_stampi` → `isporuceno`. Server odbija svaki drugi prelaz (preskakanje, vraćanje unazad, diranje `primljeno`/`otkazano`). | Tok statusa iz specifikacije je linearan. Prelaz `isporuceno` → `primljeno` je klijentov (#19), pa ga štamparija ne sme raditi. |
 | 2026-09-22 | Prikaz dugmeta za status | Backend uz svaku narudžbinu šalje i `sledeciStatus`; front samo prikazuje dugme za tu vrednost, umesto da sam računa pravila. | Pravila prelaza su na jednom mestu (server); front ne može da se "raziđe" sa njima. |
 | 2026-09-22 | Koje narudžbine štampar vidi | Samo one **fizičkih lica** (`klijent_fizicko`). | Specifikacija vezuje promenu statusa baš za fizička lica; porudžbine pravnih lica idu kroz javnu nabavku (#18). |
+| 2026-09-22 | Ko sme da oceni proizvod | Samo klijent koji ima narudžbinu sa tim proizvodom u statusu **`primljeno`**. Provera je na serveru pri svakom lajku/komentaru, ne samo na frontu. | Specifikacija: ocenjuju se "primljeni proizvodi". Bez serverske provere bi se ocena mogla poslati direktnim pozivom API-ja za bilo koji proizvod. |
+| 2026-09-22 | Ponovni klik na istu ocenu | **Poništava** ocenu (klijent više nema ni lajk ni dislajk). Klik na suprotnu je menja. | Jedna ocena po klijentu i proizvodu već je nameće `UNIQUE(proizvod_id, klijent_kor_ime)`; poništavanje je očekivano ponašanje i nema drugog načina da se ocena povuče. |
+| 2026-09-22 | Broj komentara po proizvodu | Klijent može ostaviti **više** komentara na isti proizvod; prikazuje se poslednjih 5 (najnoviji prvi). | Specifikacija traži "prikaz poslednjih 5 komentara", što podrazumeva da ih može biti više; baza nema ograničenje na jedan po klijentu. |
+| 2026-09-22 | Gde se ocenjuje | Na zasebnoj strani **Arhiva proizvoda** (`/klijent/arhiva`), ne na javnoj strani detalja. | Specifikacija komentare vezuje za arhivu primljenih proizvoda, a za javne detalje navodi samo broj lajkova/dislajkova. |
 
 ## Otvorena pitanja (popuniti kad se odluči)
 
