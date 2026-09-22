@@ -20,23 +20,34 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.dto.PoslovnaGreska;
 
-/** Cuvanje profilnih slika na disku, uz proveru formata i dimenzija. */
+/** Cuvanje uploadovanih slika na disku, uz proveru formata i dimenzija. */
 @Service
 public class SlikaService {
 
     private static final Set<String> DOZVOLJENE_EKSTENZIJE = Set.of("jpg", "jpeg", "png", "gif");
     private static final long MAX_BAJTOVA = 2L * 1024 * 1024;
-    private static final int MIN_PIKSELA = 100;
-    private static final int MAX_PIKSELA = 250;
+    private static final int PROFILNA_MIN = 100;
+    private static final int PROFILNA_MAX = 250;
+    private static final int PROIZVOD_MIN = 200;
+    private static final int PROIZVOD_MAX = 2000;
 
-    private final Path folder;
+    private final Path korenUploada;
 
     public SlikaService(@Value("${app.upload-dir}") String uploadDir) {
-        this.folder = Paths.get(uploadDir, "profilne").toAbsolutePath().normalize();
+        this.korenUploada = Paths.get(uploadDir).toAbsolutePath().normalize();
     }
 
-    /** Snima sliku i vraca naziv fajla koji treba upisati u kolonu `slika_url`. */
+    /** Snima profilnu sliku i vraca naziv fajla za kolonu `korisnik.slika_url`. */
     public String sacuvajProfilnu(MultipartFile fajl, String korIme) {
+        return sacuvaj(fajl, "profilne", korIme, PROFILNA_MIN, PROFILNA_MAX);
+    }
+
+    /** Snima sliku proizvoda i vraca naziv fajla za kolonu `proizvod.slika_url`. */
+    public String sacuvajProizvod(MultipartFile fajl, String sifra) {
+        return sacuvaj(fajl, "proizvodi", sifra, PROIZVOD_MIN, PROIZVOD_MAX);
+    }
+
+    private String sacuvaj(MultipartFile fajl, String podfolder, String prefiks, int min, int max) {
         if (fajl == null || fajl.isEmpty()) {
             throw new PoslovnaGreska(HttpStatus.BAD_REQUEST, "Nije izabrana slika.");
         }
@@ -58,10 +69,13 @@ public class SlikaService {
             if (slika == null) {
                 throw new PoslovnaGreska(HttpStatus.BAD_REQUEST, "Poslati fajl nije ispravna slika.");
             }
-            proveriDimenzije(slika.getWidth(), slika.getHeight());
+            proveriDimenzije(slika.getWidth(), slika.getHeight(), min, max);
 
+            Path folder = korenUploada.resolve(podfolder);
             Files.createDirectories(folder);
-            String naziv = korIme + "_" + UUID.randomUUID().toString().substring(0, 8) + "." + ekstenzija;
+
+            String naziv = bezbedanPrefiks(prefiks) + "_"
+                    + UUID.randomUUID().toString().substring(0, 8) + "." + ekstenzija;
             Path odrediste = folder.resolve(naziv);
             if (!odrediste.getParent().equals(folder)) {
                 throw new PoslovnaGreska(HttpStatus.BAD_REQUEST, "Neispravan naziv fajla.");
@@ -75,17 +89,23 @@ public class SlikaService {
         }
     }
 
-    private void proveriDimenzije(int sirina, int visina) {
-        if (sirina < MIN_PIKSELA || visina < MIN_PIKSELA) {
+    private void proveriDimenzije(int sirina, int visina, int min, int max) {
+        if (sirina < min || visina < min) {
             throw new PoslovnaGreska(HttpStatus.BAD_REQUEST,
-                    "Slika mora biti najmanje " + MIN_PIKSELA + "x" + MIN_PIKSELA + " piksela (poslata je "
+                    "Slika mora biti najmanje " + min + "x" + min + " piksela (poslata je "
                             + sirina + "x" + visina + ").");
         }
-        if (sirina > MAX_PIKSELA || visina > MAX_PIKSELA) {
+        if (sirina > max || visina > max) {
             throw new PoslovnaGreska(HttpStatus.BAD_REQUEST,
-                    "Slika sme biti najviše " + MAX_PIKSELA + "x" + MAX_PIKSELA + " piksela (poslata je "
+                    "Slika sme biti najviše " + max + "x" + max + " piksela (poslata je "
                             + sirina + "x" + visina + ").");
         }
+    }
+
+    /** Naziv fajla se pravi od korisnickog unosa, pa se sve sem slova i cifara uklanja. */
+    private static String bezbedanPrefiks(String s) {
+        String ocisceno = s.replaceAll("[^A-Za-z0-9._-]", "");
+        return ocisceno.isEmpty() ? "slika" : ocisceno;
     }
 
     private static String ekstenzija(String nazivFajla) {

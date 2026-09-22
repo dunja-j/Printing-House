@@ -59,4 +59,15 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             WHERE p.id = :id AND p.aktivan = true
             """)
     Optional<Proizvod> nadjiAktivanSaDetaljima(@Param("id") Integer id);
+
+    @Query("""
+            SELECT p FROM Proizvod p
+            JOIN FETCH p.kategorija
+            LEFT JOIN FETCH p.potkategorija
+            WHERE p.stampar.korIme = :korIme
+            ORDER BY p.naziv ASC
+            """)
+    List<Proizvod> zaStampara(@Param("korIme") String korIme);
+
+    boolean existsBySifraAndStamparKorIme(String sifra, String stamparKorIme);
 }

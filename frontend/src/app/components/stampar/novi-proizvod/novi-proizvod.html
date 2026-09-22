@@ -1,0 +1,160 @@
+<div class="ph-omot">
+  <a class="nazad" routerLink="/stampar/proizvodi">&larr; Nazad na proizvode</a>
+  <h1>Novi proizvod</h1>
+
+  @if (greska(); as poruka) {
+    <p class="ph-greska" role="alert">{{ poruka }}</p>
+  }
+
+  <form class="ph-kartica" (ngSubmit)="sacuvaj()" novalidate>
+    <div class="dve-kolone">
+      <label class="ph-polje">
+        <span>Šifra proizvoda *</span>
+        <input type="text" name="sifra" [(ngModel)]="sifra" maxlength="30" placeholder="npr. PR-004" />
+      </label>
+
+      <label class="ph-polje">
+        <span>Naziv *</span>
+        <input type="text" name="naziv" [(ngModel)]="naziv" maxlength="150" />
+      </label>
+
+      <label class="ph-polje">
+        <span>Kategorija *</span>
+        <select
+          name="kategorija"
+          [ngModel]="kategorijaId()"
+          (ngModelChange)="promeniKategoriju($event)"
+        >
+          <option [ngValue]="null">— izaberite kategoriju —</option>
+          @for (k of kategorije(); track k.id) {
+            <option [ngValue]="k.id">{{ k.naziv }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="ph-polje">
+        <span>Potkategorija</span>
+        <select name="potkategorija" [(ngModel)]="potkategorijaId" [disabled]="!potkategorije().length">
+          <option [ngValue]="null">— bez potkategorije —</option>
+          @for (p of potkategorije(); track p.id) {
+            <option [ngValue]="p.id">{{ p.naziv }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="ph-polje">
+        <span>Jedinična cena (RSD) *</span>
+        <input type="number" name="cena" [(ngModel)]="jedinicnaCena" min="0.01" step="0.01" />
+      </label>
+
+      <label class="ph-polje">
+        <span>Količina na lageru *</span>
+        <input type="number" name="lager" [(ngModel)]="kolicinaNaLageru" min="0" />
+      </label>
+    </div>
+
+    <label class="ph-polje">
+      <span>Opis</span>
+      <textarea name="opis" [(ngModel)]="opis" maxlength="2000" rows="3"></textarea>
+    </label>
+
+    <fieldset class="grupa">
+      <legend>Dostupne boje</legend>
+
+      <div class="dodavanje-boje">
+        <input
+          type="text"
+          name="unosBoje"
+          [(ngModel)]="unosBoje"
+          maxlength="50"
+          placeholder="npr. Bela"
+          (keydown.enter)="$event.preventDefault(); dodajBoju()"
+        />
+        <button type="button" class="ph-dugme sporedno" (click)="dodajBoju()">Dodaj boju</button>
+      </div>
+
+      @if (boje().length) {
+        <ul class="lista-boja">
+          @for (b of boje(); track b) {
+            <li>
+              {{ b }}
+              <button type="button" (click)="ukloniBoju(b)" aria-label="Ukloni boju">&times;</button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="ph-napomena">
+          Ako proizvod nema izbor boje (npr. flajer), ostavite prazno.
+        </p>
+      }
+    </fieldset>
+
+    <fieldset class="grupa">
+      <legend>Usluge štampe</legend>
+
+      @for (u of usluge(); track $index) {
+        <div class="usluga">
+          <label class="ph-polje">
+            <span>Tip štampe *</span>
+            <input
+              type="text"
+              name="tipStampe"
+              [(ngModel)]="u.tipStampe"
+              [ngModelOptions]="{ standalone: true }"
+              maxlength="150"
+              placeholder="npr. Sublimaciona štampa"
+            />
+          </label>
+
+          <label class="ph-polje">
+            <span>Doplata po komadu</span>
+            <input
+              type="number"
+              name="doplata"
+              [(ngModel)]="u.dodatnaCenaPoKomadu"
+              [ngModelOptions]="{ standalone: true }"
+              min="0"
+              step="0.01"
+            />
+          </label>
+
+          <label class="ph-polje">
+            <span>Max širina (mm)</span>
+            <input
+              type="number"
+              name="maxSirina"
+              [(ngModel)]="u.maxSirinaMm"
+              [ngModelOptions]="{ standalone: true }"
+              min="1"
+            />
+          </label>
+
+          <label class="ph-polje">
+            <span>Max visina (mm)</span>
+            <input
+              type="number"
+              name="maxVisina"
+              [(ngModel)]="u.maxVisinaMm"
+              [ngModelOptions]="{ standalone: true }"
+              min="1"
+            />
+          </label>
+
+          <button type="button" class="ukloni-uslugu" (click)="ukloniUslugu($index)">Ukloni</button>
+        </div>
+      }
+
+      <button type="button" class="ph-dugme sporedno" (click)="dodajUslugu()">
+        + Dodaj uslugu štampe
+      </button>
+    </fieldset>
+
+    <p class="ph-napomena">
+      Sliku proizvoda dodajete nakon čuvanja, sa spiska proizvoda (dugme „Promeni").
+    </p>
+
+    <button type="submit" class="ph-dugme" [disabled]="slanje()">
+      {{ slanje() ? 'Čuvanje...' : 'Sačuvaj proizvod' }}
+    </button>
+  </form>
+</div>
