@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.backend.db.dao.NarudzbinaRepository;
 import com.example.backend.dto.NarudzbinaDto;
 import com.example.backend.dto.PoslovnaGreska;
+import com.example.backend.dto.StamparNarudzbinaDto;
 import com.example.backend.models.Narudzbina;
 import com.example.backend.models.StatusNarudzbine;
 
@@ -42,5 +43,54 @@ public class NarudzbinaService {
 
         n.setStatus(StatusNarudzbine.otkazano);
         return new NarudzbinaDto(narudzbinaRepository.save(n));
+    }
+
+    @Transactional(readOnly = true)
+    public List<StamparNarudzbinaDto> zaStampara(String korIme) {
+        return narudzbinaRepository.zaStampara(korIme).stream().map(StamparNarudzbinaDto::new).toList();
+    }
+
+    /** Štamparija pomera narudžbinu samo unapred: naručeno → u štampi → isporučeno. */
+    @Transactional
+    public StamparNarudzbinaDto promeniStatus(Integer id, String korIme, StatusNarudzbine noviStatus) {
+        Narudzbina n = narudzbinaRepository.findById(id)
+                .orElseThrow(() -> new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena."));
+
+        if (!n.getStampar().getKorIme().equals(korIme)) {
+            throw new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena.");
+        }
+
+        StatusNarudzbine dozvoljeni = sledeciStatus(n.getStatus());
+        if (dozvoljeni == null) {
+            throw new PoslovnaGreska(HttpStatus.CONFLICT,
+                    "Narudžbini u statusu \"" + naziv(n.getStatus()) + "\" štamparija ne može da menja status.");
+        }
+        if (noviStatus != dozvoljeni) {
+            throw new PoslovnaGreska(HttpStatus.CONFLICT,
+                    "Iz statusa \"" + naziv(n.getStatus()) + "\" moguće je preći samo u \""
+                            + naziv(dozvoljeni) + "\".");
+        }
+
+        n.setStatus(noviStatus);
+        return new StamparNarudzbinaDto(narudzbinaRepository.save(n));
+    }
+
+    private static StatusNarudzbine sledeciStatus(StatusNarudzbine trenutni) {
+        return switch (trenutni) {
+            case naruceno, placeno -> StatusNarudzbine.u_stampi;
+            case u_stampi -> StatusNarudzbine.isporuceno;
+            default -> null;
+        };
+    }
+
+    private static String naziv(StatusNarudzbine status) {
+        return switch (status) {
+            case naruceno -> "naručeno";
+            case placeno -> "plaćeno";
+            case u_stampi -> "u štampi";
+            case isporuceno -> "isporučeno";
+            case primljeno -> "primljeno";
+            case otkazano -> "otkazano";
+        };
     }
 }

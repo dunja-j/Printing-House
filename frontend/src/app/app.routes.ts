@@ -12,6 +12,7 @@ import { Narudzbine } from './components/klijent/narudzbine/narudzbine';
 import { KlijentPocetna } from './components/klijent/pocetna/pocetna';
 import { Profil } from './components/profil/profil';
 import { NoviProizvodKomponenta } from './components/stampar/novi-proizvod/novi-proizvod';
+import { StamparNarudzbine } from './components/stampar/narudzbine/narudzbine';
 import { StamparPocetna } from './components/stampar/pocetna/pocetna';
 import { StamparProizvodi } from './components/stampar/proizvodi/proizvodi';
 import { dozvoljenTip, samoGost, samoPrijavljeni } from './guards/auth.guard';
@@ -49,6 +50,11 @@ export const routes: Routes = [
   {
     path: 'stampar/proizvodi/novi',
     component: NoviProizvodKomponenta,
+    canActivate: [dozvoljenTip(['stampar'])]
+  },
+  {
+    path: 'stampar/narudzbine',
+    component: StamparNarudzbine,
     canActivate: [dozvoljenTip(['stampar'])]
   },
   { path: 'admin', component: AdminPocetna, canActivate: [dozvoljenTip(['administrator'])] },

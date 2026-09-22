@@ -14,12 +14,13 @@ import { AuthService } from '../../../services/auth.service';
           <p>Odgovorno lice: {{ k.ime }} {{ k.prezime }} &middot; {{ k.grad }}</p>
 
           <nav class="precice">
+            <a routerLink="/stampar/narudzbine">Naručeni proizvodi</a>
             <a routerLink="/stampar/proizvodi">Proizvodi i usluge</a>
             <a routerLink="/stampar/proizvodi/novi">Dodaj proizvod</a>
             <a routerLink="/profil">Moj profil</a>
           </nav>
 
-          <p class="ph-napomena">Narudžbine i licitacije dolaze u narednim funkcionalnostima.</p>
+          <p class="ph-napomena">Licitacije dolaze u narednim funkcionalnostima.</p>
         </section>
       </div>
     }
