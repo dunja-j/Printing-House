@@ -33,3 +33,11 @@ export const samoGost: CanActivateFn = () => {
 
   return korisnik ? router.createUrlTree([auth.pocetnaRuta(korisnik.tip)]) : true;
 };
+
+/** Propusta bilo kog prijavljenog korisnika, bez obzira na tip. */
+export const samoPrijavljeni: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  return auth.korisnik() ? true : router.createUrlTree(['/login']);
+};
