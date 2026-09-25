@@ -42,7 +42,7 @@ nema vremena.
 | 16 | Dostavljanje PDF fakture na mejl | 🟡 BONUS ⚠️ | todo | zavisi od PDF + mejl biblioteke, raditi kasnije |
 | 17 | Servis za plaćanje (Stripe test / PayPal sandbox) | 🟡 BONUS ⚠️ | todo | najkompleksnija bonus stavka — raditi poslednju, prva kandidat za preskakanje |
 | 18 | Javne nabavke (klijent - pravno lice, licitacija 10 min) | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/nabavke`. Nabavka nastaje iz e-korpe (dugme "Pošalji u javnu nabavku"), rok je 10 min. Nema tajmera — istekle nabavke se zaključuju pri sledećem učitavanju liste. Pobeđuje najniža ponuda štamparije koja ima dovoljno na stanju; od nje nastaje narudžbina u statusu **u štampi** i lager se umanjuje. |
-| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva` prikazuje **isporučene i primljene** stavke, sortirane po datumu naručivanja (može i po nazivu, količini, štampariji). Isporučenu stavku klijent prvo potvrdi kao primljenu, pa je onda ocenjuje i komentariše. Poslednjih 5 komentara vidi se i na strani sa detaljima proizvoda; sopstveni je uokviren narandžastom linijom. |
+| 19 | Lajkovanje/dislajkovanje i komentarisanje primljenih proizvoda | 🔴 OBAVEZNO | gotovo | Ruta `/klijent/arhiva` prikazuje **isporučene i primljene** stavke, sortirane po datumu naručivanja (može i po nazivu, količini, štampariji). Isporučenu stavku klijent prvo potvrdi kao primljenu, pa je onda ocenjuje i komentariše. Poslednjih 3 komentara vidi se i na strani sa detaljima proizvoda; sopstveni je uokviren narandžastom linijom. |
 
 ## Deo za štampare
 

@@ -33,7 +33,7 @@ import com.example.backend.models.VrednostOcene;
 @Service
 public class ArhivaService {
 
-    private static final int BROJ_KOMENTARA = 5;
+    private static final int BROJ_KOMENTARA = 3;
     private static final int MAX_DUZINA_KOMENTARA = 500;
 
     private final NarudzbinaRepository narudzbinaRepository;
