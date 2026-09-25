@@ -6,20 +6,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.backend.db.dao.KorisnikRepository;
 import com.example.backend.db.dao.NarudzbinaRepository;
 import com.example.backend.dto.NarudzbinaDto;
 import com.example.backend.dto.PoslovnaGreska;
 import com.example.backend.dto.StamparNarudzbinaDto;
+import com.example.backend.models.Korisnik;
 import com.example.backend.models.Narudzbina;
 import com.example.backend.models.StatusNarudzbine;
 
 @Service
 public class NarudzbinaService {
 
-    private final NarudzbinaRepository narudzbinaRepository;
+    /** Posle ovoliko prijava da narudzbina nije stigla stamparija se vise ne prikazuje. */
+    public static final int DOZVOLJENO_NEDOSTAVLJENIH = 3;
 
-    public NarudzbinaService(NarudzbinaRepository narudzbinaRepository) {
+    private final NarudzbinaRepository narudzbinaRepository;
+    private final KorisnikRepository korisnikRepository;
+
+    public NarudzbinaService(NarudzbinaRepository narudzbinaRepository,
+            KorisnikRepository korisnikRepository) {
         this.narudzbinaRepository = narudzbinaRepository;
+        this.korisnikRepository = korisnikRepository;
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +76,33 @@ public class NarudzbinaService {
         return new NarudzbinaDto(narudzbinaRepository.save(n));
     }
 
+    /**
+     * Klijent prijavljuje da narudžbina nije stigla: isporučeno → nije stiglo.
+     * Štamparija sa {@link #DOZVOLJENO_NEDOSTAVLJENIH} ovakvih prijava više se ne
+     * prikazuje na javnim stranama (njeni proizvodi ispadaju iz pretrage).
+     */
+    @Transactional
+    public NarudzbinaDto prijaviNedostavljeno(Integer id, String korIme) {
+        Narudzbina n = narudzbinaRepository.findById(id)
+                .orElseThrow(() -> new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena."));
+
+        if (!n.getKlijent().getKorIme().equals(korIme)) {
+            throw new PoslovnaGreska(HttpStatus.NOT_FOUND, "Narudžbina nije pronađena.");
+        }
+        if (n.getStatus() != StatusNarudzbine.isporuceno) {
+            throw new PoslovnaGreska(HttpStatus.CONFLICT,
+                    "Nedostavljenu pošiljku prijavljujete samo za narudžbinu u statusu \"isporučeno\".");
+        }
+
+        n.setStatus(StatusNarudzbine.nije_stiglo);
+
+        Korisnik stampar = n.getStampar();
+        stampar.setBrojNedostavljenih(stampar.getBrojNedostavljenih() + 1);
+        korisnikRepository.save(stampar);
+
+        return new NarudzbinaDto(narudzbinaRepository.save(n));
+    }
+
     /** Štamparija pomera narudžbinu samo unapred: naručeno → u štampi → isporučeno. */
     @Transactional
     public StamparNarudzbinaDto promeniStatus(Integer id, String korIme, StatusNarudzbine noviStatus) {
@@ -108,6 +143,7 @@ public class NarudzbinaService {
             case u_stampi -> "u štampi";
             case isporuceno -> "isporučeno";
             case primljeno -> "primljeno";
+            case nije_stiglo -> "nije stiglo";
             case otkazano -> "otkazano";
         };
     }

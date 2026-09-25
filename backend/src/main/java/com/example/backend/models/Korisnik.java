@@ -61,6 +61,10 @@ public class Korisnik {
     @Column(name = "datum_registracije", nullable = false)
     private LocalDateTime datumRegistracije;
 
+    /** Samo za stampare: broj narudzbina za koje je klijent prijavio da nisu stigle. */
+    @Column(name = "broj_nedostavljenih", nullable = false)
+    private int brojNedostavljenih;
+
     public String getKorIme() {
         return korIme;
     }
@@ -179,5 +183,13 @@ public class Korisnik {
 
     public void setDatumRegistracije(LocalDateTime datumRegistracije) {
         this.datumRegistracije = datumRegistracije;
+    }
+
+    public int getBrojNedostavljenih() {
+        return brojNedostavljenih;
+    }
+
+    public void setBrojNedostavljenih(int brojNedostavljenih) {
+        this.brojNedostavljenih = brojNedostavljenih;
     }
 }

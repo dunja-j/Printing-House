@@ -32,6 +32,15 @@ export class NarudzbinaService {
     );
   }
 
+  /** Umesto potvrde prijema: klijent prijavljuje da narudzbina nije stigla. */
+  prijaviNedostavljeno(id: number): Observable<Narudzbina> {
+    return this.http.post<Narudzbina>(
+      `${environment.apiUrl}/klijent/narudzbine/${id}/nije-stiglo`,
+      {},
+      { withCredentials: true }
+    );
+  }
+
   arhiva(): Observable<ArhivaStavka[]> {
     return this.http.get<ArhivaStavka[]>(`${environment.apiUrl}/klijent/arhiva`, {
       withCredentials: true

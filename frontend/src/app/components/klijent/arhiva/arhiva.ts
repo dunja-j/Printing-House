@@ -77,6 +77,22 @@ export class Arhiva {
     });
   }
 
+  prijaviNedostavljeno(s: ArhivaStavka): void {
+    if (!confirm(`Da li ste sigurni da narudžbina #${s.narudzbinaId} nije stigla?`)) {
+      return;
+    }
+
+    this.pripremi(s.stavkaId);
+    this.servis.prijaviNedostavljeno(s.narudzbinaId).subscribe({
+      next: () => {
+        this.radiSe.set(null);
+        this.uspeh.set(`Prijavili ste da narudžbina #${s.narudzbinaId} nije stigla.`);
+        this.ucitaj();
+      },
+      error: (err) => this.neuspeh(err)
+    });
+  }
+
   oceni(s: ArhivaStavka, vrednost: VrednostOcene): void {
     this.pripremi(s.stavkaId);
     this.servis.oceni(s.proizvodId, vrednost).subscribe({

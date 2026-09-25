@@ -119,6 +119,11 @@ public class ArhivaStavkaDto {
         return status == StatusNarudzbine.isporuceno;
     }
 
+    /** Umesto potvrde prijema klijent sme da prijavi da pošiljka nije stigla. */
+    public boolean isMozePrijavitiNedostavljeno() {
+        return status == StatusNarudzbine.isporuceno;
+    }
+
     public boolean isMozeOceniti() {
         return status == StatusNarudzbine.primljeno;
     }

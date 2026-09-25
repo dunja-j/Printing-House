@@ -55,6 +55,11 @@ public class NarudzbinaDto {
         return stavke;
     }
 
+    /** Umesto potvrde prijema klijent sme da prijavi da posiljka nije stigla. */
+    public boolean isMozePrijavitiNedostavljeno() {
+        return status == StatusNarudzbine.isporuceno;
+    }
+
     /** Otkazivanje je dozvoljeno samo dok stamparija nije preuzela posao. */
     public boolean isMozeOtkazati() {
         return status == StatusNarudzbine.naruceno;

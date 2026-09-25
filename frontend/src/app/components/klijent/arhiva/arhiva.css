@@ -73,6 +73,17 @@ h1 {
   letter-spacing: 0.04em;
 }
 
+.prijem .dugme-nije-stiglo {
+  background: #fff;
+  color: var(--ph-greska);
+  border: 1px solid var(--ph-greska);
+}
+
+.prijem .dugme-nije-stiglo:hover:not(:disabled) {
+  background: var(--ph-greska);
+  color: #fff;
+}
+
 .oznaka-statusa {
   padding: 0.22rem 0.6rem;
   border-radius: 999px;

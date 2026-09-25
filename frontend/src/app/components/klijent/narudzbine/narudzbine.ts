@@ -102,6 +102,30 @@ export class NarudzbineTabela {
     });
   }
 
+  prijaviNedostavljeno(n: Narudzbina): void {
+    if (!confirm(`Da li ste sigurni da narudžbina #${n.id} nije stigla?`)) {
+      return;
+    }
+
+    this.greska.set(null);
+    this.uspeh.set(null);
+    this.otkazivanjeId.set(n.id);
+
+    this.servis.prijaviNedostavljeno(n.id).subscribe({
+      next: (izmenjena) => {
+        this.narudzbine.update((lista) =>
+          lista.map((x) => (x.id === izmenjena.id ? izmenjena : x))
+        );
+        this.otkazivanjeId.set(null);
+        this.uspeh.set(`Prijavili ste da narudžbina #${izmenjena.id} nije stigla.`);
+      },
+      error: (err) => {
+        this.otkazivanjeId.set(null);
+        this.greska.set(err?.error?.poruka ?? 'Prijava nije sačuvana.');
+      }
+    });
+  }
+
   prikaziStavke(id: number): void {
     this.razvijene.update((skup) => {
       const novi = new Set(skup);

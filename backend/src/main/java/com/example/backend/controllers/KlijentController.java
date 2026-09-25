@@ -68,6 +68,11 @@ public class KlijentController {
         return narudzbinaService.potvrdiPrijem(id, klijent(session));
     }
 
+    @PostMapping("/narudzbine/{id}/nije-stiglo")
+    public NarudzbinaDto prijaviNedostavljeno(@PathVariable Integer id, HttpSession session) {
+        return narudzbinaService.prijaviNedostavljeno(id, klijent(session));
+    }
+
     @GetMapping("/arhiva")
     public List<ArhivaStavkaDto> arhiva(HttpSession session) {
         return arhivaService.arhiva(klijent(session));

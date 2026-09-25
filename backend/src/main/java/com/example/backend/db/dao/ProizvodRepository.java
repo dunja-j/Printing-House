@@ -15,6 +15,9 @@ import com.example.backend.models.Proizvod;
 public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
 
     /**
+     * Stamparija koja tri puta nije dostavila narudzbinu (broj_nedostavljenih >= 3)
+     * vise se ne prikazuje — njeni proizvodi ispadaju iz svih javnih upita.
+     *
      * Najlajkovaniji aktivni proizvodi. LEFT JOIN je namerno — proizvod bez ijedne
      * ocene treba da se pojavi sa nulom, a ne da ispadne iz rezultata.
      */
@@ -26,6 +29,7 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             LEFT JOIN OcenaProizvoda o
                    ON o.proizvod = p AND o.vrednost = com.example.backend.models.VrednostOcene.lajk
             WHERE p.aktivan = true
+              AND s.brojNedostavljenih < 3
             GROUP BY p.id, p.naziv, p.slikaUrl, s.nazivInstitucije, s.grad
             ORDER BY COUNT(o.id) DESC, p.naziv ASC
             """)
@@ -42,6 +46,7 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             LEFT JOIN OcenaProizvoda o
                    ON o.proizvod = p AND o.vrednost = com.example.backend.models.VrednostOcene.lajk
             WHERE p.aktivan = true
+              AND s.brojNedostavljenih < 3
               AND p.kolicinaNaLageru > 0
               AND (:naziv IS NULL OR LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')))
               AND (:kategorijaId IS NULL OR k.id = :kategorijaId)
@@ -57,7 +62,7 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Integer> {
             JOIN FETCH p.stampar
             JOIN FETCH p.kategorija
             LEFT JOIN FETCH p.potkategorija
-            WHERE p.id = :id AND p.aktivan = true
+            WHERE p.id = :id AND p.aktivan = true AND p.stampar.brojNedostavljenih < 3
             """)
     Optional<Proizvod> nadjiAktivanSaDetaljima(@Param("id") Integer id);
 

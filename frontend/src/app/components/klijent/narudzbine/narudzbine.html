@@ -79,6 +79,16 @@
                     {{ otkazivanjeId() === n.id ? 'Čuvanje...' : 'POTVRDI PRIJEM' }}
                   </button>
                 }
+                @if (n.mozePrijavitiNedostavljeno) {
+                  <button
+                    type="button"
+                    class="dugme-otkazi"
+                    [disabled]="otkazivanjeId() === n.id"
+                    (click)="prijaviNedostavljeno(n); $event.stopPropagation()"
+                  >
+                    {{ otkazivanjeId() === n.id ? 'Čuvanje...' : 'NIJE STIGLO' }}
+                  </button>
+                }
                 <span class="strelica-reda">{{ razvijena(n.id) ? '▲' : '▼' }}</span>
               </td>
             </tr>

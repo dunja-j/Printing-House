@@ -13,7 +13,7 @@ export interface ArhivaStavka {
   stavkaId: number;
   narudzbinaId: number;
   datumNarudzbine: string;
-  status: 'isporuceno' | 'primljeno';
+  status: 'isporuceno' | 'primljeno' | 'nije_stiglo';
   proizvodId: number;
   naziv: string;
   slikaUrl: string | null;
@@ -27,5 +27,6 @@ export interface ArhivaStavka {
   mojaOcena: VrednostOcene | null;
   poslednjiKomentari: Komentar[];
   mozePotvrditiPrijem: boolean;
+  mozePrijavitiNedostavljeno: boolean;
   mozeOceniti: boolean;
 }

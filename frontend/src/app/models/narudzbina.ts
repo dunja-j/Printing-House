@@ -4,6 +4,7 @@ export type StatusNarudzbine =
   | 'u_stampi'
   | 'isporuceno'
   | 'primljeno'
+  | 'nije_stiglo'
   | 'otkazano';
 
 export interface StavkaNarudzbine {
@@ -27,6 +28,7 @@ export interface Narudzbina {
   brojStavki: number;
   mozeOtkazati: boolean;
   mozePotvrditiPrijem: boolean;
+  mozePrijavitiNedostavljeno: boolean;
   stavke: StavkaNarudzbine[];
 }
 
@@ -36,5 +38,6 @@ export const NAZIV_STATUSA: Record<StatusNarudzbine, string> = {
   u_stampi: 'U štampi',
   isporuceno: 'Isporučeno',
   primljeno: 'Primljeno',
+  nije_stiglo: 'Nije stiglo',
   otkazano: 'Otkazano'
 };

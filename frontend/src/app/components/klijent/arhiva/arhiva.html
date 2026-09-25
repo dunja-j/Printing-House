@@ -67,6 +67,14 @@
                 >
                   {{ radiSe() === s.stavkaId ? 'Čuvanje...' : 'POTVRDI PRIJEM' }}
                 </button>
+                <button
+                  type="button"
+                  class="ph-dugme dugme-nije-stiglo"
+                  [disabled]="radiSe() === s.stavkaId"
+                  (click)="prijaviNedostavljeno(s)"
+                >
+                  NIJE STIGLO
+                </button>
               </div>
             } @else {
               <div class="ocene">

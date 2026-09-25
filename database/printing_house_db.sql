@@ -36,6 +36,9 @@ CREATE TABLE IF NOT EXISTS `korisnik` (
   `pib` CHAR(9) NULL,
   -- status registracije (klijent/štampar); administrator se ne registruje kroz UI:
   `status_registracije` ENUM('na_cekanju','odobren','odbijen') NOT NULL DEFAULT 'odobren',
+  -- broj narudžbina za koje je klijent prijavio da nisu stigle (samo za štampare);
+  -- štamparija sa 3 i više ovakvih prijava se više ne prikazuje na javnim stranama:
+  `broj_nedostavljenih` INT NOT NULL DEFAULT 0,
   `datum_registracije` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`kor_ime`),
   UNIQUE KEY `uq_korisnik_mejl` (`mejl`),
@@ -151,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `narudzbina` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `klijent_kor_ime` VARCHAR(45) NOT NULL,
   `stampar_kor_ime` VARCHAR(45) NOT NULL,
-  `status` ENUM('naruceno','placeno','u_stampi','isporuceno','primljeno','otkazano') NOT NULL DEFAULT 'naruceno',
+  `status` ENUM('naruceno','placeno','u_stampi','isporuceno','primljeno','nije_stiglo','otkazano') NOT NULL DEFAULT 'naruceno',
   `datum_narudzbine` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ukupan_iznos` DECIMAL(10,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
